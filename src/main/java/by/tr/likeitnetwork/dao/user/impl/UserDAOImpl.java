@@ -5,7 +5,7 @@ import by.tr.likeitnetwork.dao.datasource.DataSource;
 import by.tr.likeitnetwork.dao.exception.DataSourceDAOException;
 import by.tr.likeitnetwork.dao.exception.UserDAOException;
 import by.tr.likeitnetwork.dao.user.UserDAO;
-import by.tr.likeitnetwork.dao.constant.DAOQueries;
+import by.tr.likeitnetwork.dao.constant.DAOQuery;
 import by.tr.likeitnetwork.dao.util.Encryptor;
 import by.tr.likeitnetwork.entity.User;
 
@@ -24,7 +24,7 @@ public class UserDAOImpl implements UserDAO {
         String salt;
         String id;
         try (Connection connection = DataSource.getConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement(DAOQueries.GET_ACCOUNT_INFO);
+            PreparedStatement preparedStatement = connection.prepareStatement(DAOQuery.GET_ACCOUNT_INFO);
             preparedStatement.setString(1, login);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
@@ -48,7 +48,7 @@ public class UserDAOImpl implements UserDAO {
     public User findUserById(String id) throws UserDAOException {
         User user = new User();
         try (Connection connection = DataSource.getConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement(DAOQueries.GET_USER_INFO);
+            PreparedStatement preparedStatement = connection.prepareStatement(DAOQuery.GET_USER_INFO);
             preparedStatement.setString(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {

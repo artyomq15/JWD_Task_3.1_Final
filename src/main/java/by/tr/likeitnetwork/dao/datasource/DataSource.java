@@ -10,32 +10,24 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
+import java.util.ResourceBundle;
 
 
 public class DataSource {
 
-    private static final String FILE_PATH = "db.properties";
-    private static final InputStream UNIQUE_FILE_PATH = DataSource.class.getResourceAsStream(FILE_PATH);
+    private static final String FILE_PATH = "db";
+    
+    private static final String URL_ATTR_NAME = "MYSQL_DB_URL";
+    private static final String DRIVER_ATTR_NAME = "MYSQL_DB_DRIVER_CLASS";
+    private static final String USERNAME_ATTR_NAME = "MYSQL_DB_USERNAME";
+    private static final String PASSWORD_ATTR_NAME = "MYSQL_DB_PASSWORD";
 
-    public static MysqlDataSource getMysqlDataSource(){
-        Properties properties = new Properties();
-        MysqlDataSource mysqlDataSource;
-        try(InputStreamReader reader = new InputStreamReader(UNIQUE_FILE_PATH)) {
-            properties.load(reader);
-            mysqlDataSource = new MysqlDataSource();
-            mysqlDataSource.setURL(properties.getProperty("MYSQL_DB_URL"));
-            mysqlDataSource.setUser(properties.getProperty("MYSQL_DB_USERNAME"));
-            mysqlDataSource.setPassword(properties.getProperty("MYSQL_DB_PASSWORD"));
-        } catch (IOException ex){
-            mysqlDataSource = null;
-        }
-        return mysqlDataSource;
-    }
 
     public static Connection getConnection() throws DataSourceDAOException{
         try{
-            Class.forName("org.gjt.mm.mysql.Driver");
-            return DriverManager.getConnection("jdbc:mysql://localhost:3306/likeitdb", "root", "root");
+            ResourceBundle resourceBundle = ResourceBundle.getBundle(FILE_PATH);
+            Class.forName(resourceBundle.getString(DRIVER_ATTR_NAME));
+            return DriverManager.getConnection(resourceBundle.getString(URL_ATTR_NAME), resourceBundle.getString(USERNAME_ATTR_NAME), resourceBundle.getString(PASSWORD_ATTR_NAME));
         } catch (ClassNotFoundException | SQLException e) {
             throw new DataSourceDAOException(e);
         }

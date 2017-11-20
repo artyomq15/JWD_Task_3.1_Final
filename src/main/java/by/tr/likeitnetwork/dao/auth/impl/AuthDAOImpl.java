@@ -5,7 +5,7 @@ import by.tr.likeitnetwork.dao.auth.AuthDAO;
 import by.tr.likeitnetwork.dao.datasource.DataSource;
 import by.tr.likeitnetwork.dao.exception.AuthDAOException;
 import by.tr.likeitnetwork.dao.exception.DataSourceDAOException;
-import by.tr.likeitnetwork.dao.constant.DAOQueries;
+import by.tr.likeitnetwork.dao.constant.DAOQuery;
 import by.tr.likeitnetwork.dao.util.Encryptor;
 import by.tr.likeitnetwork.entity.RegistrationInfo;
 
@@ -19,7 +19,7 @@ public class AuthDAOImpl implements AuthDAO {
     @Override
     public boolean isFreeLogin(String login) throws AuthDAOException {
         try (Connection connection = DataSource.getConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement(DAOQueries.GET_ACCOUNT_INFO);
+            PreparedStatement preparedStatement = connection.prepareStatement(DAOQuery.GET_ACCOUNT_INFO);
             preparedStatement.setString(1, login);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
@@ -40,13 +40,13 @@ public class AuthDAOImpl implements AuthDAO {
 
             String id = Encryptor.generateRandomString();
 
-            PreparedStatement addUser = connection.prepareStatement(DAOQueries.ADD_USER);
+            PreparedStatement addUser = connection.prepareStatement(DAOQuery.ADD_USER);
             addUser.setString(1, id);
             addUser.setString(2, info.getName());
             addUser.setString(3, info.getEmail());
             int rowsUser = addUser.executeUpdate();
 
-            PreparedStatement addAccount = connection.prepareStatement(DAOQueries.ADD_ACCOUNT);
+            PreparedStatement addAccount = connection.prepareStatement(DAOQuery.ADD_ACCOUNT);
             String salt = Encryptor.generateRandomString();
             addAccount.setString(1, info.getLogin());
             addAccount.setString(2, Encryptor.getPasswordHashCode(info.getPassword(), salt));
