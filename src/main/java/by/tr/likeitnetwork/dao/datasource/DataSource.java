@@ -1,22 +1,17 @@
 package by.tr.likeitnetwork.dao.datasource;
 
 import by.tr.likeitnetwork.dao.exception.DataSourceDAOException;
-import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.Properties;
 import java.util.ResourceBundle;
 
 
-public class DataSource {
+public final class DataSource {
 
     private static final String FILE_PATH = "db";
-    
+
     private static final String URL_ATTR_NAME = "MYSQL_DB_URL";
     private static final String DRIVER_ATTR_NAME = "MYSQL_DB_DRIVER_CLASS";
     private static final String USERNAME_ATTR_NAME = "MYSQL_DB_USERNAME";
@@ -32,6 +27,8 @@ public class DataSource {
             throw new DataSourceDAOException(e);
         }
     }
+
+    private DataSource(){}
 
 
 }
