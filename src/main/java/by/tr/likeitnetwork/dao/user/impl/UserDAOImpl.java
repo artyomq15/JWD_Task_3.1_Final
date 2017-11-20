@@ -24,7 +24,7 @@ public class UserDAOImpl implements UserDAO {
         String salt;
         String id;
         try (Connection connection = DataSource.getConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement(DAOQuery.GET_ACCOUNT_INFO);
+            PreparedStatement preparedStatement = connection.prepareStatement(DAOQuery.SQL_SELECT_ALL_ACCOUNT_BY_LOGIN);
             preparedStatement.setString(1, login);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
@@ -48,7 +48,7 @@ public class UserDAOImpl implements UserDAO {
     public User findUserById(String id) throws UserDAOException {
         User user = new User();
         try (Connection connection = DataSource.getConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement(DAOQuery.GET_USER_INFO);
+            PreparedStatement preparedStatement = connection.prepareStatement(DAOQuery.SQL_SELECT_ALL_USER_BY_ID);
             preparedStatement.setString(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {

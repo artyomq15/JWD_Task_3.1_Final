@@ -19,7 +19,7 @@ public class AuthDAOImpl implements AuthDAO {
     @Override
     public boolean isFreeLogin(String login) throws AuthDAOException {
         try (Connection connection = DataSource.getConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement(DAOQuery.GET_ACCOUNT_INFO);
+            PreparedStatement preparedStatement = connection.prepareStatement(DAOQuery.SQL_SELECT_ALL_ACCOUNT_BY_LOGIN);
             preparedStatement.setString(1, login);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
@@ -40,13 +40,13 @@ public class AuthDAOImpl implements AuthDAO {
 
             String id = Encryptor.generateRandomString();
 
-            PreparedStatement addUser = connection.prepareStatement(DAOQuery.ADD_USER);
+            PreparedStatement addUser = connection.prepareStatement(DAOQuery.SQL_INSERT_USER);
             addUser.setString(1, id);
             addUser.setString(2, info.getName());
             addUser.setString(3, info.getEmail());
             int rowsUser = addUser.executeUpdate();
 
-            PreparedStatement addAccount = connection.prepareStatement(DAOQuery.ADD_ACCOUNT);
+            PreparedStatement addAccount = connection.prepareStatement(DAOQuery.SQL_INSERT_ACCOUNT);
             String salt = Encryptor.generateRandomString();
             addAccount.setString(1, info.getLogin());
             addAccount.setString(2, Encryptor.getPasswordHashCode(info.getPassword(), salt));
