@@ -6,5 +6,6 @@ import by.tr.likeitnetwork.entity.RegistrationInfo;
 
 public interface AuthDAO {
     boolean isFreeLogin(String login) throws AuthDAOException;
-    boolean register(RegistrationInfo info)throws AuthDAOException;
+    boolean addUser(RegistrationInfo info)throws AuthDAOException;
+    String findUserId(String login, String password) throws AuthDAOException;
 }

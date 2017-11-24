@@ -17,39 +17,29 @@ import static by.tr.likeitnetwork.controller.constant.AttributeKey.LOGIN;
 import static by.tr.likeitnetwork.controller.constant.AttributeKey.NAME;
 import static by.tr.likeitnetwork.controller.constant.AttributeKey.EMAIL;
 
-public class SignUpCommand implements Command{
+public class SignUpCommand implements Command {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String confirmation = request.getParameter(CONFIRMATION);
-        String password = request.getParameter(PASSWORD);
 
-        boolean confirm = confirmation.equals(password);
-        if (!confirm){
-            response.sendRedirect(RedirectQuery.SIGN_UP_WITH_MESSAGE);
-        } else{
-            RegistrationInfo registrationInfo = new RegistrationInfo();
-            registrationInfo.setLogin(request.getParameter(LOGIN));
-            registrationInfo.setPassword(request.getParameter(PASSWORD));
-            registrationInfo.setName(request.getParameter(NAME));
-            registrationInfo.setEmail(request.getParameter(EMAIL));
+        RegistrationInfo registrationInfo = new RegistrationInfo();
+        registrationInfo.setLogin(request.getParameter(LOGIN));
+        registrationInfo.setPassword(request.getParameter(PASSWORD));
+        registrationInfo.setConfirmation(request.getParameter(CONFIRMATION));
+        registrationInfo.setName(request.getParameter(NAME));
+        registrationInfo.setEmail(request.getParameter(EMAIL));
 
-            boolean successful;
-            try{
-                successful = ServiceFactory.getInstance().getAuthService().register(registrationInfo);
+        boolean successful;
+        try {
+            successful = ServiceFactory.getInstance().getAuthService().signUp(registrationInfo);
 
-                if (successful){
-                    response.sendRedirect(RedirectQuery.SIGN_IN);
-                } else{
-                    response.sendRedirect(RedirectQuery.SIGN_UP_WITH_MESSAGE);
-                }
-            } catch (ServiceException ex){
-                response.sendRedirect(RedirectQuery.ERROR_WITH_MESSAGE + ex.getMessage());
+            if (successful) {
+                response.sendRedirect(RedirectQuery.SIGN_IN);
+            } else {
+                response.sendRedirect(RedirectQuery.SIGN_UP_WITH_MESSAGE);
             }
-
+        } catch (ServiceException ex) {
+            response.sendRedirect(RedirectQuery.ERROR_WITH_MESSAGE);
         }
-
-
-
 
 
     }

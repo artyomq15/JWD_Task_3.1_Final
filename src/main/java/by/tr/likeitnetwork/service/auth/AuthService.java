@@ -4,5 +4,6 @@ import by.tr.likeitnetwork.entity.RegistrationInfo;
 import by.tr.likeitnetwork.service.exception.AuthServiceException;
 
 public interface AuthService {
-    boolean register(RegistrationInfo info) throws AuthServiceException;
+    boolean signUp(RegistrationInfo info) throws AuthServiceException;
+    String signIn(String login, String password) throws AuthServiceException;
 }

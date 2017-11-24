@@ -22,7 +22,7 @@ public class SignInCommand implements Command {
         String password = request.getParameter(PASSWORD);
 
         try{
-            String id = ServiceFactory.getInstance().getUserService().findId(login, password);
+            String id = ServiceFactory.getInstance().getAuthService().signIn(login, password);
 
             if (id != null){
                 request.getSession().setAttribute(ROLE, "1");
@@ -34,7 +34,7 @@ public class SignInCommand implements Command {
                 response.sendRedirect(RedirectQuery.SIGN_IN_WITH_MESSAGE);
             }
         } catch (ServiceException ex){
-            response.sendRedirect(RedirectQuery.ERROR_WITH_MESSAGE + ex.getMessage());
+            response.sendRedirect(RedirectQuery.ERROR_WITH_MESSAGE);
         }
 
     }

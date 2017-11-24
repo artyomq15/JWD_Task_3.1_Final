@@ -15,6 +15,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import static by.tr.likeitnetwork.dao.constant.DBFieldName.ID_USER;
+import static by.tr.likeitnetwork.dao.constant.DBFieldName.PASSWORD;
+import static by.tr.likeitnetwork.dao.constant.DBFieldName.SALT;
+
 public class AuthDAOImpl implements AuthDAO {
     @Override
     public boolean isFreeLogin(String login) throws AuthDAOException {
@@ -34,7 +38,7 @@ public class AuthDAOImpl implements AuthDAO {
     }
 
     @Override
-    public boolean register(RegistrationInfo info) throws AuthDAOException {
+    public boolean addUser(RegistrationInfo info) throws AuthDAOException {
         try (Connection connection = DataSource.getConnection()) {
             connection.setAutoCommit(false);
 
@@ -62,6 +66,32 @@ public class AuthDAOImpl implements AuthDAO {
                 return true;
             }
 
+
+        } catch (SQLException | DataSourceDAOException | NoSuchAlgorithmException ex) {
+            throw new AuthDAOException(ex);
+        }
+    }
+
+    @Override
+    public String findUserId(String login, String password) throws AuthDAOException {
+        String passwordHash;
+        String salt;
+        String id;
+        try (Connection connection = DataSource.getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(DAOQuery.SQL_SELECT_ALL_ACCOUNT_BY_LOGIN);
+            preparedStatement.setString(1, login);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                passwordHash = resultSet.getString(PASSWORD);
+                salt = resultSet.getString(SALT);
+                id = resultSet.getString(ID_USER);
+            } else {
+                return null;
+            }
+            if (Encryptor.getPasswordHashCode(password, salt).equals(passwordHash)) {
+                return id;
+            }
+            return null;
 
         } catch (SQLException | DataSourceDAOException | NoSuchAlgorithmException ex) {
             throw new AuthDAOException(ex);

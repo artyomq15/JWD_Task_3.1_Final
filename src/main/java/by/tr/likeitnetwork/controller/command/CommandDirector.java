@@ -24,7 +24,7 @@ public class CommandDirector {
 
     public CommandDirector(){}
 
-    public Command getCommandDispatcher(CommandType commandType){
+    public Command getCommand(CommandType commandType){
         return dispatcherMap.get(commandType);
     }
 }

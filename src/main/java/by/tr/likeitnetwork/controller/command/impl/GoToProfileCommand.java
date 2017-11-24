@@ -30,7 +30,7 @@ public class GoToProfileCommand implements Command {
 
             request.getRequestDispatcher(PROFILE).forward(request,response);
         } catch (ServiceException ex){
-            response.sendRedirect(RedirectQuery.ERROR_WITH_MESSAGE + ex.getMessage());
+            response.sendRedirect(RedirectQuery.ERROR_WITH_MESSAGE);
         }
 
     }

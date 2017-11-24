@@ -5,7 +5,6 @@ import by.tr.likeitnetwork.controller.command.CommandDirector;
 import by.tr.likeitnetwork.controller.constant.AttributeKey;
 import by.tr.likeitnetwork.controller.constant.CommandType;
 import by.tr.likeitnetwork.controller.constant.QueryConstructor;
-import by.tr.likeitnetwork.controller.constant.RedirectQuery;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
@@ -25,7 +24,7 @@ public class NetworkController extends HttpServlet {
         CommandType commandType = CommandType.valueOf(commandParameter.toUpperCase().trim());
 
         CommandDirector commandDirector = new CommandDirector();
-        Command command = commandDirector.getCommandDispatcher(commandType);
+        Command command = commandDirector.getCommand(commandType);
 
 
         if (commandType != CommandType.CHANGE_LOCALE) {

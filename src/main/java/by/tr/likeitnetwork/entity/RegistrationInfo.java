@@ -5,6 +5,7 @@ import java.io.Serializable;
 public class RegistrationInfo implements Serializable {
     private String login;
     private String password;
+    private String confirmation;
     private String name;
     private String email;
 
@@ -22,6 +23,14 @@ public class RegistrationInfo implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getConfirmation() {
+        return confirmation;
+    }
+
+    public void setConfirmation(String confirmation) {
+        this.confirmation = confirmation;
     }
 
     public String getName() {
