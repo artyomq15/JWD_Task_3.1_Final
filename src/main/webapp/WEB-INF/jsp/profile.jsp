@@ -6,6 +6,7 @@
 
 <fmt:setBundle basename="localization.mainpage" var="main"/>
 <fmt:setBundle basename="localization.profile" var="profile"/>
+<fmt:setBundle basename="localization.auth" var="auth"/>
 
 
 <fmt:message key="label.name" bundle="${main}" var="nameSite"/>
@@ -15,6 +16,8 @@
 <fmt:message key="label.rating" bundle="${profile}" var="rating"/>
 <fmt:message key="label.email" bundle="${profile}" var="email"/>
 <fmt:message key="label.about" bundle="${profile}" var="about"/>
+
+<fmt:message key="label.exit" bundle="${auth}" var="exit"/>
 <html>
 <head>
     <link rel="stylesheet" href="../../css/main.css"/>
@@ -30,6 +33,8 @@
     <p>${email}:<c:out value="${requestScope.user.email}"/></p>
     <p>${about}:<c:out value="${requestScope.user.about}"/></p>
 </c:if>
+
+<a href="/NetworkController?command=exit">${exit}</a>
 <hr/>
 <footer>
     <a href="/NetworkController?command=change_locale&locale=ru">Русский</a>

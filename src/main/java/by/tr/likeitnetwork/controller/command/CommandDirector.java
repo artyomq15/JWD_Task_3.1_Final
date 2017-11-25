@@ -18,6 +18,7 @@ public class CommandDirector {
         dispatcherMap.put(CommandType.GO_TO_MAIN_PAGE, new GoToMainPageCommand());
         dispatcherMap.put(CommandType.GO_TO_PROFILE, new GoToProfileCommand());
         dispatcherMap.put(CommandType.GO_TO_ERROR_PAGE, new GoToErrorPageCommand());
+        dispatcherMap.put(CommandType.EXIT, new ExitCommand());
 
 
     }

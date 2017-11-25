@@ -1,7 +1,7 @@
 package by.tr.likeitnetwork.controller.command.impl;
 
 import by.tr.likeitnetwork.controller.command.Command;
-import by.tr.likeitnetwork.controller.command.util.UserHelper;
+import by.tr.likeitnetwork.controller.command.help.UserHelper;
 import by.tr.likeitnetwork.controller.constant.RedirectQuery;
 import by.tr.likeitnetwork.entity.User;
 import by.tr.likeitnetwork.service.exception.ServiceException;

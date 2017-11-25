@@ -21,7 +21,7 @@
         <a href="/NetworkController?command=go_to_sign_in">${signIn}</a>
         <a href="/NetworkController?command=go_to_sign_up">${signUp}</a>
     </c:if>
-    <c:if test="${requestScope.user != null}">
+    <c:if test="${sessionScope.role == 2}">
         <a href="/NetworkController?command=go_to_profile">${requestScope.user.name}</a>
     </c:if>
 </header>

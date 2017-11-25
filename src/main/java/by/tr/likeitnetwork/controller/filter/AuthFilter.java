@@ -18,8 +18,28 @@ public class AuthFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         HttpSession session = request.getSession(false);
 
-        String queryString = request.getQueryString();
-        filterChain.doFilter(request, response);
+        /*
+        filterChain.doFilter(request, response);*/
+
+        /*checking access-token
+        if == access-token => {
+            doFilter()
+            set ROLE = USER
+        }
+        if !=access-token => use refresh token
+
+            if == refresh-token => {
+                changing both tokens and write them in cookies => do request
+            }
+            if != refresh-token => {
+                redirect to sign in page
+                set ROLE = GUEST
+            }
+
+         */
+
+
+
     }
 
     @Override

@@ -1,4 +1,4 @@
-package by.tr.likeitnetwork.controller.command.util;
+package by.tr.likeitnetwork.controller.command.help;
 
 import by.tr.likeitnetwork.controller.constant.AttributeKey;
 import by.tr.likeitnetwork.entity.User;
