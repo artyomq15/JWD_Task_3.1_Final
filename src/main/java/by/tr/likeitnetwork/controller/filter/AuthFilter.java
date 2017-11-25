@@ -17,11 +17,16 @@ public class AuthFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         HttpSession session = request.getSession(false);
+        filterChain.doFilter(request, response);
+
 
         /*
-        filterChain.doFilter(request, response);*/
+        if request for pages: [(go_to_)sign in, sign up ]  or [commands for signing in and signing up]  => doFilter()
+        else checking tokens
+        */
 
-        /*checking access-token
+        /*
+        checking tokens
         if == access-token => {
             doFilter()
             set ROLE = USER
@@ -29,7 +34,7 @@ public class AuthFilter implements Filter {
         if !=access-token => use refresh token
 
             if == refresh-token => {
-                changing both tokens and write them in cookies => do request
+                change both tokens in database and write them in cookies => do request
             }
             if != refresh-token => {
                 redirect to sign in page

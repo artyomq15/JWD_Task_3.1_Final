@@ -29,7 +29,7 @@ public class SignInCommand implements Command {
                 //will be changes in roles
                 request.getSession().setAttribute(ROLE, Role.USER.getRole());
                 request.getSession().setAttribute(ID, id);
-                
+
                 response.sendRedirect(RedirectQuery.MAIN);
             } else {
                 response.sendRedirect(RedirectQuery.SIGN_IN_WITH_MESSAGE);
