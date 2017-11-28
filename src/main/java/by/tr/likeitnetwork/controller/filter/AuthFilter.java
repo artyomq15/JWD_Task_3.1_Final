@@ -23,6 +23,12 @@ public class AuthFilter implements Filter {
         /*
         if request for pages: [(go_to_)sign in, sign up ]  or [commands for signing in and signing up]  => doFilter()
         else checking tokens
+
+
+        OR
+
+        if ROLE == null or ROLE = GUEST => doFilter
+        else check tokens
         */
 
         /*

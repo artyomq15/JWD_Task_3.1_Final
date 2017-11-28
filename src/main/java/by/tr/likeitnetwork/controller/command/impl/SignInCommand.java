@@ -11,12 +11,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import static by.tr.likeitnetwork.controller.constant.AttributeKey.LOGIN;
 import static by.tr.likeitnetwork.controller.constant.AttributeKey.PASSWORD;
 import static by.tr.likeitnetwork.controller.constant.AttributeKey.ROLE;
 import static by.tr.likeitnetwork.controller.constant.AttributeKey.ID;
 
 public class SignInCommand implements Command {
+    private static final Logger LOGGER = LogManager.getLogger(SignInCommand.class);
+
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String login = request.getParameter(LOGIN);
@@ -35,6 +40,7 @@ public class SignInCommand implements Command {
                 response.sendRedirect(RedirectQuery.SIGN_IN_WITH_MESSAGE);
             }
         } catch (ServiceException ex){
+            LOGGER.error(ex);
             response.sendRedirect(RedirectQuery.ERROR_WITH_MESSAGE);
         }
 

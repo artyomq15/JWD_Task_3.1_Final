@@ -1,6 +1,7 @@
 package by.tr.likeitnetwork.controller.command.impl;
 
 import by.tr.likeitnetwork.controller.command.Command;
+import by.tr.likeitnetwork.controller.constant.AttributeKey;
 import by.tr.likeitnetwork.controller.constant.RedirectQuery;
 import by.tr.likeitnetwork.entity.RegistrationInfo;
 import by.tr.likeitnetwork.service.ServiceFactory;
@@ -11,22 +12,23 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static by.tr.likeitnetwork.controller.constant.AttributeKey.CONFIRMATION;
-import static by.tr.likeitnetwork.controller.constant.AttributeKey.PASSWORD;
-import static by.tr.likeitnetwork.controller.constant.AttributeKey.LOGIN;
-import static by.tr.likeitnetwork.controller.constant.AttributeKey.NAME;
-import static by.tr.likeitnetwork.controller.constant.AttributeKey.EMAIL;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 
 public class SignUpCommand implements Command {
+    private static final Logger LOGGER = LogManager.getLogger(SignUpCommand.class);
+
+
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         RegistrationInfo registrationInfo = new RegistrationInfo();
-        registrationInfo.setLogin(request.getParameter(LOGIN));
-        registrationInfo.setPassword(request.getParameter(PASSWORD));
-        registrationInfo.setConfirmation(request.getParameter(CONFIRMATION));
-        registrationInfo.setName(request.getParameter(NAME));
-        registrationInfo.setEmail(request.getParameter(EMAIL));
+        registrationInfo.setLogin(request.getParameter(AttributeKey.LOGIN));
+        registrationInfo.setPassword(request.getParameter(AttributeKey.PASSWORD));
+        registrationInfo.setConfirmation(request.getParameter(AttributeKey.CONFIRMATION));
+        registrationInfo.setName(request.getParameter(AttributeKey.NAME));
+        registrationInfo.setEmail(request.getParameter(AttributeKey.EMAIL));
 
         boolean successful;
         try {
@@ -38,6 +40,7 @@ public class SignUpCommand implements Command {
                 response.sendRedirect(RedirectQuery.SIGN_UP_WITH_MESSAGE);
             }
         } catch (ServiceException ex) {
+            LOGGER.error(ex);
             response.sendRedirect(RedirectQuery.ERROR_WITH_MESSAGE);
         }
 

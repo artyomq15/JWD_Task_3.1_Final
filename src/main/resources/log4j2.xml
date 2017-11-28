@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="[%d{HH:mm:ss.SSS}] - [%-5level] - [%logger{36}] - %msg%n"/>
+        </Console>
+        <RollingFile name="File" fileName="like-it/log/error.log"
+                     filePattern="log/$${date:yyyy-MM}/app-%d{yyyy-MM-dd-HH-mm}-%i.log">
+            <PatternLayout>
+                <Pattern>%d{HH:mm:ss.SSS} [%-5level] - [%logger{36}] - %msg%n</Pattern>
+            </PatternLayout>
+            <Policies>
+
+                <SizeBasedTriggeringPolicy size="10 MB" />
+                <TimeBasedTriggeringPolicy interval="10" modulate="true"/>
+            </Policies>
+            <DefaultRolloverStrategy max="4"/>
+
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+        <Root level="debug">
+            <AppenderRef ref="File"/>
+            <AppenderRef ref="Console"/>
+        </Root>
+        <Root level="info">
+            <AppenderRef ref="File"/>
+            <AppenderRef ref="Console"/>
+        </Root>
+        <Root level="error">
+            <AppenderRef ref="File"/>
+            <AppenderRef ref="Console"/>
+        </Root>
+        <Root level="warn">
+            <AppenderRef ref="File"/>
+            <AppenderRef ref="Console"/>
+        </Root>
+        <Root level="trace">
+            <AppenderRef ref="File"/>
+            <AppenderRef ref="Console"/>
+        </Root>
+    </Loggers>
+</Configuration>

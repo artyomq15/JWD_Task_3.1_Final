@@ -5,30 +5,21 @@ import by.tr.likeitnetwork.dao.exception.DataSourceDAOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.ResourceBundle;
 
 
 public final class DataSource {
 
-    private static final String FILE_PATH = "db";
-
-    private static final String URL_ATTR_NAME = "MYSQL_DB_URL";
-    private static final String DRIVER_ATTR_NAME = "MYSQL_DB_DRIVER_CLASS";
-    private static final String USERNAME_ATTR_NAME = "MYSQL_DB_USERNAME";
-    private static final String PASSWORD_ATTR_NAME = "MYSQL_DB_PASSWORD";
-
-
-    private static Connection connection;
-
+    public static void init() throws DataSourceDAOException{
+        try {
+            Class.forName(SourceMetaData.DRIVER);
+        } catch (ClassNotFoundException e) {
+            throw new DataSourceDAOException(e);
+        }
+    }
     public static Connection getConnection() throws DataSourceDAOException{
         try{
-            ResourceBundle resourceBundle = ResourceBundle.getBundle(FILE_PATH);
-            if (connection == null){
-                Class.forName(resourceBundle.getString(DRIVER_ATTR_NAME));
-            }
-            connection = DriverManager.getConnection(resourceBundle.getString(URL_ATTR_NAME), resourceBundle.getString(USERNAME_ATTR_NAME), resourceBundle.getString(PASSWORD_ATTR_NAME));
-            return connection;
-        } catch (ClassNotFoundException | SQLException e) {
+            return DriverManager.getConnection(SourceMetaData.URL,SourceMetaData.USERNAME, SourceMetaData.PASSWORD);
+        } catch (SQLException e) {
             throw new DataSourceDAOException(e);
         }
     }

@@ -5,6 +5,8 @@ import by.tr.likeitnetwork.controller.command.CommandDirector;
 import by.tr.likeitnetwork.controller.constant.AttributeKey;
 import by.tr.likeitnetwork.controller.constant.CommandType;
 import by.tr.likeitnetwork.controller.constant.QueryConstructor;
+import by.tr.likeitnetwork.service.ServiceFactory;
+import by.tr.likeitnetwork.service.exception.ServiceException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
@@ -13,8 +15,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class NetworkController extends HttpServlet {
+    private static final Logger LOGGER = LogManager.getLogger(NetworkController.class);
+
+    @Override
+    public void init() throws ServletException {
+        try {
+            ServiceFactory.initService();
+        } catch (ServiceException e) {
+            LOGGER.error(e);
+        }
+    }
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doGet(request, response);
     }
