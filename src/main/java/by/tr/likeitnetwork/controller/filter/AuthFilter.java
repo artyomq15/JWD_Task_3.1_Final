@@ -20,6 +20,8 @@ public class AuthFilter implements Filter {
         filterChain.doFilter(request, response);
 
 
+        /*cookie.setMaxAge(60 * 60 * 24 * 365);  year life cookie/*
+
         /*
         if request for pages: [(go_to_)sign in, sign up ]  or [commands for signing in and signing up]  => doFilter()
         else checking tokens

@@ -4,7 +4,7 @@ package by.tr.likeitnetwork.entity;
 import java.io.Serializable;
 
 public class User implements Serializable{
-    private String id;
+    private int id;
     private String name;
     private String surname;
     private Double rating;
@@ -13,11 +13,11 @@ public class User implements Serializable{
     private boolean banned;
     private Role role = Role.USER;
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -78,15 +78,46 @@ public class User implements Serializable{
     }
 
     @Override
+    public boolean equals(Object object) {
+        if (this == object) return true;
+        if (!(object instanceof User)) return false;
+
+        User user = (User) object;
+
+        if (id != user.id) return false;
+        if (banned != user.banned) return false;
+        if (name != null ? !name.equals(user.name) : user.name != null) return false;
+        if (surname != null ? !surname.equals(user.surname) : user.surname != null) return false;
+        if (rating != null ? !rating.equals(user.rating) : user.rating != null) return false;
+        if (email != null ? !email.equals(user.email) : user.email != null) return false;
+        if (about != null ? !about.equals(user.about) : user.about != null) return false;
+        return role == user.role;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (surname != null ? surname.hashCode() : 0);
+        result = 31 * result + (rating != null ? rating.hashCode() : 0);
+        result = 31 * result + (email != null ? email.hashCode() : 0);
+        result = 31 * result + (about != null ? about.hashCode() : 0);
+        result = 31 * result + (banned ? 1 : 0);
+        result = 31 * result + (role != null ? role.hashCode() : 0);
+        return result;
+    }
+
+    @Override
     public String toString() {
         return "User{" +
-                "id='" + id + '\'' +
+                "id=" + id +
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
                 ", rating=" + rating +
                 ", email='" + email + '\'' +
                 ", about='" + about + '\'' +
-                ", isBanned=" + banned +
+                ", banned=" + banned +
                 ", role=" + role +
                 '}';
     }

@@ -11,7 +11,7 @@ import by.tr.likeitnetwork.service.validation.Validator;
 
 public class UserServiceImpl implements UserService{
     @Override
-    public User findUserById(String id)throws UserServiceException {
+    public User findUserById(int id)throws UserServiceException {
         UserDAO userDAO = DAOFactory.getInstance().getUserDAO();
         try{
             return userDAO.findUserById(id);

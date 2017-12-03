@@ -11,7 +11,11 @@ public class Encryptor {
     private final static String FORMAT = "%064x";
     private final static String ALGORITHM = "SHA-256";
     private final static int SIGNUM = 1;
-    private final static int SIZE_SALT_BYTES = 32;
+    private final static int SALT_STRING_SIZE = 32;
+    private final static int ACCESS_TOKEN_STRING_SIZE = 32;
+    private final static int REFRESH_TOKEN_STRING_SIZE = 32;
+
+    private final static String TOKEN_INFO_DELIMITER = ":";
 
     public static String getPasswordHashCode(String password, String salt) throws NoSuchAlgorithmException {
         String text = password + salt;
@@ -24,11 +28,23 @@ public class Encryptor {
 
     }
 
-    public static String generateRandomString(){
+    private static String generateRandomString(int size){
         final Random random = new SecureRandom();
-        byte[] salt = new byte[SIZE_SALT_BYTES];
-        random.nextBytes(salt);
-        return String.format(FORMAT, new BigInteger(SIGNUM, salt));
+        byte[] rand = new byte[size];
+        random.nextBytes(rand);
+        return String.format(FORMAT, new BigInteger(SIGNUM, rand));
+    }
+
+    public static String generateSalt(){
+        return generateRandomString(SALT_STRING_SIZE);
+    }
+
+    public static String generateAccessToken(int id, String role){
+        return String.valueOf(id) + TOKEN_INFO_DELIMITER + generateRandomString(ACCESS_TOKEN_STRING_SIZE) + TOKEN_INFO_DELIMITER + role;
+    }
+
+    public static String generateRefreshToken(){
+        return generateRandomString(REFRESH_TOKEN_STRING_SIZE);
     }
 
 

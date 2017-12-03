@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface UserService {
     //List<User> findAll ();
-    User findUserById (String id) throws UserServiceException;
+    User findUserById (int id) throws UserServiceException;
     //void changeProfile(String id, User user);
 
 }

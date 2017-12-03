@@ -5,7 +5,7 @@
             <PatternLayout pattern="[%d{HH:mm:ss.SSS}] - [%-5level] - [%logger{36}] - %msg%n"/>
         </Console>
         <RollingFile name="File" fileName="like-it/log/error.log"
-                     filePattern="log/$${date:yyyy-MM}/app-%d{yyyy-MM-dd-HH-mm}-%i.log">
+                     filePattern="like-it/log/$${date:yyyy-MM}/app-%d{yyyy-MM-dd-HH-mm}-%i.log">
             <PatternLayout>
                 <Pattern>%d{HH:mm:ss.SSS} [%-5level] - [%logger{36}] - %msg%n</Pattern>
             </PatternLayout>

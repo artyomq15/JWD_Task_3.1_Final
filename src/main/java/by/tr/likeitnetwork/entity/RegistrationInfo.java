@@ -2,7 +2,7 @@ package by.tr.likeitnetwork.entity;
 
 import java.io.Serializable;
 
-public class RegistrationInfo implements Serializable {
+public final class RegistrationInfo implements Serializable {
     private String login;
     private String password;
     private String confirmation;

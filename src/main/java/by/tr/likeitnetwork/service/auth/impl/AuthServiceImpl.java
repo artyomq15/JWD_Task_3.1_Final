@@ -3,6 +3,7 @@ package by.tr.likeitnetwork.service.auth.impl;
 import by.tr.likeitnetwork.dao.DAOFactory;
 import by.tr.likeitnetwork.dao.auth.AuthDAO;
 import by.tr.likeitnetwork.dao.exception.AuthDAOException;
+import by.tr.likeitnetwork.entity.AuthToken;
 import by.tr.likeitnetwork.entity.RegistrationInfo;
 import by.tr.likeitnetwork.service.auth.AuthService;
 import by.tr.likeitnetwork.service.exception.AuthServiceException;
@@ -14,10 +15,9 @@ public class AuthServiceImpl implements AuthService {
         if (!Validator.isValidRegistrationInfo(info)){
             return false;
         }
-        String login = info.getLogin();
         AuthDAO authDAO = DAOFactory.getInstance().getAuthDAO();
         try {
-            return authDAO.isFreeLogin(login) && authDAO.addUser(info);
+            return authDAO.addUser(info);
         } catch (AuthDAOException ex) {
             throw new AuthServiceException(ex);
         }
@@ -31,7 +31,8 @@ public class AuthServiceImpl implements AuthService {
         }
         AuthDAO authDAO = DAOFactory.getInstance().getAuthDAO();
         try{
-            return authDAO.findUserId(login, password);
+            AuthToken authToken = authDAO.getAuthTokensWhileSignIn(login, password);
+            return authToken.getAccessToken();
         } catch (AuthDAOException ex){
             throw new AuthServiceException(ex);
         }

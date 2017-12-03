@@ -1,6 +1,7 @@
 package by.tr.likeitnetwork.controller.command.impl;
 
 import by.tr.likeitnetwork.controller.command.Command;
+import by.tr.likeitnetwork.controller.command.help.UserHelper;
 import by.tr.likeitnetwork.controller.constant.RedirectQuery;
 import by.tr.likeitnetwork.entity.Role;
 import by.tr.likeitnetwork.service.ServiceFactory;
@@ -28,12 +29,12 @@ public class SignInCommand implements Command {
         String password = request.getParameter(PASSWORD);
 
         try{
-            String id = ServiceFactory.getInstance().getAuthService().signIn(login, password);
+            String token = ServiceFactory.getInstance().getAuthService().signIn(login, password);
 
-            if (id != null){
+            if (token != null){
                 //will be changes in roles
-                request.getSession().setAttribute(ROLE, Role.USER.getRole());
-                request.getSession().setAttribute(ID, id);
+                request.getSession().setAttribute(ROLE, Role.valueOf(UserHelper.parseRoleFromToken(token)).getRole());
+                request.getSession().setAttribute(ID, UserHelper.parseIdFromToken(token));
 
                 response.sendRedirect(RedirectQuery.MAIN);
             } else {

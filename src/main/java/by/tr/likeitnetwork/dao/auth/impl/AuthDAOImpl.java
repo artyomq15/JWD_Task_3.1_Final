@@ -7,6 +7,7 @@ import by.tr.likeitnetwork.dao.exception.AuthDAOException;
 import by.tr.likeitnetwork.dao.exception.DataSourceDAOException;
 import by.tr.likeitnetwork.dao.constant.DAOQuery;
 import by.tr.likeitnetwork.dao.util.Encryptor;
+import by.tr.likeitnetwork.entity.AuthToken;
 import by.tr.likeitnetwork.entity.RegistrationInfo;
 
 import java.security.NoSuchAlgorithmException;
@@ -15,60 +16,64 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import static by.tr.likeitnetwork.dao.constant.DBFieldName.ID_USER;
-import static by.tr.likeitnetwork.dao.constant.DBFieldName.PASSWORD;
-import static by.tr.likeitnetwork.dao.constant.DBFieldName.SALT;
+import static by.tr.likeitnetwork.dao.constant.DBFieldName.*;
 
 public class AuthDAOImpl implements AuthDAO {
     @Override
-    public boolean isFreeLogin(String login) throws AuthDAOException {
-        try (Connection connection = DataSource.getConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement(DAOQuery.SQL_SELECT_ALL_ACCOUNT_BY_LOGIN);
-            preparedStatement.setString(1, login);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                return false;
-            } else {
-                return true;
-            }
+    public boolean addUser(RegistrationInfo info) throws AuthDAOException {
+        Integer id = getIdByLogin(info.getLogin());
+        if (id!=null || !insertToUserTable(info)) {
+            return false;
+        }
+        id = getIdByLogin(info.getLogin());
+        return insertIdToAuthTable(id);
 
-        } catch (SQLException | DataSourceDAOException ex) {
-            throw new AuthDAOException(ex);
+    }
+
+
+    private boolean insertToUserTable(RegistrationInfo info) throws AuthDAOException {
+        try (Connection connection = DataSource.getConnection()) {
+            PreparedStatement addUser = connection.prepareStatement(DAOQuery.SQL_INSERT_USER);
+            addUser.setString(1, info.getName());
+            addUser.setString(2, info.getEmail());
+            addUser.setString(3, info.getLogin());
+
+            String salt = Encryptor.generateSalt();
+
+            addUser.setString(4, Encryptor.getPasswordHashCode(info.getPassword(), salt));
+            addUser.setString(5, salt);
+            int rowsUser = addUser.executeUpdate();
+
+            return rowsUser != 0;
+
+        } catch (SQLException | DataSourceDAOException | NoSuchAlgorithmException ex) {
+            throw new AuthDAOException("INSERTING USER", ex);
         }
     }
 
-    @Override
-    public boolean addUser(RegistrationInfo info) throws AuthDAOException {
+    private Integer getIdByLogin(String login) throws AuthDAOException {
         try (Connection connection = DataSource.getConnection()) {
-            connection.setAutoCommit(false);
-
-            String id = Encryptor.generateRandomString();
-
-            PreparedStatement addUser = connection.prepareStatement(DAOQuery.SQL_INSERT_USER);
-            addUser.setString(1, id);
-            addUser.setString(2, info.getName());
-            addUser.setString(3, info.getEmail());
-            int rowsUser = addUser.executeUpdate();
-
-            PreparedStatement addAccount = connection.prepareStatement(DAOQuery.SQL_INSERT_ACCOUNT);
-            String salt = Encryptor.generateRandomString();
-            addAccount.setString(1, info.getLogin());
-            addAccount.setString(2, Encryptor.getPasswordHashCode(info.getPassword(), salt));
-            addAccount.setString(3, salt);
-            addAccount.setString(4, id);
-            int rowsAccount = addAccount.executeUpdate();
-
-            if (rowsUser == 0 || rowsAccount == 0) {
-                connection.rollback();
-                return false;
-            } else {
-                connection.commit();
-                return true;
+            PreparedStatement getId = connection.prepareStatement(DAOQuery.SQL_SELECT_ID_BY_LOGIN);
+            getId.setString(1, login);
+            ResultSet resultSet = getId.executeQuery();
+            if (resultSet.next()){
+                return resultSet.getInt(USER_ID);
             }
+            return null;
+        } catch (SQLException | DataSourceDAOException ex) {
+            throw new AuthDAOException("GETTING", ex);
+        }
+    }
 
+    private boolean insertIdToAuthTable(int id) throws AuthDAOException {
+        try (Connection connection = DataSource.getConnection()) {
+            PreparedStatement addAccount = connection.prepareStatement(DAOQuery.SQL_INSERT_AUTH);
+            addAccount.setInt(1, id);
+            int rowsAuth = addAccount.executeUpdate();
 
-        } catch (SQLException | DataSourceDAOException | NoSuchAlgorithmException ex) {
-            throw new AuthDAOException(ex);
+            return rowsAuth != 0;
+        } catch (SQLException | DataSourceDAOException ex) {
+            throw new AuthDAOException("INSERTING ID", ex);
         }
     }
 
@@ -94,6 +99,52 @@ public class AuthDAOImpl implements AuthDAO {
             return null;
 
         } catch (SQLException | DataSourceDAOException | NoSuchAlgorithmException ex) {
+            throw new AuthDAOException(ex);
+        }
+    }
+
+    @Override
+    public AuthToken getAuthTokensWhileSignIn(String login, String password) throws AuthDAOException {
+        String passwordHash;
+        String salt;
+        int id;
+        String role;
+        try (Connection connection = DataSource.getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(DAOQuery.SQL_SELECT_INFO_FOR_SIGN_IN);
+            preparedStatement.setString(1, login);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                passwordHash = resultSet.getString(USER_PASSWORD);
+                salt = resultSet.getString(USER_PASSWORD_SALT);
+                id = Integer.parseInt(resultSet.getString(USER_ID));
+                role = resultSet.getString(USER_ROLE);
+            } else {
+                return null;
+            }
+            if (!Encryptor.getPasswordHashCode(password, salt).equals(passwordHash)) {
+                return null;
+            }
+            return updateTokens(id, role);
+
+        } catch (SQLException | DataSourceDAOException | NoSuchAlgorithmException ex) {
+            throw new AuthDAOException(ex);
+        }
+    }
+
+    private AuthToken updateTokens(int id, String role) throws AuthDAOException {
+        String accessToken = Encryptor.generateAccessToken(id, role);
+        String refreshToken = Encryptor.generateRefreshToken();
+        try (Connection connection = DataSource.getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(DAOQuery.SQL_UPDATE_TOKENS);
+            preparedStatement.setString(1, accessToken);
+            preparedStatement.setString(2, refreshToken);
+            preparedStatement.setInt(3, id);
+            int rows = preparedStatement.executeUpdate();
+            if (rows == 0) {
+                return null;
+            }
+            return new AuthToken(accessToken, refreshToken);
+        } catch (SQLException | DataSourceDAOException ex) {
             throw new AuthDAOException(ex);
         }
     }
