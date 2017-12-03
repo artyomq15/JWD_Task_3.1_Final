@@ -7,6 +7,8 @@ import by.tr.likeitnetwork.entity.RegistrationInfo;
 
 public interface AuthDAO {
     boolean addUser(RegistrationInfo info)throws AuthDAOException;
-    String findUserId(String login, String password) throws AuthDAOException;
     AuthToken getAuthTokensWhileSignIn(String login, String password) throws AuthDAOException;
+    AuthToken getAuthTokensByOldTokens(AuthToken tokens) throws AuthDAOException;
+    boolean isAccessTokenRight(String token) throws AuthDAOException;
+    boolean isRefreshTokenRight(String token) throws AuthDAOException;
 }

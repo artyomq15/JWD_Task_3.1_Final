@@ -37,4 +37,33 @@ public class AuthServiceImpl implements AuthService {
         }
 
     }
+
+    @Override
+    public boolean checkAccessTokenIsRight(String token) throws AuthServiceException {
+        try{
+            return DAOFactory.getInstance().getAuthDAO().isAccessTokenRight(token);
+        } catch (AuthDAOException ex) {
+            throw new AuthServiceException(ex);
+        }
+    }
+
+    @Override
+    public boolean checkRefreshTokenIsRight(String token) throws AuthServiceException {
+        try{
+            return DAOFactory.getInstance().getAuthDAO().isRefreshTokenRight(token);
+        } catch (AuthDAOException ex) {
+            throw new AuthServiceException(ex);
+        }
+    }
+
+    @Override
+    public AuthToken getNewTokensByOld(AuthToken tokens) throws AuthServiceException {
+        try{
+            return DAOFactory.getInstance().getAuthDAO().getAuthTokensByOldTokens(tokens);
+        } catch (AuthDAOException ex) {
+            throw new AuthServiceException(ex);
+        }
+    }
+
+
 }

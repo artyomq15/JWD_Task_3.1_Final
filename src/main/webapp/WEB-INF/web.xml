@@ -21,15 +21,15 @@
     <url-pattern>/NetworkController</url-pattern>
   </servlet-mapping>
 
-  <!--<filter>
+  <filter>
     <display-name>AuthFilter</display-name>
     <filter-name>AuthFilter</filter-name>
-    <filter-class>by.tr.likeitnetwork.controller.filter.AuthFilter</filter-class>
+    <filter-class>by.tr.likeitnetwork.filter.AuthFilter</filter-class>
   </filter>
   <filter-mapping>
     <filter-name>AuthFilter</filter-name>
     <url-pattern>/NetworkController</url-pattern>
-  </filter-mapping>-->
+  </filter-mapping>
 
 </web-app>
 

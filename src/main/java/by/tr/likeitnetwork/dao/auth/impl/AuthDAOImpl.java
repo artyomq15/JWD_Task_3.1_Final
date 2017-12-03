@@ -9,6 +9,7 @@ import by.tr.likeitnetwork.dao.constant.DAOQuery;
 import by.tr.likeitnetwork.util.Encryptor;
 import by.tr.likeitnetwork.entity.AuthToken;
 import by.tr.likeitnetwork.entity.RegistrationInfo;
+import by.tr.likeitnetwork.util.UserHelper;
 
 import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
@@ -81,32 +82,6 @@ public class AuthDAOImpl implements AuthDAO {
     }
 
     @Override
-    public String findUserId(String login, String password) throws AuthDAOException {
-        String passwordHash;
-        String salt;
-        String id;
-        try (Connection connection = DataSource.getConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement(DAOQuery.SQL_SELECT_ALL_ACCOUNT_BY_LOGIN);
-            preparedStatement.setString(1, login);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                passwordHash = resultSet.getString(PASSWORD);
-                salt = resultSet.getString(SALT);
-                id = resultSet.getString(ID_USER);
-            } else {
-                return null;
-            }
-            if (Encryptor.getPasswordHashCode(password, salt).equals(passwordHash)) {
-                return id;
-            }
-            return null;
-
-        } catch (SQLException | DataSourceDAOException | NoSuchAlgorithmException ex) {
-            throw new AuthDAOException(ex);
-        }
-    }
-
-    @Override
     public AuthToken getAuthTokensWhileSignIn(String login, String password) throws AuthDAOException {
         String passwordHash;
         String salt;
@@ -134,6 +109,16 @@ public class AuthDAOImpl implements AuthDAO {
         }
     }
 
+    @Override
+    public AuthToken getAuthTokensByOldTokens(AuthToken tokens) throws AuthDAOException {
+        Integer id = UserHelper.parseIdFromToken(tokens.getAccessToken());
+        if (id == null){
+            return null;
+        }
+        String role = UserHelper.parseRoleFromToken(tokens.getAccessToken());
+        return updateTokens(id,role);
+    }
+
     private AuthToken updateTokens(int id, String role) throws AuthDAOException {
         String accessToken = Encryptor.generateAccessToken(id, role);
         String refreshToken = Encryptor.generateRefreshToken();
@@ -147,6 +132,27 @@ public class AuthDAOImpl implements AuthDAO {
                 return null;
             }
             return new AuthToken(accessToken, refreshToken);
+        } catch (SQLException | DataSourceDAOException ex) {
+            throw new AuthDAOException(ex);
+        }
+    }
+
+    @Override
+    public boolean isAccessTokenRight(String token) throws AuthDAOException {
+        return isTokenRight(token, DAOQuery.SQL_SELECT_ACCESS_TOKEN_TRUE);
+    }
+
+    @Override
+    public boolean isRefreshTokenRight(String token) throws AuthDAOException {
+        return isTokenRight(token, DAOQuery.SQL_SELECT_REFRESH_TOKEN_TRUE);
+    }
+
+    private boolean isTokenRight(String token, String tokenTypeSQLQuery) throws AuthDAOException{
+        try (Connection connection = DataSource.getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(tokenTypeSQLQuery);
+            preparedStatement.setString(1, token);
+            ResultSet resultSet= preparedStatement.executeQuery();
+            return resultSet.next();
         } catch (SQLException | DataSourceDAOException ex) {
             throw new AuthDAOException(ex);
         }

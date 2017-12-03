@@ -31,6 +31,9 @@ public class UserHelper {
     }
 
     public static String getTokenFromCookies(Cookie[] cookies, String tokenName){
+        if (cookies==null){
+            return null;
+        }
         for (Cookie cookie: cookies){
             if (cookie.getName().equals(tokenName)){
                 return cookie.getValue();
