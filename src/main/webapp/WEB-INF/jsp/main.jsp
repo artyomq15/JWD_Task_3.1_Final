@@ -17,7 +17,7 @@
 <body>
 <header>
     <a href="/NetworkController?command=go_to_main_page">${name}</a>
-    <c:if test="${sessionScope.role == null}">
+    <c:if test="${sessionScope.role == null || sessionScope.role == 1}">
         <a href="/NetworkController?command=go_to_sign_in">${signIn}</a>
         <a href="/NetworkController?command=go_to_sign_up">${signUp}</a>
     </c:if>
