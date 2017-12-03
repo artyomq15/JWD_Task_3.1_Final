@@ -1,13 +1,15 @@
 package by.tr.likeitnetwork.controller.command.impl;
 
 import by.tr.likeitnetwork.controller.command.Command;
-import by.tr.likeitnetwork.controller.command.help.UserHelper;
+import by.tr.likeitnetwork.util.UserHelper;
 import by.tr.likeitnetwork.controller.constant.RedirectQuery;
+import by.tr.likeitnetwork.entity.AuthToken;
 import by.tr.likeitnetwork.entity.Role;
 import by.tr.likeitnetwork.service.ServiceFactory;
 import by.tr.likeitnetwork.service.exception.ServiceException;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -15,10 +17,7 @@ import java.io.IOException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import static by.tr.likeitnetwork.controller.constant.AttributeKey.LOGIN;
-import static by.tr.likeitnetwork.controller.constant.AttributeKey.PASSWORD;
-import static by.tr.likeitnetwork.controller.constant.AttributeKey.ROLE;
-import static by.tr.likeitnetwork.controller.constant.AttributeKey.ID;
+import static by.tr.likeitnetwork.controller.constant.AttributeKey.*;
 
 public class SignInCommand implements Command {
     private static final Logger LOGGER = LogManager.getLogger(SignInCommand.class);
@@ -29,12 +28,15 @@ public class SignInCommand implements Command {
         String password = request.getParameter(PASSWORD);
 
         try{
-            String token = ServiceFactory.getInstance().getAuthService().signIn(login, password);
-
-            if (token != null){
+            AuthToken tokens = ServiceFactory.getInstance().getAuthService().signIn(login, password);
+            String accessToken = tokens.getAccessToken();
+            String refreshToken = tokens.getRefreshToken();
+            if (accessToken != null){
                 //will be changes in roles
-                request.getSession().setAttribute(ROLE, Role.valueOf(UserHelper.parseRoleFromToken(token)).getRole());
-                request.getSession().setAttribute(ID, UserHelper.parseIdFromToken(token));
+                request.getSession().setAttribute(ROLE, Role.valueOf(UserHelper.parseRoleFromToken(accessToken)).getRole());
+                //request.getSession().setAttribute(ID, UserHelper.parseIdFromToken(accessToken));
+                response.addCookie(new Cookie(ACCESS_TOKEN, accessToken));
+                response.addCookie(new Cookie(REFRESH_TOKEN, refreshToken));
 
                 response.sendRedirect(RedirectQuery.MAIN);
             } else {

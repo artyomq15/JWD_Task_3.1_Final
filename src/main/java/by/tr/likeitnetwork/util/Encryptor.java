@@ -1,4 +1,4 @@
-package by.tr.likeitnetwork.dao.util;
+package by.tr.likeitnetwork.util;
 
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;

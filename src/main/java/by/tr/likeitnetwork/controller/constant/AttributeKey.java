@@ -9,6 +9,9 @@ public final class AttributeKey {
     public static final String LAST_REQUEST = "last_request";
     public static final String USER = "user";
 
+    public static final String ACCESS_TOKEN = "access_token";
+    public static final String REFRESH_TOKEN = "refresh_token";
+
     public static final String LOGIN = "login";
     public static final String PASSWORD = "password";
     public static final String CONFIRMATION = "confirmation";

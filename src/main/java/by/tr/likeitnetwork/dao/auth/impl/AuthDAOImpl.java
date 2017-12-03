@@ -6,7 +6,7 @@ import by.tr.likeitnetwork.dao.datasource.DataSource;
 import by.tr.likeitnetwork.dao.exception.AuthDAOException;
 import by.tr.likeitnetwork.dao.exception.DataSourceDAOException;
 import by.tr.likeitnetwork.dao.constant.DAOQuery;
-import by.tr.likeitnetwork.dao.util.Encryptor;
+import by.tr.likeitnetwork.util.Encryptor;
 import by.tr.likeitnetwork.entity.AuthToken;
 import by.tr.likeitnetwork.entity.RegistrationInfo;
 
@@ -26,6 +26,9 @@ public class AuthDAOImpl implements AuthDAO {
             return false;
         }
         id = getIdByLogin(info.getLogin());
+        if (id == null){
+            return false;
+        }
         return insertIdToAuthTable(id);
 
     }

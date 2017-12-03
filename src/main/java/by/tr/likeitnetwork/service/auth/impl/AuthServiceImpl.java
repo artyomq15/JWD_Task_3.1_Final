@@ -25,14 +25,13 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public String signIn(String login, String password) throws AuthServiceException {
+    public AuthToken signIn(String login, String password) throws AuthServiceException {
         if (!Validator.isValidLoginInfo(login, password)){
             return null;
         }
         AuthDAO authDAO = DAOFactory.getInstance().getAuthDAO();
         try{
-            AuthToken authToken = authDAO.getAuthTokensWhileSignIn(login, password);
-            return authToken.getAccessToken();
+            return authDAO.getAuthTokensWhileSignIn(login, password);
         } catch (AuthDAOException ex){
             throw new AuthServiceException(ex);
         }
