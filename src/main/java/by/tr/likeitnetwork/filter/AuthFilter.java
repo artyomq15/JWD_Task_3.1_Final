@@ -2,6 +2,7 @@ package by.tr.likeitnetwork.filter;
 
 import by.tr.likeitnetwork.constant.CookieConstant;
 import by.tr.likeitnetwork.controller.constant.AttributeKey;
+import by.tr.likeitnetwork.controller.constant.RedirectQuery;
 import by.tr.likeitnetwork.entity.AuthToken;
 import by.tr.likeitnetwork.entity.Role;
 import by.tr.likeitnetwork.filter.exception.AuthFilterException;
@@ -31,7 +32,7 @@ public class AuthFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
-        HttpSession session = request.getSession(false);
+        //HttpSession session = request.getSession(false);
 
         /*
         if request for pages: [(go_to_)sign in, sign up ]  or [commands for signing in and signing up]  => doFilter()
@@ -43,8 +44,15 @@ public class AuthFilter implements Filter {
         if ROLE == null or ROLE = GUEST => doFilter
         else check tokens
         */
+        try{
+            checkTokens(request,response);
+            filterChain.doFilter(request,response);
+        } catch (AuthServiceException ex){
+            response.sendRedirect(RedirectQuery.ERROR_WITH_MESSAGE);
+        }
 
-        Object roleValueObject = session.getAttribute(AttributeKey.ROLE);
+
+       /* Object roleValueObject = session.getAttribute(AttributeKey.ROLE);
         if (roleValueObject == null) {
 
             System.out.println("ROLE NULL");
@@ -97,7 +105,7 @@ public class AuthFilter implements Filter {
             }
         }
 
-
+*/
 
 
         /*
@@ -119,6 +127,53 @@ public class AuthFilter implements Filter {
          */
 
 
+    }
+
+    private void checkTokens(HttpServletRequest request, HttpServletResponse response) throws AuthServiceException {
+        HttpSession session = request.getSession(false);
+        Object roleValueObject = session.getAttribute(AttributeKey.ROLE);
+        if (roleValueObject == null) {
+            System.out.println("ROLE NULL");
+            session.setAttribute(ROLE, Role.GUEST.getRole());
+            return;
+        }
+        Integer roleValue = Integer.parseInt(String.valueOf(roleValueObject));
+        if (roleValue == Role.GUEST.getRole()) {
+            System.out.println("ROLE " + roleValue);
+            return;
+        }
+        AuthService authService = ServiceFactory.getInstance().getAuthService();
+        Cookie[] cookies = request.getCookies();
+
+        String accessToken = UserHelper.getTokenFromCookies(cookies, AttributeKey.ACCESS_TOKEN);
+
+        if (authService.checkAccessTokenIsRight(accessToken)) {
+
+            System.out.println("ACCESS TRUE");
+            return;
+        }
+        String refreshToken = UserHelper.getTokenFromCookies(cookies, AttributeKey.REFRESH_TOKEN);
+        if (authService.checkRefreshTokenIsRight(refreshToken)) {
+
+            System.out.println("REFRESH TRUE");
+            AuthToken authToken = authService.getNewTokensByOld(new AuthToken(accessToken, refreshToken));
+            if (authToken != null) {
+
+                Cookie accessCookie = new Cookie(ACCESS_TOKEN, accessToken);
+                accessCookie.setMaxAge(CookieConstant.ACCESS_COOKIE_LIFETIME);
+                response.addCookie(accessCookie);
+
+                Cookie refreshCookie = new Cookie(REFRESH_TOKEN, refreshToken);
+                refreshCookie.setMaxAge(CookieConstant.REFRESH_COOKIE_LIFETIME);
+                response.addCookie(refreshCookie);
+
+                session.setAttribute(ROLE, Role.valueOf(UserHelper.parseRoleFromToken(accessToken)).getRole());
+
+                return;
+            }
+        }
+        System.out.println("ROLE GUEST");
+        session.setAttribute(ROLE, Role.GUEST.getRole());
     }
 
     @Override
