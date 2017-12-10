@@ -6,7 +6,6 @@ import java.io.Serializable;
 public class User implements Serializable{
     private int id;
     private String name;
-    private String surname;
     private Double rating;
     private String email;
     private String about;
@@ -27,14 +26,6 @@ public class User implements Serializable{
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
     }
 
     public Double getRating() {
@@ -87,7 +78,6 @@ public class User implements Serializable{
         if (id != user.id) return false;
         if (banned != user.banned) return false;
         if (name != null ? !name.equals(user.name) : user.name != null) return false;
-        if (surname != null ? !surname.equals(user.surname) : user.surname != null) return false;
         if (rating != null ? !rating.equals(user.rating) : user.rating != null) return false;
         if (email != null ? !email.equals(user.email) : user.email != null) return false;
         if (about != null ? !about.equals(user.about) : user.about != null) return false;
@@ -99,7 +89,6 @@ public class User implements Serializable{
     public int hashCode() {
         int result = id;
         result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (surname != null ? surname.hashCode() : 0);
         result = 31 * result + (rating != null ? rating.hashCode() : 0);
         result = 31 * result + (email != null ? email.hashCode() : 0);
         result = 31 * result + (about != null ? about.hashCode() : 0);
@@ -113,7 +102,6 @@ public class User implements Serializable{
         return "User{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", surname='" + surname + '\'' +
                 ", rating=" + rating +
                 ", email='" + email + '\'' +
                 ", about='" + about + '\'' +

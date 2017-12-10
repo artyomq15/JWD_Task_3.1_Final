@@ -23,15 +23,10 @@ public class AuthDAOImpl implements AuthDAO {
     @Override
     public boolean addUser(RegistrationInfo info) throws AuthDAOException {
         Integer id = getIdByLogin(info.getLogin());
-        if (id!=null || !insertToUserTable(info)) {
-            return false;
-        }
-        id = getIdByLogin(info.getLogin());
         if (id == null){
-            return false;
+            return insertToUserTable(info);
         }
-        return insertIdToAuthTable(id);
-
+        return false;
     }
 
 
@@ -69,17 +64,6 @@ public class AuthDAOImpl implements AuthDAO {
         }
     }
 
-    private boolean insertIdToAuthTable(int id) throws AuthDAOException {
-        try (Connection connection = DataSource.getConnection()) {
-            PreparedStatement addAccount = connection.prepareStatement(DAOQuery.SQL_INSERT_AUTH);
-            addAccount.setInt(1, id);
-            int rowsAuth = addAccount.executeUpdate();
-
-            return rowsAuth != 0;
-        } catch (SQLException | DataSourceDAOException ex) {
-            throw new AuthDAOException("INSERTING ID", ex);
-        }
-    }
 
     @Override
     public AuthToken getAuthTokensWhileSignIn(String login, String password) throws AuthDAOException {

@@ -32,9 +32,9 @@ public class SignInCommand implements Command {
 
         try {
             AuthToken tokens = ServiceFactory.getInstance().getAuthService().signIn(login, password);
-            String accessToken = tokens.getAccessToken();
-            String refreshToken = tokens.getRefreshToken();
-            if (accessToken != null) {
+            if (tokens != null) {
+                String accessToken = tokens.getAccessToken();
+                String refreshToken = tokens.getRefreshToken();
                 //will be changes in roles
                 request.getSession().setAttribute(ROLE, Role.valueOf(UserHelper.parseRoleFromToken(accessToken)).getRole());
                 //request.getSession().setAttribute(ID, UserHelper.parseIdFromToken(accessToken));

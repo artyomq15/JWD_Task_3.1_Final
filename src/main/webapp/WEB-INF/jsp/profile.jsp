@@ -12,7 +12,6 @@
 <fmt:message key="label.name" bundle="${main}" var="nameSite"/>
 
 <fmt:message key="label.name" bundle="${profile}" var="name"/>
-<fmt:message key="label.surname" bundle="${profile}" var="surname"/>
 <fmt:message key="label.rating" bundle="${profile}" var="rating"/>
 <fmt:message key="label.email" bundle="${profile}" var="email"/>
 <fmt:message key="label.about" bundle="${profile}" var="about"/>
@@ -28,7 +27,6 @@
 
 <c:if test="${requestScope.user != null}">
     <p>${name}:<c:out value="${requestScope.user.name}"/></p>
-    <p>${surname}:<c:out value="${requestScope.user.surname}"/></p>
     <p>${rating}:<c:out value="${requestScope.user.rating}"/></p>
     <p>${email}:<c:out value="${requestScope.user.email}"/></p>
     <p>${about}:<c:out value="${requestScope.user.about}"/></p>

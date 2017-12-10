@@ -26,7 +26,6 @@ public class UserDAOImpl implements UserDAO {
             if (resultSet.next()) {
                 user.setId(id);
                 user.setName(resultSet.getString(USER_NAME));
-                user.setSurname(resultSet.getString(USER_SURNAME));
                 user.setRating(resultSet.getDouble(USER_LIKES));
                 user.setEmail(resultSet.getString(USER_EMAIL));
                 user.setAbout(resultSet.getString(USER_ABOUT));
