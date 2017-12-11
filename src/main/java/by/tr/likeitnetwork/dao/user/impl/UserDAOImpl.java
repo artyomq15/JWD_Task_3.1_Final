@@ -36,7 +36,7 @@ public class UserDAOImpl implements UserDAO {
             }
 
         } catch (SQLException | DataSourceDAOException ex) {
-            throw new UserDAOException(ex);
+            throw new UserDAOException(ex);// не забывай про собственные сообщения в исключениях
         }
     }
 }
