@@ -1,7 +1,7 @@
 package by.tr.likeitnetwork.entity;
 
 
-public enum Role {
+public enum Role {// возможно данное перечисление лучше сделать вложенным
     ADMIN(10), USER(2), GUEST(1) ;
 
     private int role;
