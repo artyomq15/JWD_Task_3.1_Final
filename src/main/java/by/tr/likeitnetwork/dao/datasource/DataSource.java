@@ -7,13 +7,13 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 
-public final class DataSource {
+public final class DataSource {// для финального таска надо написать собственный пул соединений
 
     public static void init() throws DataSourceDAOException{
         try {
             Class.forName(SourceMetaData.DRIVER);
         } catch (ClassNotFoundException e) {
-            throw new DataSourceDAOException(e);
+            throw new DataSourceDAOException(e);// не забывай про собственные сообщения
         }
     }
     public static Connection getConnection() throws DataSourceDAOException{
