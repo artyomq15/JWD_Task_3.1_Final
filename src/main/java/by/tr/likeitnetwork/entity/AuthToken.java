@@ -2,7 +2,8 @@ package by.tr.likeitnetwork.entity;
 
 import java.io.Serializable;
 
-public final class AuthToken implements Serializable{
+public final class AuthToken implements Serializable{// если тебе не нужно переопределять equals и прочее, то ты должен явно изменить контракт этих методов
+    // помнишь как это делается?
     private String accessToken;
     private String refreshToken;
 
