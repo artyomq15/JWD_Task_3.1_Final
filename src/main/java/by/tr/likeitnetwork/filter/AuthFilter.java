@@ -32,6 +32,14 @@ public class AuthFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
+
+        try{
+            checkTokens(request,response);
+            filterChain.doFilter(request,response);
+        } catch (AuthServiceException ex){
+            response.sendRedirect(RedirectQuery.ERROR_WITH_MESSAGE);
+        }
+
         //HttpSession session = request.getSession(false);
 
         /*
@@ -44,68 +52,7 @@ public class AuthFilter implements Filter {
         if ROLE == null or ROLE = GUEST => doFilter
         else check tokens
         */
-        try{
-            checkTokens(request,response);
-            filterChain.doFilter(request,response);
-        } catch (AuthServiceException ex){
-            response.sendRedirect(RedirectQuery.ERROR_WITH_MESSAGE);
-        }
 
-
-       /* Object roleValueObject = session.getAttribute(AttributeKey.ROLE);
-        if (roleValueObject == null) {
-
-            System.out.println("ROLE NULL");
-            filterChain.doFilter(request, response);
-        } else {
-            Integer roleValue = Integer.parseInt(String.valueOf(roleValueObject));
-            if (roleValue == Role.GUEST.getRole()) {
-
-                System.out.println("ROLE " + roleValue);
-                filterChain.doFilter(request, response);
-            } else {
-
-                AuthService authService = ServiceFactory.getInstance().getAuthService();
-                Cookie[] cookies = request.getCookies();
-
-                String accessToken = UserHelper.getTokenFromCookies(cookies, AttributeKey.ACCESS_TOKEN);
-                try {
-                    if (authService.checkAccessTokenIsRight(accessToken)) {
-
-                        System.out.println("ACCESS TRUE");
-                        filterChain.doFilter(request, response);
-                    } else {
-                        String refreshToken = UserHelper.getTokenFromCookies(cookies, AttributeKey.REFRESH_TOKEN);
-                        if (authService.checkRefreshTokenIsRight(refreshToken)) {
-
-                            System.out.println("REFRESH TRUE");
-                            AuthToken authToken = authService.getNewTokensByOld(new AuthToken(accessToken, refreshToken));
-                            if (authToken != null) {
-                                Cookie accessCookie = new Cookie(ACCESS_TOKEN, accessToken);
-                                accessCookie.setMaxAge(CookieConstant.ACCESS_COOKIE_LIFETIME);
-                                response.addCookie(accessCookie);
-
-                                Cookie refreshCookie = new Cookie(REFRESH_TOKEN, refreshToken);
-                                refreshCookie.setMaxAge(CookieConstant.REFRESH_COOKIE_LIFETIME);
-                                response.addCookie(refreshCookie);
-
-                                filterChain.doFilter(request, response);
-                            }
-                        } else {
-
-                            System.out.println("ROLE GUEST");
-                            session.setAttribute(ROLE, Role.GUEST.getRole());
-                            filterChain.doFilter(request, response);
-                        }
-                    }
-                } catch (AuthServiceException ex) {
-                    ////!!!!!!!!!!!
-                    ex.printStackTrace();
-                }
-            }
-        }
-
-*/
 
 
         /*
