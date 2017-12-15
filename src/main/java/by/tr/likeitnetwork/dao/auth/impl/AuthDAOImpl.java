@@ -52,7 +52,7 @@ public class AuthDAOImpl implements AuthDAO {
 
     private Integer getIdByLogin(String login) throws AuthDAOException {
         try (Connection connection = DataSource.getConnection()) {
-            PreparedStatement getId = connection.prepareStatement(DAOQuery.SQL_SELECT_ID_BY_LOGIN);
+            PreparedStatement getId = connection.prepareStatement(DAOQuery.SQL_SELECT_USER_ID_BY_LOGIN);
             getId.setString(1, login);
             ResultSet resultSet = getId.executeQuery();
             if (resultSet.next()){

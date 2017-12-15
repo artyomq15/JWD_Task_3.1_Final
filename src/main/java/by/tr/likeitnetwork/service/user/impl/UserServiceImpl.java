@@ -7,7 +7,6 @@ import by.tr.likeitnetwork.dao.user.UserDAO;
 import by.tr.likeitnetwork.entity.User;
 import by.tr.likeitnetwork.service.exception.UserServiceException;
 import by.tr.likeitnetwork.service.user.UserService;
-import by.tr.likeitnetwork.service.validation.Validator;
 
 public class UserServiceImpl implements UserService{
     @Override

@@ -5,6 +5,8 @@ import by.tr.likeitnetwork.dao.exception.DAOException;
 import by.tr.likeitnetwork.service.auth.AuthService;
 import by.tr.likeitnetwork.service.auth.impl.AuthServiceImpl;
 import by.tr.likeitnetwork.service.exception.ServiceException;
+import by.tr.likeitnetwork.service.theme.ThemeService;
+import by.tr.likeitnetwork.service.theme.impl.ThemeServiceImpl;
 import by.tr.likeitnetwork.service.user.UserService;
 import by.tr.likeitnetwork.service.user.impl.UserServiceImpl;
 
@@ -13,6 +15,7 @@ public class ServiceFactory {
 
     private UserService userService = new UserServiceImpl();
     private AuthService authService = new AuthServiceImpl();
+    private ThemeService themeService = new ThemeServiceImpl();
 
     private ServiceFactory() {
     }
@@ -21,7 +24,7 @@ public class ServiceFactory {
         return instance;
     }
 
-    public static void initService()throws ServiceException{
+    public static void initService() throws ServiceException {
         try {
             DAOFactory.initDatasource();
         } catch (DAOException e) {
@@ -35,5 +38,9 @@ public class ServiceFactory {
 
     public AuthService getAuthService() {
         return authService;
+    }
+
+    public ThemeService getThemeService() {
+        return themeService;
     }
 }

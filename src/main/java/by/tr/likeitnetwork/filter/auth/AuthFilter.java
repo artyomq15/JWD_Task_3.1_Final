@@ -1,11 +1,10 @@
-package by.tr.likeitnetwork.filter;
+package by.tr.likeitnetwork.filter.auth;
 
 import by.tr.likeitnetwork.constant.CookieConstant;
 import by.tr.likeitnetwork.controller.constant.AttributeKey;
 import by.tr.likeitnetwork.controller.constant.RedirectQuery;
 import by.tr.likeitnetwork.entity.AuthToken;
-import by.tr.likeitnetwork.entity.Role;
-import by.tr.likeitnetwork.filter.exception.AuthFilterException;
+import by.tr.likeitnetwork.entity.User;
 import by.tr.likeitnetwork.service.ServiceFactory;
 import by.tr.likeitnetwork.service.auth.AuthService;
 import by.tr.likeitnetwork.service.exception.AuthServiceException;
@@ -81,11 +80,11 @@ public class AuthFilter implements Filter {
         Object roleValueObject = session.getAttribute(AttributeKey.ROLE);
         if (roleValueObject == null) {
             System.out.println("ROLE NULL");
-            session.setAttribute(ROLE, Role.GUEST.getRole());
+            session.setAttribute(ROLE, User.Role.GUEST.getRole());
             return;
         }
         Integer roleValue = Integer.parseInt(String.valueOf(roleValueObject));
-        if (roleValue == Role.GUEST.getRole()) {
+        if (roleValue == User.Role.GUEST.getRole()) {
             System.out.println("ROLE " + roleValue);
             return;
         }
@@ -114,13 +113,13 @@ public class AuthFilter implements Filter {
                 refreshCookie.setMaxAge(CookieConstant.REFRESH_COOKIE_LIFETIME);
                 response.addCookie(refreshCookie);
 
-                session.setAttribute(ROLE, Role.valueOf(UserHelper.parseRoleFromToken(accessToken)).getRole());
+                session.setAttribute(ROLE, User.Role.valueOf(UserHelper.parseRoleFromToken(accessToken)).getRole());
 
                 return;
             }
         }
         System.out.println("ROLE GUEST");
-        session.setAttribute(ROLE, Role.GUEST.getRole());
+        session.setAttribute(ROLE, User.Role.GUEST.getRole());
     }
 
     @Override

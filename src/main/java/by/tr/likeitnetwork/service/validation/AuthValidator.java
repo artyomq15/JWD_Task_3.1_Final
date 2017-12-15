@@ -4,7 +4,7 @@ import by.tr.likeitnetwork.entity.RegistrationInfo;
 
 import java.util.regex.Pattern;
 
-public final class Validator {// слишком общее название для класса
+public final class AuthValidator {
     private static final Pattern LOGIN_VALIDATION = Pattern.compile("[A-Za-z0-9_]+");
     private static final Pattern PASSWORD_VALIDATION = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,}$");
     private static final Pattern EMAIL_VALIDATION = Pattern.compile("^[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)?@[A-Za-z0-9]+\\.[A-Za-z]{2,4}$");
@@ -43,6 +43,6 @@ public final class Validator {// слишком общее название дл
         return NAME_VALIDATION.matcher(name).matches();
     }
 
-    private Validator(){}
+    private AuthValidator(){}
 
 }

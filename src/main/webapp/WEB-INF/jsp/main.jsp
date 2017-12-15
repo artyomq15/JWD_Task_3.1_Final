@@ -26,6 +26,9 @@
     </c:if>
 </header>
 <h1>MAIN</h1>
+<c:forEach var="theme" items="${requestScope.theme_list}">
+    <a href="#"><p>${theme.name}</p></a>
+</c:forEach>
 <hr/>
 <footer>
     <a href="/NetworkController?command=change_locale&locale=ru">Русский</a>

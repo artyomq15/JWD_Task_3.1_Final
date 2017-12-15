@@ -12,6 +12,20 @@ public class User implements Serializable{
     private boolean banned;
     private Role role = Role.USER;
 
+    public enum Role {// возможно данное перечисление лучше сделать вложенным
+        ADMIN(10), USER(2), GUEST(1) ;
+
+        private int role;
+
+        Role(int role) {
+            this.role = role;
+        }
+
+        public int getRole(){
+            return role;
+        }
+    }
+
     public int getId() {
         return id;
     }
@@ -71,7 +85,9 @@ public class User implements Serializable{
     @Override
     public boolean equals(Object object) {
         if (this == object) return true;
-        if (!(object instanceof User)) return false;
+        if (object == null || getClass() != object.getClass()) {
+            return false;
+        }
 
         User user = (User) object;
 

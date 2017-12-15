@@ -21,6 +21,8 @@ public final class AttributeKey {
     public static final String ROLE = "role";
     public static final String ID = "id";
 
+    public static final String THEME_LIST = "theme_list";
+
 
     private AttributeKey(){}
 }

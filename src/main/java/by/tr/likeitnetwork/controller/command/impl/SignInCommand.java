@@ -2,10 +2,10 @@ package by.tr.likeitnetwork.controller.command.impl;
 
 import by.tr.likeitnetwork.constant.CookieConstant;
 import by.tr.likeitnetwork.controller.command.Command;
+import by.tr.likeitnetwork.entity.User;
 import by.tr.likeitnetwork.util.UserHelper;
 import by.tr.likeitnetwork.controller.constant.RedirectQuery;
 import by.tr.likeitnetwork.entity.AuthToken;
-import by.tr.likeitnetwork.entity.Role;
 import by.tr.likeitnetwork.service.ServiceFactory;
 import by.tr.likeitnetwork.service.exception.ServiceException;
 
@@ -36,7 +36,7 @@ public class SignInCommand implements Command {
                 String accessToken = tokens.getAccessToken();
                 String refreshToken = tokens.getRefreshToken();
                 //will be changes in roles
-                request.getSession().setAttribute(ROLE, Role.valueOf(UserHelper.parseRoleFromToken(accessToken)).getRole());
+                request.getSession().setAttribute(ROLE, User.Role.valueOf(UserHelper.parseRoleFromToken(accessToken)).getRole());
                 //request.getSession().setAttribute(ID, UserHelper.parseIdFromToken(accessToken));
 
                 Cookie accessCookie = new Cookie(ACCESS_TOKEN, accessToken);

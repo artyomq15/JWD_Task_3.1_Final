@@ -7,12 +7,12 @@ import by.tr.likeitnetwork.entity.AuthToken;
 import by.tr.likeitnetwork.entity.RegistrationInfo;
 import by.tr.likeitnetwork.service.auth.AuthService;
 import by.tr.likeitnetwork.service.exception.AuthServiceException;
-import by.tr.likeitnetwork.service.validation.Validator;
+import by.tr.likeitnetwork.service.validation.AuthValidator;
 
 public class AuthServiceImpl implements AuthService {
     @Override
     public boolean signUp(RegistrationInfo info) throws AuthServiceException{
-        if (!Validator.isValidRegistrationInfo(info)){
+        if (!AuthValidator.isValidRegistrationInfo(info)){
             return false;
         }
         AuthDAO authDAO = DAOFactory.getInstance().getAuthDAO();
@@ -26,7 +26,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public AuthToken signIn(String login, String password) throws AuthServiceException {
-        if (!Validator.isValidLoginInfo(login, password)){
+        if (!AuthValidator.isValidLoginInfo(login, password)){
             return null;
         }
         AuthDAO authDAO = DAOFactory.getInstance().getAuthDAO();

@@ -1,4 +1,4 @@
-package by.tr.likeitnetwork.filter.exception;
+package by.tr.likeitnetwork.filter.auth.exception;
 
 public class AuthFilterException extends Exception {
     public AuthFilterException() {
