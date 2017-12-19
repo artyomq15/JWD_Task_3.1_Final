@@ -17,7 +17,7 @@ import org.apache.logging.log4j.Logger;
 
 
 public class SignUpCommand implements Command {
-    private static final Logger LOGGER = LogManager.getLogger(SignUpCommand.class);
+    private static final Logger logger = LogManager.getLogger(SignUpCommand.class);
 
 
     @Override
@@ -40,7 +40,7 @@ public class SignUpCommand implements Command {
                 response.sendRedirect(RedirectQuery.SIGN_UP_WITH_MESSAGE);
             }
         } catch (ServiceException ex) {
-            LOGGER.error(ex);
+            logger.error(ex);
             response.sendRedirect(RedirectQuery.ERROR_WITH_MESSAGE);
         }
 

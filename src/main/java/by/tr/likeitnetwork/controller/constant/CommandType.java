@@ -10,5 +10,6 @@ public enum CommandType {
     GO_TO_MAIN_PAGE,
     GO_TO_PROFILE,
     GO_TO_ERROR_PAGE,
-    EXIT
+    EXIT,
+    CHANGE_PASSWORD
 }

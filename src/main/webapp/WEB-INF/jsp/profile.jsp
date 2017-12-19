@@ -17,6 +17,11 @@
 <fmt:message key="label.about" bundle="${profile}" var="about"/>
 
 <fmt:message key="label.exit" bundle="${auth}" var="exit"/>
+<fmt:message key="label.password" bundle="${auth}" var="password"/>
+<fmt:message key="label.newPassword" bundle="${auth}" var="newPassword"/>
+<fmt:message key="label.confirm" bundle="${auth}" var="confirm"/>
+<fmt:message key="label.errorChangePasswordMessage" bundle="${auth}" var="errMessage"/>
+<fmt:message key="label.changePassword" bundle="${auth}" var="changePassword"/>
 <html>
 <head>
     <link rel="stylesheet" href="../../css/main.css"/>
@@ -32,12 +37,24 @@
     <p>${about}:<c:out value="${requestScope.user.about}"/></p>
 </c:if>
 
+
+<button>${changePassword}</button>
+<form action="/NetworkController" method="post">
+    <input type="hidden" name="command" value="change_password"/>
+    <input type="password" name="password" value="" placeholder="${password}">
+    <br>
+    <input type="password" name="new_password" value="" placeholder="${newPassword}">
+    <br>
+    <input type="password" name="confirmation" value="" placeholder="${confirm}">
+    <br>
+    <c:if test="${requestScope.message != null}">
+        ${errMessage}
+    </c:if>
+    <br>
+    <input type="submit" value="OK">
+</form>
 <a href="/NetworkController?command=exit">${exit}</a>
 <hr/>
-<footer>
-    <a href="/NetworkController?command=change_locale&locale=ru">Русский</a>
-    <a href="/NetworkController?command=change_locale&locale=en">English</a>
-    <a href="/NetworkController?command=change_locale&locale=be">Беларуская</a>
-</footer>
+<c:import url="footer.jsp"/>
 </body>
 </html>

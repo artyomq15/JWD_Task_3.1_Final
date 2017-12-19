@@ -14,6 +14,9 @@ public final class AttributeKey {
 
     public static final String LOGIN = "login";
     public static final String PASSWORD = "password";
+
+    public static final String NEW_PASSWORD = "new_password";
+
     public static final String CONFIRMATION = "confirmation";
     public static final String NAME = "name";
     public static final String EMAIL = "email";
@@ -22,6 +25,8 @@ public final class AttributeKey {
     public static final String ID = "id";
 
     public static final String THEME_LIST = "theme_list";
+
+
 
 
     private AttributeKey(){}

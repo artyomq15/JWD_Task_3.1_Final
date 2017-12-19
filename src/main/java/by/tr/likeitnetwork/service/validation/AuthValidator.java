@@ -23,6 +23,12 @@ public final class AuthValidator {
         return isValidLogin(login) && isValidPassword(password);
     }
 
+    public static boolean isValidPasswordsForChanging(String oldPassword, String newPassword, String newPasswordConfirmation){
+        return isRightConfirmation(newPassword, newPasswordConfirmation)
+                && isValidPassword(oldPassword)
+                && isValidPassword(newPassword);
+    }
+
     private static boolean isRightConfirmation(String password, String confirmation) {
         return password.equals(confirmation);
     }

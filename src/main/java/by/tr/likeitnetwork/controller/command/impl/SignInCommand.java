@@ -21,9 +21,7 @@ import org.apache.logging.log4j.Logger;
 import static by.tr.likeitnetwork.controller.constant.AttributeKey.*;
 
 public class SignInCommand implements Command {
-    private final Logger LOGGER = LogManager.getLogger(SignInCommand.class);
-
-
+    private final Logger logger = LogManager.getLogger(SignInCommand.class);
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -52,7 +50,7 @@ public class SignInCommand implements Command {
                 response.sendRedirect(RedirectQuery.SIGN_IN_WITH_MESSAGE);
             }
         } catch (ServiceException ex) {
-            LOGGER.error(ex);
+            logger.error(ex);
             response.sendRedirect(RedirectQuery.ERROR_WITH_MESSAGE);
         }
 

@@ -26,7 +26,7 @@ import static by.tr.likeitnetwork.controller.constant.JspPath.MAIN;
 import static by.tr.likeitnetwork.controller.constant.AttributeKey.USER;
 
 public class GoToMainPageCommand implements Command {
-    private static final Logger LOGGER = LogManager.getLogger(GoToMainPageCommand.class);
+    private static final Logger logger = LogManager.getLogger(GoToMainPageCommand.class);
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -47,7 +47,7 @@ public class GoToMainPageCommand implements Command {
 
             request.getRequestDispatcher(MAIN).forward(request,response);
         } catch(ServiceException ex){
-            LOGGER.error(ex);
+            logger.error(ex);
             response.sendRedirect(RedirectQuery.ERROR_WITH_MESSAGE);
         }
 

@@ -3,6 +3,9 @@ package by.tr.likeitnetwork.controller.constant;
 public final class RedirectQuery {
     public static final String MAIN = "/NetworkController?command=go_to_main_page";
 
+    public static final String PROFILE = "/NetworkController?command=go_to_profile";
+    public static final String PROFILE_WITH_MESSAGE = "/NetworkController?command=go_to_profile&message=";
+
     public static final String SIGN_IN = "/NetworkController?command=go_to_sign_in";
     public static final String SIGN_UP = "/NetworkController?command=go_to_sign_up";
 

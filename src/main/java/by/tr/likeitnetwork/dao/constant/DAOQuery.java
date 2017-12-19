@@ -10,6 +10,9 @@ public final class DAOQuery {
 
     public static final String SQL_SELECT_ALL_USER_BY_ID = "SELECT * FROM user WHERE user_id = ?";
 
+    public static final String SELECT_PASSWORD_AND_SALT_BY_ID = "SELECT user_password, user_password_salt FROM user WHERE user_id = ?";
+    public static final String SQL_UPDATE_NEW_PASSWORD_BY_ID = "UPDATE user SET user_password=? WHERE user_id=?;";
+
     public static final String SQL_INSERT_USER = "INSERT INTO user (user_name, user_email, user_login, user_password, user_password_salt) VALUES (?,?,?,?,?);";
     public static final String SQL_SELECT_USER_ID_BY_LOGIN = "SELECT user_id FROM user WHERE user_login=?;";
 
