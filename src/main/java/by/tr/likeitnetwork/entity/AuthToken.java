@@ -2,8 +2,7 @@ package by.tr.likeitnetwork.entity;
 
 import java.io.Serializable;
 
-public final class AuthToken implements Serializable{// если тебе не нужно переопределять equals и прочее, то ты должен явно изменить контракт этих методов
-    // помнишь как это делается?
+public final class AuthToken implements Serializable{
     private String accessToken;
     private String refreshToken;
 
@@ -28,5 +27,35 @@ public final class AuthToken implements Serializable{// если тебе не �
 
     public void setRefreshToken(String refreshToken) {
         this.refreshToken = refreshToken;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) return true;
+        if (object == null || getClass() != object.getClass()) {
+            return false;
+        }
+
+        AuthToken authToken = (AuthToken) object;
+
+        if (accessToken != null ? !accessToken.equals(authToken.accessToken) : authToken.accessToken != null)
+            return false;
+        return refreshToken != null ? refreshToken.equals(authToken.refreshToken) : authToken.refreshToken == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = accessToken != null ? accessToken.hashCode() : 0;
+        result = 31 * result + (refreshToken != null ? refreshToken.hashCode() : 0);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "AuthToken{" +
+                "accessToken='" + accessToken + '\'' +
+                ", refreshToken='" + refreshToken + '\'' +
+                '}';
     }
 }
