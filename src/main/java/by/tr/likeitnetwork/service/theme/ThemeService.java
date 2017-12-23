@@ -9,5 +9,5 @@ import java.util.Locale;
 
 public interface ThemeService {
     List<Theme> getAllThemes(String localeLanguage) throws ThemeServiceException;
-    Theme getThemeById(String localeLanguage, int id);
+    Theme getThemeById(String localeLanguage, int id) throws ThemeServiceException;
 }

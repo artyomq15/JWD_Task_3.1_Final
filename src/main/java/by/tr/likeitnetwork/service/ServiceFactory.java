@@ -7,6 +7,8 @@ import by.tr.likeitnetwork.service.auth.impl.AuthServiceImpl;
 import by.tr.likeitnetwork.service.exception.ServiceException;
 import by.tr.likeitnetwork.service.theme.ThemeService;
 import by.tr.likeitnetwork.service.theme.impl.ThemeServiceImpl;
+import by.tr.likeitnetwork.service.topic.TopicService;
+import by.tr.likeitnetwork.service.topic.impl.TopicServiceImpl;
 import by.tr.likeitnetwork.service.user.UserService;
 import by.tr.likeitnetwork.service.user.impl.UserServiceImpl;
 
@@ -16,6 +18,7 @@ public class ServiceFactory {
     private UserService userService = new UserServiceImpl();
     private AuthService authService = new AuthServiceImpl();
     private ThemeService themeService = new ThemeServiceImpl();
+    private TopicService topicService = new TopicServiceImpl();
 
     private ServiceFactory() {
     }
@@ -42,5 +45,9 @@ public class ServiceFactory {
 
     public ThemeService getThemeService() {
         return themeService;
+    }
+
+    public TopicService getTopicService() {
+        return topicService;
     }
 }

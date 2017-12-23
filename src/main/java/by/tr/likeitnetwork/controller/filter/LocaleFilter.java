@@ -1,4 +1,4 @@
-package by.tr.likeitnetwork.filter.locale;
+package by.tr.likeitnetwork.controller.filter;
 
 import by.tr.likeitnetwork.controller.constant.AttributeKey;
 

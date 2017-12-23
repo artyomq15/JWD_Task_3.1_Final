@@ -5,13 +5,9 @@ import by.tr.likeitnetwork.entity.User;
 import by.tr.likeitnetwork.service.ServiceFactory;
 import by.tr.likeitnetwork.service.exception.UserServiceException;
 
-import javax.naming.event.ObjectChangeListener;
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpSession;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import static by.tr.likeitnetwork.controller.constant.AttributeKey.ACCESS_TOKEN;
 
 public class UserHelper {
     private static final Pattern TOKEN_INFO = Pattern.compile("(\\d+):([a-z0-9]+):([A-Z]+)");
@@ -40,6 +36,17 @@ public class UserHelper {
             }
         }
         return null;
+    }
+
+    public static void removeTokensFromCookies(Cookie[] cookies){
+        if (cookies==null){
+            return;
+        }
+        for (Cookie cookie: cookies){
+            if (cookie.getName().equals(AttributeKey.ACCESS_TOKEN) || cookie.getName().equals(AttributeKey.REFRESH_TOKEN)){
+                cookie.setValue(null);
+            }
+        }
     }
 
     public static Integer parseIdFromToken(String token){

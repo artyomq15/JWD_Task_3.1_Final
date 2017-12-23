@@ -1,4 +1,4 @@
-package by.tr.likeitnetwork.constant;
+package by.tr.likeitnetwork.controller.constant;
 
 
 public final class CookieConstant {

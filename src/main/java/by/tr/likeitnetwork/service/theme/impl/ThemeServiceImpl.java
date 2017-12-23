@@ -20,7 +20,11 @@ public class ThemeServiceImpl implements ThemeService{
     }
 
     @Override
-    public Theme getThemeById(String localeLanguage, int id) {
-        return DAOFactory.getInstance().getThemeDAO().getThemeById(localeLanguage, id);
+    public Theme getThemeById(String localeLanguage, int id) throws ThemeServiceException{
+        try {
+            return DAOFactory.getInstance().getThemeDAO().getThemeById(localeLanguage, id);
+        } catch (ThemeDAOException ex) {
+            throw new ThemeServiceException(ex);
+        }
     }
 }

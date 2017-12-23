@@ -19,14 +19,14 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class NetworkController extends HttpServlet {
-    private static final Logger LOGGER = LogManager.getLogger(NetworkController.class);
+    private static final Logger logger = LogManager.getLogger(NetworkController.class);
 
     @Override
     public void init() throws ServletException {
         try {
             ServiceFactory.initService();
         } catch (ServiceException e) {
-            LOGGER.error(e);
+            logger.error(e);
         }
     }
 

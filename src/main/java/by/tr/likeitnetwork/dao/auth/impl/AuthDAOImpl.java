@@ -6,24 +6,23 @@ import by.tr.likeitnetwork.dao.datasource.DataSource;
 import by.tr.likeitnetwork.dao.exception.AuthDAOException;
 import by.tr.likeitnetwork.dao.exception.DataSourceDAOException;
 import by.tr.likeitnetwork.dao.constant.DAOQuery;
-import by.tr.likeitnetwork.util.Encryptor;
+import by.tr.likeitnetwork.dao.util.Encryptor;
 import by.tr.likeitnetwork.entity.AuthToken;
 import by.tr.likeitnetwork.entity.RegistrationInfo;
 import by.tr.likeitnetwork.util.UserHelper;
 
 import java.security.NoSuchAlgorithmException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 import static by.tr.likeitnetwork.dao.constant.DBFieldName.*;
 
 public class AuthDAOImpl implements AuthDAO {
+    private final int VALUE_RETURNED_IF_LOGIN_IS_FREE = 0;
+
     @Override
     public boolean addUser(RegistrationInfo info) throws AuthDAOException {
         Integer id = getIdByLogin(info.getLogin());
-        if (id == null){
+        if (id == VALUE_RETURNED_IF_LOGIN_IS_FREE){
             return insertToUserTable(info);
         }
         return false;
@@ -52,13 +51,17 @@ public class AuthDAOImpl implements AuthDAO {
 
     private Integer getIdByLogin(String login) throws AuthDAOException {
         try (Connection connection = DataSource.getConnection()) {
-            PreparedStatement getId = connection.prepareStatement(DAOQuery.SQL_SELECT_USER_ID_BY_LOGIN);
+            CallableStatement callId = connection.prepareCall(DAOQuery.SQL_CALL_GET_USER_ID_BY_LOGIN);
+            /*PreparedStatement getId = connection.prepareStatement(DAOQuery.SQL_SELECT_USER_ID_BY_LOGIN);
             getId.setString(1, login);
-            ResultSet resultSet = getId.executeQuery();
-            if (resultSet.next()){
+            ResultSet resultSet = getId.executeQuery();*/
+            callId.setString(1, login);
+            callId.registerOutParameter(2, Types.INTEGER);
+            /*if (resultSet.next()){
                 return resultSet.getInt(USER_ID);
-            }
-            return null;
+            }*/
+            callId.execute();
+            return callId.getInt(2);
         } catch (SQLException | DataSourceDAOException ex) {
             throw new AuthDAOException("GETTING", ex);
         }

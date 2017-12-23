@@ -1,6 +1,6 @@
 package by.tr.likeitnetwork.controller.command.impl;
 
-import by.tr.likeitnetwork.constant.CookieConstant;
+import by.tr.likeitnetwork.controller.constant.CookieConstant;
 import by.tr.likeitnetwork.controller.command.Command;
 import by.tr.likeitnetwork.entity.User;
 import by.tr.likeitnetwork.util.UserHelper;

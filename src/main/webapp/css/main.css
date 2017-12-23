@@ -3,18 +3,18 @@ body{
     font-family: "Roboto Light";
 }
 header{
-    background-color: #f66487;
+    background-color: antiquewhite;
 }
 a{
     text-decoration: none;
     color: #000;
 }
 .themes{
-    background-color: antiquewhite;
+    background-color: beige;
     text-align: center;
 }
 .theme_item{
-    color: blueviolet;
+    color: brown;
 }
 .collapsed{
     display: none;

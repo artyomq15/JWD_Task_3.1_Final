@@ -45,6 +45,18 @@
     </div>
 </nav>
 
+<nav class="topics">
+    <c:forEach var="topic" items="${requestScope.topic_list}">
+            <div>
+                <h2>${topic.header}</h2>
+                <a href="#">${topic.theme.name}</a>
+                <p>${topic.creatingDate} by <a href="#">${topic.user.name}</a></p>
+                <p>${topic.context}</p>
+                <a href="#">перейти</a>
+            </div>
+    </c:forEach>
+</nav>
+
 <hr/>
 <c:import url="footer.jsp"/>
 

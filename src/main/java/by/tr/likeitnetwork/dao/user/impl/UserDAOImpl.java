@@ -7,7 +7,7 @@ import by.tr.likeitnetwork.dao.exception.UserDAOException;
 import by.tr.likeitnetwork.dao.user.UserDAO;
 import by.tr.likeitnetwork.dao.constant.DAOQuery;
 import by.tr.likeitnetwork.entity.User;
-import by.tr.likeitnetwork.util.Encryptor;
+import by.tr.likeitnetwork.dao.util.Encryptor;
 
 import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;

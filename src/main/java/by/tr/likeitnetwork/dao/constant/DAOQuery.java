@@ -14,13 +14,19 @@ public final class DAOQuery {
     public static final String SQL_UPDATE_NEW_PASSWORD_BY_ID = "UPDATE user SET user_password=? WHERE user_id=?;";
 
     public static final String SQL_INSERT_USER = "INSERT INTO user (user_name, user_email, user_login, user_password, user_password_salt) VALUES (?,?,?,?,?);";
+
+    public static final String SQL_CALL_GET_USER_ID_BY_LOGIN = "call getUserByLogin(?, ?)";
     public static final String SQL_SELECT_USER_ID_BY_LOGIN = "SELECT user_id FROM user WHERE user_login=?;";
 
     public static final String SQL_SELECT_LANGUAGE_ID_BY_NAME = "SELECT lang_id FROM language WHERE lang_short_name=?;";
     public static final String SQL_SELECT_ALL_THEMES_IN_DEFAULT_LANGUAGE = "SELECT theme_id, theme_default_name FROM theme;";
+    public static final String SQL_SELECT_THEME_IN_DEFAULT_LANGUAGE = "SELECT theme_id, theme_default_name FROM theme WHERE theme_id=?;";
+
     public static final String SQL_SELECT_ALL_THEMES_IN_LOCALE_LANGUAGE = "SELECT theme_id, locale_theme_name FROM theme_has_language WHERE lang_id=?;";
+    public static final String SQL_SELECT_THEME_IN_LOCALE_LANGUAGE = "SELECT theme_id, locale_theme_name FROM theme_has_language WHERE lang_id=? AND theme_id=?;";
+    public static final String SQL_CALL_GET_ALL_TOPICS = "call getAllTopics(?, ?, ?, ?, ?, ?, ?)";
 
 
-
-    private DAOQuery(){}
+    private DAOQuery() {
+    }
 }

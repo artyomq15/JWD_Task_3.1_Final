@@ -1,11 +1,13 @@
 package by.tr.likeitnetwork.controller.command.impl;
 
 import by.tr.likeitnetwork.controller.command.Command;
+import by.tr.likeitnetwork.controller.constant.AttributeKey;
 import by.tr.likeitnetwork.util.UserHelper;
 import by.tr.likeitnetwork.controller.constant.RedirectQuery;
 import by.tr.likeitnetwork.entity.User;
 import by.tr.likeitnetwork.service.exception.ServiceException;
 
+import javax.management.relation.Role;
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -31,6 +33,12 @@ public class GoToProfileCommand implements Command {
 
         Cookie[] cookies = request.getCookies();
         String accessToken = UserHelper.getTokenFromCookies(cookies, ACCESS_TOKEN);
+
+        Integer role = (Integer) request.getSession().getAttribute(AttributeKey.ROLE);
+        if (role == User.Role.GUEST.getRole()){
+            response.sendRedirect(RedirectQuery.SIGN_IN);
+            return;
+        }
 
         try{
             user = UserHelper.getProfileIfAuthorized(accessToken);

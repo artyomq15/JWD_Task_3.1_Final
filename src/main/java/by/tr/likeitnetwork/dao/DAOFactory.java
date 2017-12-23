@@ -7,6 +7,8 @@ import by.tr.likeitnetwork.dao.exception.DAOException;
 import by.tr.likeitnetwork.dao.exception.DataSourceDAOException;
 import by.tr.likeitnetwork.dao.theme.ThemeDAO;
 import by.tr.likeitnetwork.dao.theme.impl.ThemeDAOImpl;
+import by.tr.likeitnetwork.dao.topic.TopicDAO;
+import by.tr.likeitnetwork.dao.topic.impl.TopicDAOImpl;
 import by.tr.likeitnetwork.dao.user.UserDAO;
 import by.tr.likeitnetwork.dao.user.impl.UserDAOImpl;
 
@@ -16,6 +18,7 @@ public class DAOFactory {
     private UserDAO userDAO = new UserDAOImpl();
     private AuthDAO authDAO = new AuthDAOImpl();
     private ThemeDAO themeDAO = new ThemeDAOImpl();
+    private TopicDAO topicDAO = new TopicDAOImpl();
 
     private DAOFactory() {
     }
@@ -42,5 +45,9 @@ public class DAOFactory {
 
     public ThemeDAO getThemeDAO() {
         return themeDAO;
+    }
+
+    public TopicDAO getTopicDAO() {
+        return topicDAO;
     }
 }

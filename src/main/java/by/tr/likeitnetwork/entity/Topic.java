@@ -8,18 +8,18 @@ public class Topic implements Serializable {
     private String header;
     private String context;
     private Date creatingDate;
-    private int userId;
-    private int themeId;
+    private User user;
+    private Theme theme;
 
     public Topic(){}
 
-    public Topic(int id, String header, String context, Date creatingDate, int userId, int themeId) {
+    public Topic(int id, String header, String context, Date creatingDate, User user, Theme theme) {
         this.id = id;
         this.header = header;
         this.context = context;
         this.creatingDate = creatingDate;
-        this.userId = userId;
-        this.themeId = themeId;
+        this.user = user;
+        this.theme = theme;
     }
 
     public int getId() {
@@ -54,20 +54,20 @@ public class Topic implements Serializable {
         this.creatingDate = creatingDate;
     }
 
-    public int getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public int getThemeId() {
-        return themeId;
+    public Theme getTheme() {
+        return theme;
     }
 
-    public void setThemeId(int themeId) {
-        this.themeId = themeId;
+    public void setTheme(Theme theme) {
+        this.theme = theme;
     }
 
     @Override
@@ -80,11 +80,11 @@ public class Topic implements Serializable {
         Topic topic = (Topic) object;
 
         if (id != topic.id) return false;
-        if (userId != topic.userId) return false;
-        if (themeId != topic.themeId) return false;
         if (header != null ? !header.equals(topic.header) : topic.header != null) return false;
         if (context != null ? !context.equals(topic.context) : topic.context != null) return false;
-        return creatingDate != null ? creatingDate.equals(topic.creatingDate) : topic.creatingDate == null;
+        if (creatingDate != null ? !creatingDate.equals(topic.creatingDate) : topic.creatingDate != null) return false;
+        if (user != null ? !user.equals(topic.user) : topic.user != null) return false;
+        return theme != null ? theme.equals(topic.theme) : topic.theme == null;
 
     }
 
@@ -94,8 +94,8 @@ public class Topic implements Serializable {
         result = 31 * result + (header != null ? header.hashCode() : 0);
         result = 31 * result + (context != null ? context.hashCode() : 0);
         result = 31 * result + (creatingDate != null ? creatingDate.hashCode() : 0);
-        result = 31 * result + userId;
-        result = 31 * result + themeId;
+        result = 31 * result + (user != null ? user.hashCode() : 0);
+        result = 31 * result + (theme != null ? theme.hashCode() : 0);
         return result;
     }
 
@@ -106,8 +106,8 @@ public class Topic implements Serializable {
                 ", header='" + header + '\'' +
                 ", context='" + context + '\'' +
                 ", creatingDate=" + creatingDate +
-                ", userId=" + userId +
-                ", themeId=" + themeId +
+                ", user=" + user +
+                ", theme=" + theme +
                 '}';
     }
 }

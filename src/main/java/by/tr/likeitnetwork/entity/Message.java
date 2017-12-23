@@ -8,20 +8,20 @@ public class Message implements Serializable {
     private String context;
     private Date creatingDate;
     private int likes;
-    private int userId;
-    private int topicId;
+    private User user;
+    private Topic topic;
 
     public Message(){
 
     }
 
-    public Message(int id, String context, Date creatingDate, int likes, int userId, int topicId) {
+    public Message(int id, String context, Date creatingDate, int likes, User user, Topic topic) {
         this.id = id;
         this.context = context;
         this.creatingDate = creatingDate;
         this.likes = likes;
-        this.userId = userId;
-        this.topicId = topicId;
+        this.user = user;
+        this.topic = topic;
     }
 
     public int getId() {
@@ -56,25 +56,26 @@ public class Message implements Serializable {
         this.likes = likes;
     }
 
-    public int getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public int getTopicId() {
-        return topicId;
+    public Topic getTopic() {
+        return topic;
     }
 
-    public void setTopicId(int topicId) {
-        this.topicId = topicId;
+    public void setTopic(Topic topic) {
+        this.topic = topic;
     }
 
     @Override
     public boolean equals(Object object) {
         if (this == object) return true;
+
         if (object == null || getClass() != object.getClass()) {
             return false;
         }
@@ -83,10 +84,11 @@ public class Message implements Serializable {
 
         if (id != message.id) return false;
         if (likes != message.likes) return false;
-        if (userId != message.userId) return false;
-        if (topicId != message.topicId) return false;
         if (context != null ? !context.equals(message.context) : message.context != null) return false;
-        return creatingDate != null ? creatingDate.equals(message.creatingDate) : message.creatingDate == null;
+        if (creatingDate != null ? !creatingDate.equals(message.creatingDate) : message.creatingDate != null)
+            return false;
+        if (user != null ? !user.equals(message.user) : message.user != null) return false;
+        return topic != null ? topic.equals(message.topic) : message.topic == null;
 
     }
 
@@ -96,8 +98,8 @@ public class Message implements Serializable {
         result = 31 * result + (context != null ? context.hashCode() : 0);
         result = 31 * result + (creatingDate != null ? creatingDate.hashCode() : 0);
         result = 31 * result + likes;
-        result = 31 * result + userId;
-        result = 31 * result + topicId;
+        result = 31 * result + (user != null ? user.hashCode() : 0);
+        result = 31 * result + (topic != null ? topic.hashCode() : 0);
         return result;
     }
 
@@ -108,8 +110,8 @@ public class Message implements Serializable {
                 ", context='" + context + '\'' +
                 ", creatingDate=" + creatingDate +
                 ", likes=" + likes +
-                ", userId=" + userId +
-                ", topicId=" + topicId +
+                ", user=" + user +
+                ", topic=" + topic +
                 '}';
     }
 }

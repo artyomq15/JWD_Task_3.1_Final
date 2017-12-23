@@ -8,5 +8,5 @@ import java.util.Locale;
 
 public interface ThemeDAO {
     List<Theme> getAllThemes(String localeLanguage) throws ThemeDAOException;
-    Theme getThemeById(String localeLanguage, int id);
+    Theme getThemeById(String localeLanguage, int id) throws ThemeDAOException;
 }

@@ -1,6 +1,6 @@
-package by.tr.likeitnetwork.filter.auth;
+package by.tr.likeitnetwork.controller.filter;
 
-import by.tr.likeitnetwork.constant.CookieConstant;
+import by.tr.likeitnetwork.controller.constant.CookieConstant;
 import by.tr.likeitnetwork.controller.constant.AttributeKey;
 import by.tr.likeitnetwork.controller.constant.RedirectQuery;
 import by.tr.likeitnetwork.entity.AuthToken;
@@ -118,8 +118,8 @@ public class AuthFilter implements Filter {
                 return;
             }
         }
-        System.out.println("ROLE GUEST");
         session.setAttribute(ROLE, User.Role.GUEST.getRole());
+        UserHelper.removeTokensFromCookies(cookies);
     }
 
     @Override

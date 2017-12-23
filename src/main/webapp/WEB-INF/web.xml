@@ -24,7 +24,7 @@
   <filter>
     <display-name>LocaleFilter</display-name>
     <filter-name>LocaleFilter</filter-name>
-    <filter-class>by.tr.likeitnetwork.filter.locale.LocaleFilter</filter-class>
+    <filter-class>by.tr.likeitnetwork.controller.filter.LocaleFilter</filter-class>
   </filter>
   <filter-mapping>
     <filter-name>LocaleFilter</filter-name>
@@ -34,7 +34,7 @@
   <filter>
     <display-name>AuthFilter</display-name>
     <filter-name>AuthFilter</filter-name>
-    <filter-class>by.tr.likeitnetwork.filter.auth.AuthFilter</filter-class>
+    <filter-class>by.tr.likeitnetwork.controller.filter.AuthFilter</filter-class>
   </filter>
   <filter-mapping>
     <filter-name>AuthFilter</filter-name>

@@ -16,7 +16,7 @@ public class UserServiceImpl implements UserService {
         try {
             return userDAO.findUserById(id);
         } catch (UserDAOException ex) {
-            throw new UserServiceException(ex);
+            throw new UserServiceException("",ex);
         }
     }
 
