@@ -35,7 +35,7 @@ public class SignInCommand implements Command {
                 String refreshToken = tokens.getRefreshToken();
                 //will be changes in roles
                 request.getSession().setAttribute(ROLE, User.Role.valueOf(UserHelper.parseRoleFromToken(accessToken)).getRole());
-                //request.getSession().setAttribute(ID, UserHelper.parseIdFromToken(accessToken));
+                request.getSession().setAttribute(ID, UserHelper.parseIdFromToken(accessToken));
 
                 Cookie accessCookie = new Cookie(ACCESS_TOKEN, accessToken);
                 accessCookie.setMaxAge(CookieConstant.ACCESS_COOKIE_LIFETIME);

@@ -21,6 +21,21 @@
     <url-pattern>/NetworkController</url-pattern>
   </servlet-mapping>
 
+
+  <filter>
+    <filter-name>CharsetFilter</filter-name>
+    <filter-class>by.tr.likeitnetwork.controller.filter.CharsetFilter</filter-class>
+    <init-param>
+      <param-name>requestEncoding</param-name>
+      <param-value>UTF-8</param-value>
+    </init-param>
+  </filter>
+
+  <filter-mapping>
+    <filter-name>CharsetFilter</filter-name>
+    <url-pattern>/NetworkController</url-pattern>
+  </filter-mapping>
+
   <filter>
     <display-name>LocaleFilter</display-name>
     <filter-name>LocaleFilter</filter-name>

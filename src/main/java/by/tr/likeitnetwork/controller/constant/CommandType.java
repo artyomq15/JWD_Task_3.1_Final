@@ -11,5 +11,6 @@ public enum CommandType {
     GO_TO_PROFILE,
     GO_TO_ERROR_PAGE,
     EXIT,
-    CHANGE_PASSWORD
+    CHANGE_PASSWORD,
+    ADD_TOPIC
 }

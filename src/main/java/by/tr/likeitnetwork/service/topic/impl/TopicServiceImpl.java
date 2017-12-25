@@ -17,4 +17,15 @@ public class TopicServiceImpl implements TopicService{
             throw new TopicServiceException(ex);
         }
     }
+
+    @Override
+    public boolean addTopic(Topic topic) throws TopicServiceException {
+        //validate
+        try{
+            return DAOFactory.getInstance().getTopicDAO().addTopic(topic);
+        } catch (TopicDAOException ex) {
+            throw new TopicServiceException(ex);
+        }
+
+    }
 }

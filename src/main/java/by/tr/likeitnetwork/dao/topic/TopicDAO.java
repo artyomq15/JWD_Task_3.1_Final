@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface TopicDAO {
     List<Topic> getAll(String localeLanguage) throws TopicDAOException ;
+    boolean addTopic(Topic topic) throws TopicDAOException;
 }

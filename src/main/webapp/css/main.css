@@ -1,21 +1,80 @@
-
 body{
+    margin: 0;
     font-family: "Roboto Light";
-}
-header{
-    background-color: antiquewhite;
+    background-color: #f3f3f3;
 }
 a{
     text-decoration: none;
+}
+header a{
+    color: #f9ffd7;
+}
+section a{
     color: #000;
 }
+header{
+    position: fixed;
+    height: 42px;
+    width: 100%;
+    display: inline-block;
+    background-color: #92afff;
+    color: #f9ffd7;
+}
+.content{
+    margin: 42px 0;
+    display: inline-block;
+
+}
+.network_name{
+    float: left;
+}
+.header_item{
+    float: right;
+}
+
+.card{
+    margin: 10px 0;
+    background-color: rgb(248, 248, 248);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.26);
+    padding: 5px;
+}
 .themes{
-    background-color: beige;
     text-align: center;
 }
-.theme_item{
-    color: brown;
+#themes_block{
+    display: none;
 }
+.theme_item{
+    color: #000000;
+}
+.topics{
+
+}
+#add_topic_block{
+    display: none;
+}
+.topic_item{
+
+}
+
+
+@media (min-width: 750px){
+    .themes{
+        margin-left: 1%;
+        text-align: left;
+        float: left;
+        width: 18%;
+    }
+    #themes_block{
+        display: block;
+    }
+    .topics{
+        margin-left: 1%;
+        float: left;
+        width:78%;
+    }
+}
+
 .collapsed{
     display: none;
 }

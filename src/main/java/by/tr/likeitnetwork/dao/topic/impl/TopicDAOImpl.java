@@ -54,4 +54,19 @@ public class TopicDAOImpl implements TopicDAO{
             throw new TopicDAOException(ex);
         }
     }
+
+    @Override
+    public boolean addTopic(Topic topic) throws TopicDAOException {
+        try(Connection connection = DataSource.getConnection()){
+            CallableStatement addTopic = connection.prepareCall(DAOQuery.SQL_CALL_ADD_TOPIC);
+            addTopic.setString(1, topic.getHeader());
+            addTopic.setString(2, topic.getContext());
+            addTopic.setInt(3, topic.getUser().getId());
+            addTopic.setInt(4, topic.getTheme().getId());
+
+            return addTopic.executeUpdate() == 1;///////////////////
+        } catch (SQLException | DataSourceDAOException ex) {
+            throw new TopicDAOException(ex);
+        }
+    }
 }

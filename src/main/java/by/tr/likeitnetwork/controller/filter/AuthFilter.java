@@ -20,6 +20,7 @@ import java.io.IOException;
 import static by.tr.likeitnetwork.controller.constant.AttributeKey.ACCESS_TOKEN;
 import static by.tr.likeitnetwork.controller.constant.AttributeKey.REFRESH_TOKEN;
 import static by.tr.likeitnetwork.controller.constant.AttributeKey.ROLE;
+import static by.tr.likeitnetwork.controller.constant.AttributeKey.ID;
 
 public class AuthFilter implements Filter {
     @Override
@@ -105,20 +106,22 @@ public class AuthFilter implements Filter {
             AuthToken authToken = authService.getNewTokensByOld(new AuthToken(accessToken, refreshToken));
             if (authToken != null) {
 
-                Cookie accessCookie = new Cookie(ACCESS_TOKEN, accessToken);
+                Cookie accessCookie = new Cookie(ACCESS_TOKEN, authToken.getAccessToken());
                 accessCookie.setMaxAge(CookieConstant.ACCESS_COOKIE_LIFETIME);
                 response.addCookie(accessCookie);
 
-                Cookie refreshCookie = new Cookie(REFRESH_TOKEN, refreshToken);
+                Cookie refreshCookie = new Cookie(REFRESH_TOKEN, authToken.getRefreshToken());
                 refreshCookie.setMaxAge(CookieConstant.REFRESH_COOKIE_LIFETIME);
                 response.addCookie(refreshCookie);
 
-                session.setAttribute(ROLE, User.Role.valueOf(UserHelper.parseRoleFromToken(accessToken)).getRole());
+                session.setAttribute(ROLE, User.Role.valueOf(UserHelper.parseRoleFromToken(authToken.getAccessToken())).getRole());
+                session.setAttribute(ID, UserHelper.parseIdFromToken(authToken.getAccessToken()));
 
                 return;
             }
         }
         session.setAttribute(ROLE, User.Role.GUEST.getRole());
+        session.removeAttribute(ID);
         UserHelper.removeTokensFromCookies(cookies);
     }
 

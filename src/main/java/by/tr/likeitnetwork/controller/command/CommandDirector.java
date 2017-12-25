@@ -20,6 +20,7 @@ public class CommandDirector {
         dispatcherMap.put(CommandType.GO_TO_ERROR_PAGE, new GoToErrorPageCommand());
         dispatcherMap.put(CommandType.EXIT, new ExitCommand());
         dispatcherMap.put(CommandType.CHANGE_PASSWORD, new ChangePasswordCommand());
+        dispatcherMap.put(CommandType.ADD_TOPIC, new AddTopicCommand());
 
 
     }
