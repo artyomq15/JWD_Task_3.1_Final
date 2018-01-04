@@ -21,7 +21,9 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public User findUserById(int id) throws UserDAOException {
         User user = new User();
-        try (Connection connection = DataSource.getConnection()) {
+        Connection connection = null;
+        try  {
+            connection = DataSource.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(DAOQuery.SQL_SELECT_ALL_USER_BY_ID);
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -39,6 +41,8 @@ public class UserDAOImpl implements UserDAO {
 
         } catch (SQLException | DataSourceDAOException ex) {
             throw new UserDAOException(ex);// не забывай про собственные сообщения в исключениях
+        } finally {
+            DataSource.closeConnection(connection);
         }
     }
 
@@ -54,7 +58,9 @@ public class UserDAOImpl implements UserDAO {
     private String checkOldPasswordMatchesPasswordInDataBase(int id, String oldPassword) throws UserDAOException {
         String passwordInDataBase;
         String passwordSalt;
-        try (Connection connection = DataSource.getConnection()) {
+        Connection connection = null;
+        try  {
+            connection = DataSource.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(DAOQuery.SELECT_PASSWORD_AND_SALT_BY_ID);
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -68,12 +74,16 @@ public class UserDAOImpl implements UserDAO {
             return null;
         } catch (SQLException | DataSourceDAOException | NoSuchAlgorithmException ex) {
             throw new UserDAOException(ex);
+        } finally {
+            DataSource.closeConnection(connection);
         }
     }
 
     private boolean updateNewPasswordInDataBase(int id, String password, String passwordSalt) throws UserDAOException {
         String passwordHash;
-        try (Connection connection = DataSource.getConnection()) {
+        Connection connection = null;
+        try {
+            connection = DataSource.getConnection();
             passwordHash = Encryptor.getPasswordHashCode(password, passwordSalt);
 
             PreparedStatement addUser = connection.prepareStatement(DAOQuery.SQL_UPDATE_NEW_PASSWORD_BY_ID);
@@ -85,6 +95,8 @@ public class UserDAOImpl implements UserDAO {
             return rowsAdded != 0;
         } catch (SQLException | DataSourceDAOException | NoSuchAlgorithmException ex) {
             throw new UserDAOException(ex);
+        } finally {
+            DataSource.closeConnection(connection);
         }
     }
 }

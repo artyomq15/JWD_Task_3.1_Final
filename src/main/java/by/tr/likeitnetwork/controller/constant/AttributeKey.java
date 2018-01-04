@@ -27,6 +27,8 @@ public final class AttributeKey {
     public static final String THEME_LIST = "theme_list";
     public static final String TOPIC_LIST = "topic_list";
 
+    public static final String TOPIC = "topic";
+    public static final String TOPIC_ID = "topic_id";
     public static final String TOPIC_HEADER = "topic_header";
     public static final String TOPIC_CONTEXT = "topic_context";
     public static final String TOPIC_THEME_ID = "topic_theme_id";

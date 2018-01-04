@@ -17,7 +17,9 @@ import java.util.List;
 public class TopicDAOImpl implements TopicDAO{
     @Override
     public List<Topic> getAll(String localeLanguage) throws TopicDAOException {
-        try(Connection connection = DataSource.getConnection()){
+        Connection connection = null;
+        try{
+            connection = DataSource.getConnection();
             CallableStatement getAll = connection.prepareCall(DAOQuery.SQL_CALL_GET_ALL_TOPICS);
             getAll.registerOutParameter(1, Types.INTEGER);
             getAll.registerOutParameter(2, Types.VARCHAR);
@@ -52,21 +54,71 @@ public class TopicDAOImpl implements TopicDAO{
             return topicList;
         } catch (SQLException | DataSourceDAOException | ThemeDAOException ex) {
             throw new TopicDAOException(ex);
+        } finally {
+            DataSource.closeConnection(connection);
         }
     }
 
     @Override
     public boolean addTopic(Topic topic) throws TopicDAOException {
-        try(Connection connection = DataSource.getConnection()){
+        Connection connection = null;
+        try{
+            connection = DataSource.getConnection();
             CallableStatement addTopic = connection.prepareCall(DAOQuery.SQL_CALL_ADD_TOPIC);
             addTopic.setString(1, topic.getHeader());
             addTopic.setString(2, topic.getContext());
             addTopic.setInt(3, topic.getUser().getId());
             addTopic.setInt(4, topic.getTheme().getId());
-
             return addTopic.executeUpdate() == 1;///////////////////
         } catch (SQLException | DataSourceDAOException ex) {
             throw new TopicDAOException(ex);
+        } finally {
+            DataSource.closeConnection(connection);
+        }
+    }
+
+    @Override
+    public Topic getTopicById(String localeLanguage, int id) throws TopicDAOException {
+        Connection connection = null;
+        try{
+            connection = DataSource.getConnection();
+            CallableStatement getTopic = connection.prepareCall(DAOQuery.SQL_CALL_GET_TOPIC_BY_ID);
+            getTopic.setInt(1, id);
+
+            getTopic.registerOutParameter(1, Types.INTEGER);
+            getTopic.registerOutParameter(2, Types.VARCHAR);
+            getTopic.registerOutParameter(3, Types.LONGVARCHAR);
+            getTopic.registerOutParameter(4, Types.TIMESTAMP);
+            getTopic.registerOutParameter(5, Types.INTEGER);
+            getTopic.registerOutParameter(6, Types.INTEGER);
+            getTopic.registerOutParameter(7, Types.VARCHAR);
+
+            getTopic.execute();
+
+            Topic topic;
+            User user;
+            ResultSet resultSet = getTopic.getResultSet();
+            if (resultSet.next()){
+                topic = new Topic();
+                topic.setId(resultSet.getInt(1));
+                topic.setHeader(resultSet.getString(2));
+                topic.setContext(resultSet.getString(3));
+                topic.setCreatingDate(resultSet.getDate(4));
+
+                topic.setTheme(DAOFactory.getInstance().getThemeDAO().getThemeById(localeLanguage, resultSet.getInt(5)));
+
+                user = new User();
+                user.setId(resultSet.getInt(6));
+                user.setName(resultSet.getString(7));
+
+                topic.setUser(user);
+                return topic;
+            }
+            return null;
+        } catch (SQLException | DataSourceDAOException | ThemeDAOException ex) {
+            throw new TopicDAOException(ex);
+        } finally {
+            DataSource.closeConnection(connection);
         }
     }
 }

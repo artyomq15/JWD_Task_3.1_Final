@@ -35,6 +35,14 @@ public class ServiceFactory {
         }
     }
 
+    public static void destroyService() throws ServiceException {
+        try {
+            DAOFactory.destroyDatasource();
+        } catch (DAOException e) {
+            throw new ServiceException(e);
+        }
+    }
+
     public UserService getUserService() {
         return userService;
     }

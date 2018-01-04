@@ -14,57 +14,80 @@
 <head>
     <meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="../../css/main.css"/>
-    <title>Main</title>
+    <link rel="stylesheet" href="../../css/index.css"/>
+    <title>Like It</title>
 </head>
 <body>
-<header>
-    <div class="network_name"><a href="/NetworkController?command=go_to_main_page"> ${name}</a></div>
-    <div class="header_item">
+<header class="header_container">
+    <div class="header_background"></div>
+    <div class="header_menu">
+        <a href="/NetworkController?command=go_to_main_page">
+            <div class="header_menu-item header_menu-name">
+                ${name}
+            </div>
+        </a>
         <c:if test="${sessionScope.role == null || sessionScope.role == 1}">
-
-            <a href="/NetworkController?command=go_to_sign_in">${signIn}</a>
-            <a href="/NetworkController?command=go_to_sign_up">${signUp}</a>
-
+            <a href="/NetworkController?command=go_to_sign_up">
+                <div class="header_menu-item">
+                        ${signUp}
+                </div>
+            </a>
+            <a href="/NetworkController?command=go_to_sign_in">
+                <div class="header_menu-item">
+                        ${signIn}
+                </div>
+            </a>
         </c:if>
         <c:if test="${sessionScope.role == 2}">
-            <a href="/NetworkController?command=go_to_profile">${requestScope.user.name}</a>
+            <a href="/NetworkController?command=go_to_profile">
+                <div class="header_menu-item">
+                        ${requestScope.user.name}
+                </div>
+            </a>
         </c:if>
     </div>
 </header>
-<section class="content">
-    <nav class="card themes">
-        <div class="themes_opening_line" onclick="toggleThemes('themes_block')">
-            <b>${themes}</b>
-        </div>
-        <div id="themes_block">
+
+
+<main>
+    <nav class="card themes_block">
+        <div class="themes_block-name" onclick="toggle('themes_toggle_element')">${themes}</div>
+        <div class="themes_block_items hidden" id="themes_toggle_element">
             <c:forEach var="theme" items="${requestScope.theme_list}">
                 <a href="#">
-                    <div class="theme_item">${theme.name}</div>
+                    <div class="themes_block-item">${theme.name}</div>
                 </a>
             </c:forEach>
         </div>
     </nav>
 
 
-    <nav class="topics">
+    <article>
+        <div class="search_topic_block">
+            <div class="search_topic_block-content">
+                <form action="#" method="get">
+                    <input type="hidden" name="command" value="search_topic"/>
+                    <input class="search_topic_block-field" type="search" name="text" value="" placeholder="Search"/>
+                    <input class="search_topic_content-item-button" type="submit" value="OK"/>
+                </form>
+            </div>
+        </div>
+
 
         <c:if test="${sessionScope.role >= 2}">
-            <nav class="card add_topic">
-                <div class="add_topic_opening_line" onclick="toggleThemes('add_topic_block')">
-                    ADD TOPIC
+            <div class="card add_topic_block">
+                <div class="add_topic_opening_line" onclick="toggle('add_topic_block_content')">
+                    Add new topic
                 </div>
 
-                <div class="add_topic_content" id="add_topic_block">
+                <div class="add_topic_content hidden" id="add_topic_block_content">
                     <form action="/NetworkController" method="post">
                         <input type="hidden" name="command" value="add_topic"/>
-                        <input type="text" name="topic_header" value="" placeholder="HEADER"/>
-                        <br>
-                        <textarea name="topic_context" placeholder="CONTEXT"></textarea>
-                        <br>
+                        <input type="text" name="topic_header" value="" placeholder="Header" required/>
+                        <textarea name="topic_context" rows="5" placeholder="Context" required></textarea>
                         <label>
-                            <select name="topic_theme_id">
-                                <option disabled selected>Выберите THEME</option>
+                            <select name="topic_theme_id" required>
+                                <option disabled>Choose theme</option>
                                 <c:forEach var="theme" items="${requestScope.theme_list}">
                                     <option value="${theme.id}">
                                             ${theme.name}
@@ -72,27 +95,48 @@
                                 </c:forEach>
                             </select>
                         </label>
-                        <br>
-                        <input type="submit" value="OK"/>
+                        <input class="add_topic_content-item-button" type="submit" value="OK"/>
                     </form>
                 </div>
-            </nav>
-        </c:if>
-        <c:forEach var="topic" items="${requestScope.topic_list}">
-            <div class="card topic_item">
-                <h2>${topic.header}</h2>
-                <a href="#">${topic.theme.name}</a>
-                <p>${topic.creatingDate} by <a href="#">${topic.user.name}</a></p>
-                <p>${topic.context}</p>
-                <a href="#">перейти</a>
             </div>
-        </c:forEach>
-    </nav>
-</section>
+        </c:if>
 
-<hr/>
+
+        <div class="topics_block">
+            <c:forEach var="topic" items="${requestScope.topic_list}">
+                <div class="card topics_block-item">
+                    <a href="/NetworkController?command=go_to_topic_page&topic_id=${topic.id}">
+                        <div class="topics_block-item-header">
+                                ${topic.header}
+                        </div>
+                    </a>
+                    <div class="topics_block-item-date-author">
+                        <a href="#">${topic.creatingDate}</a> by <a href="#">${topic.user.name}</a>
+                    </div>
+                    <div class="topics_block-item-theme">
+                        <a href="#">${topic.theme.name}</a>
+                    </div>
+                    <div class="topics_block-item-context">
+                            ${topic.context}
+                    </div>
+                    <a href="/NetworkController?command=go_to_topic_page&topic_id=${topic.id}">
+                        <div class="topics_block-item-open">
+                            open
+                        </div>
+                    </a>
+                    <div class="topics_block-item-rating">
+                        44 <a href="#"><img src="img/like.png"></a>
+                    </div>
+                </div>
+            </c:forEach>
+        </div>
+    </article>
+
+
+</main>
+
 <c:import url="footer.jsp"/>
 
-<script type="text/javascript" src="../../js/main.js"></script>
+<script type="text/javascript" src="../../js/index.js"></script>
 </body>
 </html>

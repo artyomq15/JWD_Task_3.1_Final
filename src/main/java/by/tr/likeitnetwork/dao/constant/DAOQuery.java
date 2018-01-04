@@ -25,7 +25,8 @@ public final class DAOQuery {
     public static final String SQL_SELECT_ALL_THEMES_IN_LOCALE_LANGUAGE = "SELECT theme_id, locale_theme_name FROM theme_has_language WHERE lang_id=?;";
     public static final String SQL_SELECT_THEME_IN_LOCALE_LANGUAGE = "SELECT theme_id, locale_theme_name FROM theme_has_language WHERE lang_id=? AND theme_id=?;";
     public static final String SQL_CALL_GET_ALL_TOPICS = "call getAllTopics(?, ?, ?, ?, ?, ?, ?)";
-    public static final String SQL_CALL_ADD_TOPIC = "call addTopic(?,?,?,?)";
+    public static final String SQL_CALL_ADD_TOPIC = "call addTopic(?, ?, ?, ?)";
+    public static final String SQL_CALL_GET_TOPIC_BY_ID = "call getTopicById(?, ?, ?, ?, ?, ?, ?)";
 
 
     private DAOQuery() {

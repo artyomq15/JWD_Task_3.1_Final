@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
-<%@ taglib uri = "http://java.sun.com/jsp/jstl/fmt" prefix = "fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <fmt:setLocale value="${sessionScope.locale}"/>
 <fmt:setBundle basename="localization.auth" var="auth"/>
@@ -23,35 +23,86 @@
 
 <html>
 <head>
-    <meta charset="utf-8">
+    <meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="../../css/index.css"/>
     <title>Like It | ${signUp}</title>
 </head>
 <body>
-<a href="/NetworkController?command=go_to_main_page">${name}</a>
-<h1>${signUp}</h1>
+<header class="header_container">
+    <div class="header_background"></div>
+    <div class="header_menu">
+        <a href="/NetworkController?command=go_to_main_page">
+            <div class="header_menu-item header_menu-name">
+                ${name}
+            </div>
+        </a>
+        <c:if test="${sessionScope.role == null || sessionScope.role == 1}">
+            <a href="/NetworkController?command=go_to_sign_up">
+                <div class="header_menu-item">
+                        ${signUp}
+                </div>
+            </a>
+            <a href="/NetworkController?command=go_to_sign_in">
+                <div class="header_menu-item">
+                        ${signIn}
+                </div>
+            </a>
+        </c:if>
+        <c:if test="${sessionScope.role == 2}">
+            <a href="/NetworkController?command=go_to_profile">
+                <div class="header_menu-item">
+                        ${requestScope.user.name}
+                </div>
+            </a>
+        </c:if>
+    </div>
+</header>
 
-<form action="/NetworkController" method="post">
-    <input type="hidden" name="command" value="sign_up"/>
-    <input type="text" name="login" value="" placeholder="${login}">
-    <br>
-    <input type="password" name="password" value="" placeholder="${password}">
-    <br>
-    <input type="password" name="confirmation" value="" placeholder="${confirm}">
-    <br>
-    <input type="text" name="name" value="" placeholder="${nameUser}">
-    <br>
-    <input type="text" name="email" value="" placeholder="${email}">
-    <br>
-    <c:if test="${requestScope.message != null}">
-        ${errMessage}
-    </c:if>
-    <br>
-    <input type="submit" value="${signUp}">
-</form>
+<main>
+    <div class="card sign_up_container">
+        <div class="sign_up_header">
+            ${signUp}
+        </div>
+        <form action="/NetworkController" method="post">
+            <input type="hidden" name="command" value="sign_up"/>
 
-<a href="/NetworkController?command=go_to_sign_in"><p>${signIn}</p></a>
-<hr/>
+            <input type="text" id="login" name="login" value="" placeholder="${login}"
+                   pattern="[a-zA-Z][A-Za-z_0-9]{4,}"
+                   required>
+            <label for="login" class="hidden error_validation error_validation-login">Login must contain only latin
+                letters, digits and '_'. Starts with letter. More than 4.</label>
+
+            <input type="password" id="password" name="password" value="" placeholder="${password}"
+                   pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\S+$).{6,}$" required>
+            <label class="hidden error_validation error_validation-password">Password must contain at least one lowcase
+                letter, upcase letter, digit. More than 5.</label>
+
+            <input type="password" id="confirmation" name="confirmation" value="" oninput="validatePassword()"
+                   placeholder="${confirm}" required>
+            <label class="hidden error_validation error_validation-confirmation">Passwords must match</label>
+
+            <input id="name" type="text" name="name" value="" placeholder="${nameUser}" pattern="[А-Яа-яA-Za-z]+"
+                   required>
+            <label class="hidden error_validation error_validation-name">Name must contain only letters</label>
+
+
+            <input id="email" type="email" name="email" value="" placeholder="${email}" required>
+            <label class="hidden error_validation error_validation-email">Wrong e-mail</label>
+
+
+            <input type="submit" value="${signUp}">
+
+            <c:if test="${requestScope.message != null}">
+                <br/>
+                <label class="error_validation">${errMessage}</label>
+            </c:if>
+        </form>
+    </div>
+</main>
+
 <c:import url="footer.jsp"/>
+
+<script type="text/javascript" src="../../js/index.js"></script>
 </body>
 </html>

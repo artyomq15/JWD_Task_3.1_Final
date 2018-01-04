@@ -1,29 +1,22 @@
-<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
-<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
-<%@ taglib uri = "http://java.sun.com/jsp/jstl/fmt" prefix = "fmt" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <fmt:setLocale value="${sessionScope.locale}"/>
-<fmt:setBundle basename="localization.mainpage" var="main"/>
 <fmt:setBundle basename="localization.auth" var="auth"/>
-
-
+<fmt:setBundle basename="localization.mainpage" var="main"/>
 
 <fmt:message key="label.name" bundle="${main}" var="name"/>
-<fmt:message key="label.text" bundle="${main}" var="text"/>
 
-
-<fmt:message key="label.login" bundle="${auth}" var="login"/>
-<fmt:message key="label.password" bundle="${auth}" var="password"/>
+<fmt:message key="label.themes" bundle="${main}" var="themes"/>
 <fmt:message key="button.signIn" bundle="${auth}" var="signIn"/>
 <fmt:message key="button.signUp" bundle="${auth}" var="signUp"/>
-<fmt:message key="label.errorSignInMessage" bundle="${auth}" var="errMessage"/>
-
 <html>
 <head>
+    <title></title>
     <meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="../../css/index.css"/>
-    <title>Like It | ${signIn}</title>
 </head>
 <body>
 <header class="header_container">
@@ -57,33 +50,50 @@
 </header>
 
 <main>
-    <div class="card sign_up_container">
-        <div class="sign_up_header">
-            ${signIn}
+    <nav class="card themes_block">
+        <div class="themes_block-name" onclick="toggle('themes_toggle_element')">${themes}</div>
+        <div class="themes_block_items hidden" id="themes_toggle_element">
+            <c:forEach var="theme" items="${requestScope.theme_list}">
+                <a href="#">
+                    <div class="themes_block-item">${theme.name}</div>
+                </a>
+            </c:forEach>
         </div>
-        <form action="/NetworkController" method="post">
-            <input type="hidden" name="command" value="sign_in"/>
+    </nav>
 
-            <input type="text" id="login" name="login" value="" placeholder="${login}"
-                   pattern="[a-zA-Z][A-Za-z_0-9]{4,}"
-                   required>
+    <article>
+        <div class="topics_block">
 
-            <input type="password" id="password" name="password" value="" placeholder="${password}"
-                   pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\S+$).{6,}$" required>
+            <div class="card topics_block-item">
 
-            <input type="submit" value="${signIn}">
+                <div class="topics_block-item-header">
+                    ${requestScope.topic.header}
+                </div>
 
-            <c:if test="${requestScope.message != null}">
-                <br/>
-                <label class="error_validation">${errMessage}</label>
-            </c:if>
-
-        </form>
-    </div>
+                <div class="topics_block-item-date-author">
+                    <a href="#">${requestScope.topic.creatingDate}</a> by <a
+                        href="#">${requestScope.topic.user.name}</a>
+                </div>
+                <div class="topics_block-item-theme">
+                    <a href="#">${requestScope.topic.theme.name}</a>
+                </div>
+                <div class="topics_block-item-context">
+                    ${requestScope.topic.context}
+                </div>
+                <div class="topics_block-item-rating">
+                    44 <a href="#"><img src="img/like.png"></a>
+                </div>
+            </div>
+        </div>
+    </article>
 </main>
+
+
+
 
 <c:import url="footer.jsp"/>
 
 <script type="text/javascript" src="../../js/index.js"></script>
+
 </body>
 </html>

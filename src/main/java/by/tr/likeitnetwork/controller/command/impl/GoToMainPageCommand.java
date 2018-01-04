@@ -2,6 +2,7 @@ package by.tr.likeitnetwork.controller.command.impl;
 
 import by.tr.likeitnetwork.controller.command.Command;
 import by.tr.likeitnetwork.controller.constant.AttributeKey;
+import by.tr.likeitnetwork.controller.constant.JspPath;
 import by.tr.likeitnetwork.entity.Theme;
 import by.tr.likeitnetwork.entity.Topic;
 import by.tr.likeitnetwork.service.ServiceFactory;
@@ -21,7 +22,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import static by.tr.likeitnetwork.controller.constant.AttributeKey.*;
-import static by.tr.likeitnetwork.controller.constant.JspPath.MAIN;
 
 public class GoToMainPageCommand implements Command {
     private static final Logger logger = LogManager.getLogger(GoToMainPageCommand.class);
@@ -49,7 +49,7 @@ public class GoToMainPageCommand implements Command {
 
             //other info on main page
 
-            request.getRequestDispatcher(MAIN).forward(request,response);
+            request.getRequestDispatcher(JspPath.MAIN).forward(request,response);
         } catch(ServiceException ex){
             logger.error(ex);
             response.sendRedirect(RedirectQuery.ERROR_WITH_MESSAGE);

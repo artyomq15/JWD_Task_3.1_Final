@@ -31,6 +31,14 @@ public class DAOFactory {
         }
     }
 
+    public static void destroyDatasource() throws DAOException {
+        try {
+            DataSource.destroy();
+        } catch (DataSourceDAOException e) {
+            throw new DAOException(e);
+        }
+    }
+
     public static DAOFactory getInstance() {
         return instance;
     }

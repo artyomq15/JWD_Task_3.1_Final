@@ -21,6 +21,7 @@ import org.apache.logging.log4j.Logger;
 public class NetworkController extends HttpServlet {
     private static final Logger logger = LogManager.getLogger(NetworkController.class);
 
+
     @Override
     public void init() throws ServletException {
         try {
@@ -49,5 +50,14 @@ public class NetworkController extends HttpServlet {
 
         command.execute(request, response);
 
+    }
+
+    @Override
+    public void destroy() {
+        try {
+            ServiceFactory.destroyService();
+        } catch (ServiceException e) {
+            logger.error(e);
+        }
     }
 }

@@ -39,52 +39,17 @@ public class AuthFilter implements Filter {
         } catch (AuthServiceException ex){
             response.sendRedirect(RedirectQuery.ERROR_WITH_MESSAGE);
         }
-
-        //HttpSession session = request.getSession(false);
-
-        /*
-        if request for pages: [(go_to_)sign in, sign up ]  or [commands for signing in and signing up]  => doFilter()
-        else checking tokens
-
-
-        OR
-
-        if ROLE == null or ROLE = GUEST => doFilter
-        else check tokens
-        */
-
-
-
-        /*
-        checking tokens
-        if == access-token => {
-            doFilter()
-            set ROLE = USER
-        }
-        if !=access-token => use refresh token
-
-            if == refresh-token => {
-                change both tokens in database and write them in cookies => do request
-            }
-            if != refresh-token => {
-                redirect to sign in page
-                set ROLE = GUEST
-            }
-
-         */
-
-
     }
 
     private void checkTokens(HttpServletRequest request, HttpServletResponse response) throws AuthServiceException {
         HttpSession session = request.getSession(false);
-        Object roleValueObject = session.getAttribute(AttributeKey.ROLE);
-        if (roleValueObject == null) {
+
+        Integer roleValue = (Integer) session.getAttribute(AttributeKey.ROLE);
+        if (roleValue == null) {
             System.out.println("ROLE NULL");
             session.setAttribute(ROLE, User.Role.GUEST.getRole());
             return;
         }
-        Integer roleValue = Integer.parseInt(String.valueOf(roleValueObject));
         if (roleValue == User.Role.GUEST.getRole()) {
             System.out.println("ROLE " + roleValue);
             return;

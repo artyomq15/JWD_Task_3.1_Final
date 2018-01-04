@@ -8,4 +8,5 @@ import java.util.List;
 public interface TopicService {
     List<Topic> getAll(String localeLanguage) throws TopicServiceException;
     boolean addTopic (Topic topic) throws TopicServiceException;
+    Topic getTopicById (String localeLanguage, int id) throws TopicServiceException;
 }

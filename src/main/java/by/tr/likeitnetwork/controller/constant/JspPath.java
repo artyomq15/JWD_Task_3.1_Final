@@ -7,6 +7,7 @@ public final class JspPath {
     public static final String SIGN_IN = "WEB-INF/jsp/signin.jsp";
     public static final String SIGN_UP = "WEB-INF/jsp/signup.jsp";
     public static final String ERROR = "WEB-INF/jsp/error.jsp";
+    public static final String TOPIC = "WEB-INF/jsp/topic.jsp";
 
     private JspPath(){}
 }

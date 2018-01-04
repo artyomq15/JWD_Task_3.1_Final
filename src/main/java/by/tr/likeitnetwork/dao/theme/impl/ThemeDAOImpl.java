@@ -35,7 +35,9 @@ public class ThemeDAOImpl implements ThemeDAO {
     }
 
     private Integer getIdLanguageIfExists(String language) throws ThemeDAOException {
-        try (Connection connection = DataSource.getConnection()) {
+        Connection connection = null;
+        try {
+            connection = DataSource.getConnection();
             PreparedStatement getIdByName = connection.prepareStatement(DAOQuery.SQL_SELECT_LANGUAGE_ID_BY_NAME);
             getIdByName.setString(1, language);
             ResultSet resultSet = getIdByName.executeQuery();
@@ -45,11 +47,15 @@ public class ThemeDAOImpl implements ThemeDAO {
             return null;
         } catch (SQLException | DataSourceDAOException ex) {
             throw new ThemeDAOException(ex);
+        } finally {
+            DataSource.closeConnection(connection);
         }
     }
 
     private List<Theme> getThemesInDefaultLanguage() throws ThemeDAOException {
-        try (Connection connection = DataSource.getConnection()) {
+        Connection connection = null;
+        try {
+            connection = DataSource.getConnection();
             PreparedStatement getThemes = connection.prepareStatement(DAOQuery.SQL_SELECT_ALL_THEMES_IN_DEFAULT_LANGUAGE);
             ResultSet resultSet = getThemes.executeQuery();
             List<Theme> themeList = new ArrayList<>();
@@ -62,11 +68,15 @@ public class ThemeDAOImpl implements ThemeDAO {
             return themeList;
         } catch (SQLException | DataSourceDAOException ex) {
             throw new ThemeDAOException(ex);
+        } finally {
+            DataSource.closeConnection(connection);
         }
     }
 
     private List<Theme> getThemesInLocaleLanguage(Integer languageId) throws ThemeDAOException {
-        try (Connection connection = DataSource.getConnection()) {
+        Connection connection = null;
+        try {
+            connection = DataSource.getConnection();
             PreparedStatement getThemes = connection.prepareStatement(DAOQuery.SQL_SELECT_ALL_THEMES_IN_LOCALE_LANGUAGE);
             getThemes.setInt(1, languageId);
             ResultSet resultSet = getThemes.executeQuery();
@@ -77,14 +87,19 @@ public class ThemeDAOImpl implements ThemeDAO {
                 theme.setName(resultSet.getString(DBFieldName.THEME_LOCALE_NAME));
                 themeList.add(theme);
             }
+
             return themeList;
         } catch (SQLException | DataSourceDAOException ex) {
             throw new ThemeDAOException(ex);
+        } finally {
+            DataSource.closeConnection(connection);
         }
     }
 
     private Theme getThemeInDefaultLanguage(int id) throws ThemeDAOException {
-        try (Connection connection = DataSource.getConnection()) {
+        Connection connection = null;
+        try {
+            connection = DataSource.getConnection();
             PreparedStatement getThemes = connection.prepareStatement(DAOQuery.SQL_SELECT_THEME_IN_DEFAULT_LANGUAGE);
             getThemes.setInt(1, id);
             ResultSet resultSet = getThemes.executeQuery();
@@ -94,14 +109,19 @@ public class ThemeDAOImpl implements ThemeDAO {
                 theme.setId(resultSet.getInt(DBFieldName.THEME_ID));
                 theme.setName(resultSet.getString(DBFieldName.THEME_DEFAULT_NAME));
             }
+
             return theme;
         } catch (SQLException | DataSourceDAOException ex) {
             throw new ThemeDAOException(ex);
+        } finally {
+            DataSource.closeConnection(connection);
         }
     }
 
     private Theme getThemeInLocaleLanguage(Integer languageId, int id) throws ThemeDAOException {
-        try (Connection connection = DataSource.getConnection()) {
+        Connection connection = null;
+        try  {
+            connection = DataSource.getConnection();
             PreparedStatement getThemes = connection.prepareStatement(DAOQuery.SQL_SELECT_THEME_IN_LOCALE_LANGUAGE);
             getThemes.setInt(1, languageId);
             getThemes.setInt(2, id);
@@ -112,9 +132,12 @@ public class ThemeDAOImpl implements ThemeDAO {
                 theme.setId(resultSet.getInt(DBFieldName.THEME_ID));
                 theme.setName(resultSet.getString(DBFieldName.THEME_LOCALE_NAME));
             }
+
             return theme;
         } catch (SQLException | DataSourceDAOException ex) {
             throw new ThemeDAOException(ex);
+        } finally {
+            DataSource.closeConnection(connection);
         }
     }
 }
