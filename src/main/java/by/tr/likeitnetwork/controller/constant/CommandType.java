@@ -13,5 +13,7 @@ public enum CommandType {
     EXIT,
     CHANGE_PASSWORD,
     ADD_TOPIC,
-    GO_TO_TOPIC_PAGE
+    GO_TO_TOPIC_PAGE,
+    RATE_MESSAGE,
+    ADD_MESSAGE
 }

@@ -38,5 +38,15 @@ public class TopicServiceImpl implements TopicService{
         }
     }
 
+    @Override
+    public List<Topic> getTopicsByThemeId(String localeLanguage, int themeId) throws TopicServiceException {
+        return null;
+    }
+
+    @Override
+    public List<Topic> getTopicsByUserId(String localeLanguage, int userId) throws TopicServiceException {
+        return null;
+    }
+
 
 }

@@ -22,6 +22,8 @@ public class CommandDirector {
         dispatcherMap.put(CommandType.CHANGE_PASSWORD, new ChangePasswordCommand());
         dispatcherMap.put(CommandType.ADD_TOPIC, new AddTopicCommand());
         dispatcherMap.put(CommandType.GO_TO_TOPIC_PAGE, new GoToTopicPage());
+        dispatcherMap.put(CommandType.RATE_MESSAGE, new RateMessageCommand());
+        dispatcherMap.put(CommandType.ADD_MESSAGE, new AddMessageCommand());
 
 
     }

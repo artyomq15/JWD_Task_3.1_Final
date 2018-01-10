@@ -3,12 +3,14 @@ package by.tr.likeitnetwork.controller.filter;
 import by.tr.likeitnetwork.controller.constant.CookieConstant;
 import by.tr.likeitnetwork.controller.constant.AttributeKey;
 import by.tr.likeitnetwork.controller.constant.RedirectQuery;
+import by.tr.likeitnetwork.controller.util.CookieParser;
 import by.tr.likeitnetwork.entity.AuthToken;
 import by.tr.likeitnetwork.entity.User;
 import by.tr.likeitnetwork.service.ServiceFactory;
 import by.tr.likeitnetwork.service.auth.AuthService;
 import by.tr.likeitnetwork.service.exception.AuthServiceException;
 import by.tr.likeitnetwork.util.UserHelper;
+import org.w3c.dom.Attr;
 
 import javax.servlet.*;
 import javax.servlet.http.Cookie;
@@ -17,10 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-import static by.tr.likeitnetwork.controller.constant.AttributeKey.ACCESS_TOKEN;
-import static by.tr.likeitnetwork.controller.constant.AttributeKey.REFRESH_TOKEN;
-import static by.tr.likeitnetwork.controller.constant.AttributeKey.ROLE;
-import static by.tr.likeitnetwork.controller.constant.AttributeKey.ID;
+import static by.tr.likeitnetwork.controller.constant.AttributeKey.*;
 
 public class AuthFilter implements Filter {
     @Override
@@ -32,7 +31,6 @@ public class AuthFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
-
         try{
             checkTokens(request,response);
             filterChain.doFilter(request,response);
@@ -42,29 +40,34 @@ public class AuthFilter implements Filter {
     }
 
     private void checkTokens(HttpServletRequest request, HttpServletResponse response) throws AuthServiceException {
-        HttpSession session = request.getSession(false);
+        HttpSession session = request.getSession();
+        Cookie[] cookies = request.getCookies();
+        AuthService authService = ServiceFactory.getInstance().getAuthService();
 
-        Integer roleValue = (Integer) session.getAttribute(AttributeKey.ROLE);
-        if (roleValue == null) {
+        String accessToken = CookieParser.getTokenFromCookies(cookies, AttributeKey.ACCESS_TOKEN);
+        if (accessToken == null) {
             System.out.println("ROLE NULL");
             session.setAttribute(ROLE, User.Role.GUEST.getRole());
+            session.removeAttribute(ID);
+            CookieParser.removeTokensFromCookies(response, cookies);
             return;
         }
+        Integer roleValue = User.Role.valueOf(UserHelper.parseRoleFromToken(accessToken)).getRole();
         if (roleValue == User.Role.GUEST.getRole()) {
             System.out.println("ROLE " + roleValue);
+            session.removeAttribute(ID);
+            CookieParser.removeTokensFromCookies(response, cookies);
             return;
         }
-        AuthService authService = ServiceFactory.getInstance().getAuthService();
-        Cookie[] cookies = request.getCookies();
-
-        String accessToken = UserHelper.getTokenFromCookies(cookies, AttributeKey.ACCESS_TOKEN);
 
         if (authService.checkAccessTokenIsRight(accessToken)) {
 
             System.out.println("ACCESS TRUE");
+            session.setAttribute(ROLE, User.Role.valueOf(UserHelper.parseRoleFromToken(accessToken)).getRole());
+            session.setAttribute(ID, UserHelper.parseIdFromToken(accessToken));
             return;
         }
-        String refreshToken = UserHelper.getTokenFromCookies(cookies, AttributeKey.REFRESH_TOKEN);
+        String refreshToken = CookieParser.getTokenFromCookies(cookies, AttributeKey.REFRESH_TOKEN);
         if (authService.checkRefreshTokenIsRight(refreshToken)) {
 
             System.out.println("REFRESH TRUE");
@@ -85,9 +88,10 @@ public class AuthFilter implements Filter {
                 return;
             }
         }
+        System.out.println("EKSIT");
         session.setAttribute(ROLE, User.Role.GUEST.getRole());
         session.removeAttribute(ID);
-        UserHelper.removeTokensFromCookies(cookies);
+        CookieParser.removeTokensFromCookies(response, cookies);
     }
 
     @Override

@@ -6,7 +6,7 @@ import java.io.Serializable;
 public class User implements Serializable{
     private int id;
     private String name;
-    private Double rating;
+    private int rating;
     private String email;
     private String about;
     private boolean banned;
@@ -42,11 +42,11 @@ public class User implements Serializable{
         this.name = name;
     }
 
-    public Double getRating() {
+    public int getRating() {
         return rating;
     }
 
-    public void setRating(Double rating) {
+    public void setRating(int rating) {
         this.rating = rating;
     }
 
@@ -92,9 +92,9 @@ public class User implements Serializable{
         User user = (User) object;
 
         if (id != user.id) return false;
+        if (rating != user.rating) return false;
         if (banned != user.banned) return false;
         if (name != null ? !name.equals(user.name) : user.name != null) return false;
-        if (rating != null ? !rating.equals(user.rating) : user.rating != null) return false;
         if (email != null ? !email.equals(user.email) : user.email != null) return false;
         if (about != null ? !about.equals(user.about) : user.about != null) return false;
         return role == user.role;
@@ -105,7 +105,7 @@ public class User implements Serializable{
     public int hashCode() {
         int result = id;
         result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (rating != null ? rating.hashCode() : 0);
+        result = 31 * result + rating;
         result = 31 * result + (email != null ? email.hashCode() : 0);
         result = 31 * result + (about != null ? about.hashCode() : 0);
         result = 31 * result + (banned ? 1 : 0);

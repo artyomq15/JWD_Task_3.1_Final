@@ -42,7 +42,6 @@ public class NetworkController extends HttpServlet {
         CommandDirector commandDirector = new CommandDirector();
         Command command = commandDirector.getCommand(commandType);
 
-
         if (commandType != CommandType.CHANGE_LOCALE) {
             String lastRequest = request.getServletPath() + QueryConstructor.SIGN_BEFORE_ATTRIBUTES + request.getQueryString();
             response.addCookie(new Cookie(AttributeKey.LAST_REQUEST, lastRequest));

@@ -7,13 +7,13 @@ public class Topic implements Serializable {
     private int id;
     private String header;
     private String context;
-    private Date creatingDate;
+    private String creatingDate;
     private User user;
     private Theme theme;
 
     public Topic(){}
 
-    public Topic(int id, String header, String context, Date creatingDate, User user, Theme theme) {
+    public Topic(int id, String header, String context, String creatingDate, User user, Theme theme) {
         this.id = id;
         this.header = header;
         this.context = context;
@@ -46,11 +46,11 @@ public class Topic implements Serializable {
         this.context = context;
     }
 
-    public Date getCreatingDate() {
+    public String getCreatingDate() {
         return creatingDate;
     }
 
-    public void setCreatingDate(Date creatingDate) {
+    public void setCreatingDate(String creatingDate) {
         this.creatingDate = creatingDate;
     }
 

@@ -1,6 +1,7 @@
 package by.tr.likeitnetwork.controller.command.impl;
 
 import by.tr.likeitnetwork.controller.command.Command;
+import by.tr.likeitnetwork.controller.util.CookieParser;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
@@ -17,14 +18,6 @@ public class ChangeLocaleCommand implements Command {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.getSession(true).setAttribute(LOCALE, request.getParameter(LOCALE));
-
-        String lastRequest = MAIN;
-        Cookie[] cookies = request.getCookies();
-        for (Cookie cookie: cookies){
-            if (cookie.getName().equals(LAST_REQUEST)){
-                lastRequest = cookie.getValue();
-            }
-        }
-        response.sendRedirect(lastRequest);
+        response.sendRedirect(CookieParser.getLastRequest(request.getCookies()));
     }
 }

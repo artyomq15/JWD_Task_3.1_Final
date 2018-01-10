@@ -83,9 +83,15 @@ public class AuthDAOImpl implements AuthDAO {
         Connection connection = null;
         try  {
             connection = DataSource.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(DAOQuery.SQL_SELECT_INFO_FOR_SIGN_IN);
-            preparedStatement.setString(1, login);
-            ResultSet resultSet = preparedStatement.executeQuery();
+            CallableStatement callableStatement = connection.prepareCall(DAOQuery.SQL_CALL_GET_INFO_FOR_SIGN_IN_BY_LOGIN);
+            callableStatement.setString(1, login);
+
+            callableStatement.registerOutParameter(2, Types.INTEGER);
+            callableStatement.registerOutParameter(3, Types.VARCHAR);
+            callableStatement.registerOutParameter(4, Types.VARCHAR);
+            callableStatement.registerOutParameter(5, Types.VARCHAR);
+
+            ResultSet resultSet = callableStatement.executeQuery();
             if (resultSet.next()) {
                 passwordHash = resultSet.getString(USER_PASSWORD);
                 salt = resultSet.getString(USER_PASSWORD_SALT);
@@ -122,12 +128,13 @@ public class AuthDAOImpl implements AuthDAO {
         Connection connection = null;
         try  {
             connection = DataSource.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(DAOQuery.SQL_UPDATE_TOKENS);
-            preparedStatement.setString(1, accessToken);
-            preparedStatement.setString(2, refreshToken);
-            preparedStatement.setInt(3, id);
-            int rows = preparedStatement.executeUpdate();
-            if (rows == 0) {
+            CallableStatement callableStatement = connection.prepareCall(DAOQuery.SQL_CALL_UPDATE_TOKENS_BY_ID);
+            callableStatement.setString(1, accessToken);
+            callableStatement.setString(2, refreshToken);
+            callableStatement.setInt(3, id);
+
+            int rows = callableStatement.executeUpdate();
+            if (rows != 1) {
                 return null;
             }
             return new AuthToken(accessToken, refreshToken);

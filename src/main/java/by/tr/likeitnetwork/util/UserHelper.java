@@ -26,28 +26,9 @@ public class UserHelper {
         return ServiceFactory.getInstance().getUserService().findUserById(id);
     }
 
-    public static String getTokenFromCookies(Cookie[] cookies, String tokenName){
-        if (cookies==null){
-            return null;
-        }
-        for (Cookie cookie: cookies){
-            if (cookie.getName().equals(tokenName)){
-                return cookie.getValue();
-            }
-        }
-        return null;
-    }
 
-    public static void removeTokensFromCookies(Cookie[] cookies){
-        if (cookies==null){
-            return;
-        }
-        for (Cookie cookie: cookies){
-            if (cookie.getName().equals(AttributeKey.ACCESS_TOKEN) || cookie.getName().equals(AttributeKey.REFRESH_TOKEN)){
-                cookie.setValue(null);
-            }
-        }
-    }
+
+
 
     public static Integer parseIdFromToken(String token){
         Matcher matcher = TOKEN_INFO.matcher(token);

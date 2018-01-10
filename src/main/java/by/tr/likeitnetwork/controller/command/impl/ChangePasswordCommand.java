@@ -11,6 +11,7 @@ import java.io.IOException;
 
 import by.tr.likeitnetwork.controller.constant.AttributeKey;
 import by.tr.likeitnetwork.controller.constant.RedirectQuery;
+import by.tr.likeitnetwork.controller.util.CookieParser;
 import by.tr.likeitnetwork.service.ServiceFactory;
 import by.tr.likeitnetwork.service.exception.UserServiceException;
 import by.tr.likeitnetwork.util.UserHelper;
@@ -30,7 +31,7 @@ public class ChangePasswordCommand implements Command {
         String newPasswordConfirmation = request.getParameter(AttributeKey.CONFIRMATION);
 
         Cookie[] cookies = request.getCookies();
-        String accessToken = UserHelper.getTokenFromCookies(cookies, ACCESS_TOKEN);
+        String accessToken = CookieParser.getTokenFromCookies(cookies, ACCESS_TOKEN);
         Integer id = UserHelper.parseIdFromToken(accessToken);
 
         try {

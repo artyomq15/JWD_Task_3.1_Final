@@ -3,6 +3,7 @@ package by.tr.likeitnetwork.controller.command.impl;
 import by.tr.likeitnetwork.controller.command.Command;
 import by.tr.likeitnetwork.controller.constant.AttributeKey;
 import by.tr.likeitnetwork.controller.constant.JspPath;
+import by.tr.likeitnetwork.controller.util.CookieParser;
 import by.tr.likeitnetwork.entity.Theme;
 import by.tr.likeitnetwork.entity.Topic;
 import by.tr.likeitnetwork.service.ServiceFactory;
@@ -33,7 +34,7 @@ public class GoToMainPageCommand implements Command {
         List<Topic> topicList;
 
         Cookie[] cookies = request.getCookies();
-        String accessToken = UserHelper.getTokenFromCookies(cookies, ACCESS_TOKEN);
+        String accessToken = CookieParser.getTokenFromCookies(cookies, ACCESS_TOKEN);
         try{
             user = UserHelper.getProfileIfAuthorized(accessToken);
             request.setAttribute(USER, user);

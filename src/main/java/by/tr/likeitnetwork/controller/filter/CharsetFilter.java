@@ -5,13 +5,16 @@ import java.io.IOException;
 
 
 public class CharsetFilter implements Filter {
+    private final String REQUEST_ENCODING = "requestEncoding";
+    private final String UTF8_ENCODING = "UTF-8";
+    private final String CONTENT_TYPE = "text/html; charset=UTF-8";
     private String encoding;
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        encoding = filterConfig.getInitParameter("requestEncoding");
+        encoding = filterConfig.getInitParameter(REQUEST_ENCODING);
         if (encoding == null) {
-            encoding = "UTF-8";
+            encoding = UTF8_ENCODING;
         }
     }
 
@@ -21,8 +24,8 @@ public class CharsetFilter implements Filter {
             servletRequest.setCharacterEncoding(encoding);
         }
 
-        servletResponse.setContentType("text/html; charset=UTF-8");
-        servletResponse.setCharacterEncoding("UTF-8");
+        servletResponse.setContentType(CONTENT_TYPE);
+        servletResponse.setCharacterEncoding(UTF8_ENCODING);
         filterChain.doFilter(servletRequest, servletResponse);
     }
 

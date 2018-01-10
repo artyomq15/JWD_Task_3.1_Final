@@ -5,7 +5,7 @@
 <fmt:setLocale value="${sessionScope.locale}"/>
 <fmt:setBundle basename="localization.auth" var="auth"/>
 <fmt:setBundle basename="localization.profile" var="profile"/>
-<fmt:setBundle basename="localization.mainpage" var="main"/>
+<fmt:setBundle basename="localization.main" var="main"/>
 
 <fmt:message key="label.login" bundle="${auth}" var="login"/>
 <fmt:message key="label.password" bundle="${auth}" var="password"/>

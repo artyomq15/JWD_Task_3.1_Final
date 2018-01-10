@@ -26,6 +26,7 @@ public final class AttributeKey {
 
     public static final String THEME_LIST = "theme_list";
     public static final String TOPIC_LIST = "topic_list";
+    public static final String MESSAGE_LIST = "message_list";
 
     public static final String TOPIC = "topic";
     public static final String TOPIC_ID = "topic_id";
@@ -33,7 +34,14 @@ public final class AttributeKey {
     public static final String TOPIC_CONTEXT = "topic_context";
     public static final String TOPIC_THEME_ID = "topic_theme_id";
 
+    public static final String PROFILE_USER = "profile_user";
+    public static final String PROFILE_USER_ID = "profile_user_id";
 
+    public static final String MESSAGE_ID = "message_id";
+    public static final String MESSAGE_CONTEXT = "message_context";
+    public static final String ACTION = "action";
+    public static final String LIKE_ACTION = "like";
+    public static final String UNLIKE_ACTION = "unlike";
 
 
     private AttributeKey(){}

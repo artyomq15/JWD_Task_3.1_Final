@@ -8,7 +8,7 @@ import by.tr.likeitnetwork.entity.Topic;
 import by.tr.likeitnetwork.entity.User;
 import by.tr.likeitnetwork.service.ServiceFactory;
 import by.tr.likeitnetwork.service.exception.TopicServiceException;
-import by.tr.likeitnetwork.util.UserHelper;
+
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -34,12 +34,11 @@ public class AddTopicCommand implements Command {
 
         topic.setHeader(request.getParameter(AttributeKey.TOPIC_HEADER));
         topic.setContext(request.getParameter(AttributeKey.TOPIC_CONTEXT));
-
         theme.setId(Integer.parseInt(request.getParameter(AttributeKey.TOPIC_THEME_ID)));
         topic.setTheme(theme);
-
         user.setId(id);
         topic.setUser(user);
+
         try{
             if (ServiceFactory.getInstance().getTopicService().addTopic(topic)){
                 System.out.println("OK");

@@ -3,13 +3,12 @@
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/fmt" prefix = "fmt" %>
 
 <fmt:setLocale value="${sessionScope.locale}"/>
-<fmt:setBundle basename="localization.mainpage" var="main"/>
+<fmt:setBundle basename="localization.main" var="main"/>
 <fmt:setBundle basename="localization.auth" var="auth"/>
 
 
 
 <fmt:message key="label.name" bundle="${main}" var="name"/>
-<fmt:message key="label.text" bundle="${main}" var="text"/>
 
 
 <fmt:message key="label.login" bundle="${auth}" var="login"/>

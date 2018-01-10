@@ -11,8 +11,13 @@ import by.tr.likeitnetwork.entity.Topic;
 import by.tr.likeitnetwork.entity.User;
 
 import java.sql.*;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class TopicDAOImpl implements TopicDAO{
     @Override
@@ -40,7 +45,10 @@ public class TopicDAOImpl implements TopicDAO{
                 topic.setId(resultSet.getInt(1));
                 topic.setHeader(resultSet.getString(2));
                 topic.setContext(resultSet.getString(3));
-                topic.setCreatingDate(resultSet.getDate(4));
+
+
+                DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT, new Locale(localeLanguage));
+                topic.setCreatingDate(dateFormat.format(resultSet.getTimestamp(4)));
 
                 topic.setTheme(DAOFactory.getInstance().getThemeDAO().getThemeById(localeLanguage, resultSet.getInt(5)));
 
@@ -93,7 +101,7 @@ public class TopicDAOImpl implements TopicDAO{
             getTopic.registerOutParameter(6, Types.INTEGER);
             getTopic.registerOutParameter(7, Types.VARCHAR);
 
-            getTopic.execute();
+            getTopic.executeQuery();
 
             Topic topic;
             User user;
@@ -103,7 +111,10 @@ public class TopicDAOImpl implements TopicDAO{
                 topic.setId(resultSet.getInt(1));
                 topic.setHeader(resultSet.getString(2));
                 topic.setContext(resultSet.getString(3));
-                topic.setCreatingDate(resultSet.getDate(4));
+
+
+                DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT, new Locale(localeLanguage));
+                topic.setCreatingDate(dateFormat.format(resultSet.getTimestamp(4)));
 
                 topic.setTheme(DAOFactory.getInstance().getThemeDAO().getThemeById(localeLanguage, resultSet.getInt(5)));
 
@@ -120,5 +131,15 @@ public class TopicDAOImpl implements TopicDAO{
         } finally {
             DataSource.closeConnection(connection);
         }
+    }
+
+    @Override
+    public List<Topic> getTopicsByThemeId(String localeLanguage, int themeId) throws TopicDAOException {
+        return null;
+    }
+
+    @Override
+    public List<Topic> getTopicsByUserId(String locaaleLanguage, int userId) throws TopicDAOException {
+        return null;
     }
 }

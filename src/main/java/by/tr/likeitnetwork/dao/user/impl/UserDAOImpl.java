@@ -30,7 +30,7 @@ public class UserDAOImpl implements UserDAO {
             if (resultSet.next()) {
                 user.setId(id);
                 user.setName(resultSet.getString(USER_NAME));
-                user.setRating(resultSet.getDouble(USER_LIKES));
+                user.setRating(resultSet.getInt(USER_LIKES));
                 user.setEmail(resultSet.getString(USER_EMAIL));
                 user.setAbout(resultSet.getString(USER_ABOUT));
                 user.setBanned(resultSet.getBoolean(USER_IS_BANNED));
