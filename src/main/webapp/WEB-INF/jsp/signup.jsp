@@ -32,7 +32,7 @@
 <header class="header_container">
     <div class="header_background"></div>
     <div class="header_menu">
-        <a href="/NetworkController?command=go_to_main_page">
+        <a href="/NetworkController?command=go_to_main_page&page_number=1&count_topic=10">
             <div class="header_menu-item header_menu-name">
                 ${name}
             </div>
@@ -79,7 +79,7 @@
                 letter, upcase letter, digit. More than 5.</label>
 
             <input type="password" id="confirmation" name="confirmation" value="" oninput="validatePassword()"
-                   placeholder="${confirm}" required>
+                   placeholder="${confirm}" pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\S+$).{6,}$" required>
             <label class="hidden error_validation error_validation-confirmation">Passwords must match</label>
 
             <input id="name" type="text" name="name" value="" placeholder="${nameUser}" pattern="[А-Яа-яA-Za-z]+"

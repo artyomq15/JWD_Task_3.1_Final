@@ -12,7 +12,7 @@ public class User implements Serializable{
     private boolean banned;
     private Role role = Role.USER;
 
-    public enum Role {// возможно данное перечисление лучше сделать вложенным
+    public enum Role {
         ADMIN(10), USER(2), GUEST(1) ;
 
         private int role;

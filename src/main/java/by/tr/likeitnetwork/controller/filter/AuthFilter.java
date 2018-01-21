@@ -1,16 +1,18 @@
 package by.tr.likeitnetwork.controller.filter;
 
-import by.tr.likeitnetwork.controller.constant.CookieConstant;
 import by.tr.likeitnetwork.controller.constant.AttributeKey;
 import by.tr.likeitnetwork.controller.constant.RedirectQuery;
-import by.tr.likeitnetwork.controller.util.CookieParser;
+import by.tr.likeitnetwork.controller.util.CookieHandler;
+import by.tr.likeitnetwork.controller.util.exception.TokenNotFoundException;
+import by.tr.likeitnetwork.controller.util.exception.WrongTokensException;
 import by.tr.likeitnetwork.entity.AuthToken;
 import by.tr.likeitnetwork.entity.User;
 import by.tr.likeitnetwork.service.ServiceFactory;
 import by.tr.likeitnetwork.service.auth.AuthService;
 import by.tr.likeitnetwork.service.exception.AuthServiceException;
-import by.tr.likeitnetwork.util.UserHelper;
-import org.w3c.dom.Attr;
+import by.tr.likeitnetwork.controller.util.TokenParser;
+import by.tr.likeitnetwork.controller.util.exception.InvalidTokenException;
+
 
 import javax.servlet.*;
 import javax.servlet.http.Cookie;
@@ -44,54 +46,40 @@ public class AuthFilter implements Filter {
         Cookie[] cookies = request.getCookies();
         AuthService authService = ServiceFactory.getInstance().getAuthService();
 
-        String accessToken = CookieParser.getTokenFromCookies(cookies, AttributeKey.ACCESS_TOKEN);
-        if (accessToken == null) {
-            System.out.println("ROLE NULL");
-            session.setAttribute(ROLE, User.Role.GUEST.getRole());
-            session.removeAttribute(ID);
-            CookieParser.removeTokensFromCookies(response, cookies);
-            return;
-        }
-        Integer roleValue = User.Role.valueOf(UserHelper.parseRoleFromToken(accessToken)).getRole();
-        if (roleValue == User.Role.GUEST.getRole()) {
-            System.out.println("ROLE " + roleValue);
-            session.removeAttribute(ID);
-            CookieParser.removeTokensFromCookies(response, cookies);
-            return;
-        }
+        try {
+            String accessToken = CookieHandler.getToken(cookies, AttributeKey.ACCESS_TOKEN);
+            if (authService.checkAccessTokenIsRight(accessToken)) {
+                System.out.println("ACCESS TRUE");
 
-        if (authService.checkAccessTokenIsRight(accessToken)) {
-
-            System.out.println("ACCESS TRUE");
-            session.setAttribute(ROLE, User.Role.valueOf(UserHelper.parseRoleFromToken(accessToken)).getRole());
-            session.setAttribute(ID, UserHelper.parseIdFromToken(accessToken));
-            return;
-        }
-        String refreshToken = CookieParser.getTokenFromCookies(cookies, AttributeKey.REFRESH_TOKEN);
-        if (authService.checkRefreshTokenIsRight(refreshToken)) {
-
-            System.out.println("REFRESH TRUE");
-            AuthToken authToken = authService.getNewTokensByOld(new AuthToken(accessToken, refreshToken));
-            if (authToken != null) {
-
-                Cookie accessCookie = new Cookie(ACCESS_TOKEN, authToken.getAccessToken());
-                accessCookie.setMaxAge(CookieConstant.ACCESS_COOKIE_LIFETIME);
-                response.addCookie(accessCookie);
-
-                Cookie refreshCookie = new Cookie(REFRESH_TOKEN, authToken.getRefreshToken());
-                refreshCookie.setMaxAge(CookieConstant.REFRESH_COOKIE_LIFETIME);
-                response.addCookie(refreshCookie);
-
-                session.setAttribute(ROLE, User.Role.valueOf(UserHelper.parseRoleFromToken(authToken.getAccessToken())).getRole());
-                session.setAttribute(ID, UserHelper.parseIdFromToken(authToken.getAccessToken()));
+                session.setAttribute(ROLE, User.Role.valueOf(TokenParser.parseRole(accessToken)).getRole());
+                session.setAttribute(ID, TokenParser.parseId(accessToken));
 
                 return;
             }
+
+            String refreshToken = CookieHandler.getToken(cookies, AttributeKey.REFRESH_TOKEN);
+            if (authService.checkRefreshTokenIsRight(refreshToken)) {
+                System.out.println("REFRESH TRUE");
+                AuthToken authToken = authService.refreshTokens(TokenParser.parseId(accessToken), TokenParser.parseRole(accessToken));
+
+                CookieHandler.addToken(response, ACCESS_TOKEN, authToken.getAccessToken());
+                CookieHandler.addToken(response, REFRESH_TOKEN, authToken.getRefreshToken());
+
+                session.setAttribute(ROLE, User.Role.valueOf(TokenParser.parseRole(authToken.getAccessToken())).getRole());
+                session.setAttribute(ID, TokenParser.parseId(authToken.getAccessToken()));
+
+                return;
+            }
+
+            System.out.println("EKSIIIIT");
+            throw new WrongTokensException();
+
+        } catch (TokenNotFoundException | WrongTokensException | InvalidTokenException ex) {
+            System.out.println("ROLE GUEST");
+            session.setAttribute(ROLE, User.Role.GUEST.getRole());
+            session.removeAttribute(ID);
+            CookieHandler.removeTokens(response, cookies);
         }
-        System.out.println("EKSIT");
-        session.setAttribute(ROLE, User.Role.GUEST.getRole());
-        session.removeAttribute(ID);
-        CookieParser.removeTokensFromCookies(response, cookies);
     }
 
     @Override

@@ -47,7 +47,10 @@ public class NetworkController extends HttpServlet {
             response.addCookie(new Cookie(AttributeKey.LAST_REQUEST, lastRequest));
         }
 
+        long time1 = System.currentTimeMillis();
         command.execute(request, response);
+        long time2 = System.currentTimeMillis();
+        System.out.println("time: " + (time2 - time1));
 
     }
 

@@ -10,6 +10,8 @@
 
 
 <fmt:message key="label.name" bundle="${main}" var="nameSite"/>
+<fmt:message key="label.openTopic" bundle="${main}" var="openTopic"/>
+<fmt:message key="label.likes" bundle="${main}" var="likes"/>
 
 <fmt:message key="label.name" bundle="${profile}" var="name"/>
 <fmt:message key="label.rating" bundle="${profile}" var="rating"/>
@@ -39,7 +41,7 @@
 <header class="header_container">
     <div class="header_background"></div>
     <div class="header_menu">
-        <a href="/NetworkController?command=go_to_main_page">
+        <a href="/NetworkController?command=go_to_main_page&page_number=1&count_topic=10">
             <div class="header_menu-item header_menu-name">
                 ${nameSite}
             </div>
@@ -75,7 +77,7 @@
         </div>
         <c:if test="${requestScope.user != null && requestScope.user.id==requestScope.profile_user.id}">
             <div class="profile_info-settings">
-                <a href="#">
+                <a href="/NetworkController?command=go_to_profile&action=get_settings&profile_user_id=${requestScope.user.id}">
                     <img src="../../img/settings.png">
                 </a>
             </div>
@@ -100,54 +102,125 @@
     </div>
 
     <div class="card profile_post_info">
-        <div class="profile_post_info-topics">
-            <a href="#">
+
+        <a href="/NetworkController?command=go_to_profile&profile_user_id=${requestScope.profile_user.id}&action=get_topics">
+            <div class="profile_post_info-topics">
                 <div class="profile-digit">
-                    <c:out value="${requestScope.profile_user.rating}"/>
+                    <c:out value="${requestScope.topics_count}"/>
                 </div>
                 <div class="profile-text">
 
                     ${topic}
 
                 </div>
-            </a>
-        </div>
-        <div class="profile_post_info-messages">
-            <a href="#">
+            </div>
+        </a>
+
+
+        <a href="/NetworkController?command=go_to_profile&profile_user_id=${requestScope.profile_user.id}&action=get_messages">
+            <div class="profile_post_info-messages">
                 <div class="profile-digit">
-                    <c:out value="${requestScope.profile_user.rating}"/>
+                    <c:out value="${requestScope.messages_count}"/>
                 </div>
                 <div class="profile-text">
 
                     ${message}
 
                 </div>
-            </a>
-        </div>
+            </div>
+        </a>
+
     </div>
-</main>
 
-<%--
-<br>
-<button>${changePassword}</button>
-<form action="/NetworkController" method="post">
-    <input type="hidden" name="command" value="change_password"/>
-    <input type="password" name="password" value="" placeholder="${password}">
-    <br>
-    <input type="password" name="new_password" value="" placeholder="${newPassword}">
-    <br>
-    <input type="password" name="confirmation" value="" placeholder="${confirm}">
-    <br>
-    <c:if test="${requestScope.message != null}">
-        ${errMessage}
+    <c:if test="${requestScope.topic_list != null}">
+        <c:forEach var="topic" items="${requestScope.topic_list}">
+            <div class="card topics_block-item">
+                <a href="/NetworkController?command=go_to_topic_page&topic_id=${topic.id}">
+                    <div class="topics_block-item-header">
+                            ${topic.header}
+                    </div>
+                </a>
+                <div class="topics_block-item-date-author">
+                    <a href="#">${topic.creatingDate}</a> by <a
+                        href="/NetworkController?command=go_to_profile&profile_user_id=${requestScope.profile_user.id}">${requestScope.profile_user.name}</a>
+                </div>
+                <div class="topics_block-item-theme">
+                    <a href="/NetworkController?command=go_to_main_page&theme_id=${topic.theme.id}&page_number=1&count_topic=10">${topic.theme.name}</a>
+                </div>
+                <div class="topics_block-item-context">
+                        ${topic.context}
+                </div>
+                <a href="/NetworkController?command=go_to_topic_page&topic_id=${topic.id}">
+                    <div class="topics_block-item-open">
+                            ${openTopic}
+                    </div>
+                </a>
+            </div>
+        </c:forEach>
     </c:if>
-    <br>
-    <input type="submit" value="OK">
-</form>
-<a href="/NetworkController?command=exit">${exit}</a>
 
---%>
 
+    <c:if test="${requestScope.message_list != null}">
+        <div class="topics_block">
+            <c:forEach var="topic" items="${requestScope.topic_list_for_messages}">
+                <div class="card topics_block-item">
+                    <div class="topics_block-item-header">
+                        <a href="/NetworkController?command=go_to_topic_page&topic_id=${topic.id}">
+                                ${topic.header}
+                        </a>
+                    </div>
+                    <div class="topics_block-item-date-author">
+                        <a href="#">${topic.creatingDate}</a> by <a
+                            href="/NetworkController?command=go_to_profile&profile_user_id=${topic.user.id}">${topic.user.name}</a>
+                    </div>
+                    <div class="topics_block-item-theme">
+                        <a href="/NetworkController?command=go_to_main_page&theme_id=${topic.theme.id}&page_number=1&count_topic=10">${topic.theme.name}</a>
+                    </div>
+                    <div class="topics_block-item-context">
+                            ${topic.context}
+                    </div>
+                    <div class="messages_block">
+                        <c:forEach var="message" items="${requestScope.message_list}">
+                            <c:if test="${topic.id == message.topicId}">
+                                <div class="messages_block-item">
+                                    <div class="message_block-item-name">
+                                        <a href="/NetworkController?command=go_to_profile&profile_user_id=${message.user.id}">${requestScope.profile_user.name}</a>
+                                    </div>
+                                    <c:if test="${message.user.id == requestScope.user.id}">
+                                        <div class="message_block-item-delete">
+
+                                            <a href="/NetworkController?command=delete_message&message_id=${message.id}"><img
+                                                    src="img/delete.png"></a>
+
+                                        </div>
+                                    </c:if>
+                                    <div class="message_block-item-context">${message.context}</div>
+                                    <div class="message_block-item-date">${message.creatingDate}</div>
+                                    <div class="message_block-item-like">
+                                        <c:if test="${requestScope.user!=null}">
+                                            <c:if test="${!message.likedUserId.contains(requestScope.user.id)}">
+                                                <a href="/NetworkController?command=rate_message&action=like&message_id=${message.id}">${message.likes}<img
+                                                        src="img/notlike.png"></a>
+                                            </c:if>
+                                            <c:if test="${message.likedUserId.contains(requestScope.user.id)}">
+                                                <a href="/NetworkController?command=rate_message&action=unlike&message_id=${message.id}">${message.likes}<img
+                                                        src="img/like.png"></a>
+                                            </c:if>
+                                        </c:if>
+                                        <c:if test="${requestScope.user==null}">
+                                            ${message.likes} ${likes}
+                                        </c:if>
+                                    </div>
+                                </div>
+                            </c:if>
+                        </c:forEach>
+                    </div>
+                </div>
+            </c:forEach>
+        </div>
+
+    </c:if>
+</main>
 
 <c:import url="footer.jsp"/>
 

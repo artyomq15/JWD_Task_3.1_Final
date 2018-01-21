@@ -9,28 +9,16 @@ import by.tr.likeitnetwork.dao.constant.DAOQuery;
 import by.tr.likeitnetwork.dao.util.Encryptor;
 import by.tr.likeitnetwork.entity.AuthToken;
 import by.tr.likeitnetwork.entity.RegistrationInfo;
-import by.tr.likeitnetwork.util.UserHelper;
 
-import javax.xml.crypto.Data;
 import java.security.NoSuchAlgorithmException;
 import java.sql.*;
 
 import static by.tr.likeitnetwork.dao.constant.DBFieldName.*;
 
 public class AuthDAOImpl implements AuthDAO {
-    private final int VALUE_RETURNED_IF_LOGIN_IS_FREE = 0;
 
     @Override
     public boolean addUser(RegistrationInfo info) throws AuthDAOException {
-        Integer id = getIdByLogin(info.getLogin());
-        if (id == VALUE_RETURNED_IF_LOGIN_IS_FREE){
-            return insertToUserTable(info);
-        }
-        return false;
-    }
-
-
-    private boolean insertToUserTable(RegistrationInfo info) throws AuthDAOException {
         Connection connection = null;
         try  {
             connection = DataSource.getConnection();
@@ -54,7 +42,8 @@ public class AuthDAOImpl implements AuthDAO {
         }
     }
 
-    private Integer getIdByLogin(String login) throws AuthDAOException {
+    @Override
+    public Integer getIdByLogin(String login) throws AuthDAOException {
         Connection connection = null;
         try {
             connection = DataSource.getConnection();
@@ -103,7 +92,7 @@ public class AuthDAOImpl implements AuthDAO {
             if (!Encryptor.getPasswordHashCode(password, salt).equals(passwordHash)) {
                 return null;
             }
-            return updateTokens(id, role);
+            return refreshAuthTokens(id, role);
 
         } catch (SQLException | DataSourceDAOException | NoSuchAlgorithmException ex) {
             throw new AuthDAOException(ex);
@@ -113,16 +102,7 @@ public class AuthDAOImpl implements AuthDAO {
     }
 
     @Override
-    public AuthToken getAuthTokensByOldTokens(AuthToken tokens) throws AuthDAOException {
-        Integer id = UserHelper.parseIdFromToken(tokens.getAccessToken());
-        if (id == null){
-            return null;
-        }
-        String role = UserHelper.parseRoleFromToken(tokens.getAccessToken());
-        return updateTokens(id,role);
-    }
-
-    private AuthToken updateTokens(int id, String role) throws AuthDAOException {
+    public AuthToken refreshAuthTokens(int id, String role) throws AuthDAOException {
         String accessToken = Encryptor.generateAccessToken(id, role);
         String refreshToken = Encryptor.generateRefreshToken();
         Connection connection = null;
@@ -133,10 +113,7 @@ public class AuthDAOImpl implements AuthDAO {
             callableStatement.setString(2, refreshToken);
             callableStatement.setInt(3, id);
 
-            int rows = callableStatement.executeUpdate();
-            if (rows != 1) {
-                return null;
-            }
+            callableStatement.executeUpdate();
             return new AuthToken(accessToken, refreshToken);
         } catch (SQLException | DataSourceDAOException ex) {
             throw new AuthDAOException(ex);

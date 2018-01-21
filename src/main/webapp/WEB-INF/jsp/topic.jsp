@@ -19,13 +19,14 @@
     <title></title>
     <meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.10.2.js"></script>
     <link rel="stylesheet" href="../../css/index.css"/>
 </head>
 <body>
 <header class="header_container">
     <div class="header_background"></div>
     <div class="header_menu">
-        <a href="/NetworkController?command=go_to_main_page">
+        <a href="/NetworkController?command=go_to_main_page&page_number=1&count_topic=10">
             <div class="header_menu-item header_menu-name">
                 ${name}
             </div>
@@ -54,13 +55,13 @@
 
 <main>
     <nav class="card themes_block">
-        <div class="themes_block-name" onclick="toggle('themes_toggle_element')">
+        <div class="themes_block-name" id="themes">
             ${themes}<img id="down_img" src="img/down.png">
                 <img id="up_img" class="hidden" src="img/up.png">
         </div>
         <div class="themes_block_items hidden" id="themes_toggle_element">
             <c:forEach var="theme" items="${requestScope.theme_list}">
-                <a href="#">
+                <a href="/NetworkController?command=go_to_main_page&theme_id=${theme.id}&page_number=1&count_topic=10">
                     <div class="themes_block-item">${theme.name}</div>
                 </a>
             </c:forEach>
@@ -81,7 +82,7 @@
                         href="/NetworkController?command=go_to_profile&profile_user_id=${requestScope.topic.user.id}">${requestScope.topic.user.name}</a>
                 </div>
                 <div class="topics_block-item-theme">
-                    <a href="#">${requestScope.topic.theme.name}</a>
+                    <a href="/NetworkController?command=go_to_main_page&theme_id=${requestScope.topic.theme.id}&page_number=1&count_topic=10">${requestScope.topic.theme.name}</a>
                 </div>
                 <div class="topics_block-item-context">
                     ${requestScope.topic.context}
@@ -98,7 +99,7 @@
                             <c:if test="${message.user.id == requestScope.user.id}">
                                 <div class="message_block-item-delete">
 
-                                    <a href="#"><img src="img/delete.png"></a>
+                                    <a href="/NetworkController?command=delete_message&message_id=${message.id}"><img src="img/delete.png"></a>
 
                                 </div>
                             </c:if>

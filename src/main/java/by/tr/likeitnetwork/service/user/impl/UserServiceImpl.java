@@ -11,7 +11,7 @@ import by.tr.likeitnetwork.service.validation.AuthValidator;
 
 public class UserServiceImpl implements UserService {
     @Override
-    public User findUserById(int id) throws UserServiceException {
+    public User findUserById(Integer id) throws UserServiceException {
         UserDAO userDAO = DAOFactory.getInstance().getUserDAO();
         try {
             return userDAO.findUserById(id);
@@ -27,9 +27,23 @@ public class UserServiceImpl implements UserService {
         }
         UserDAO userDAO = DAOFactory.getInstance().getUserDAO();
         try {
-            return userDAO.changePassword(id, oldPassword, newPassword);
+            String passwordSalt = userDAO.checkOldPasswordMatchesPasswordInDataBase(id, oldPassword);
+            return passwordSalt != null
+                    && userDAO.updateNewPasswordInDataBase(id, newPassword, passwordSalt);
         } catch (UserDAOException ex) {
             throw new UserServiceException(ex);
+        }
+    }
+
+    @Override
+    public boolean changeProfileInfo(User user) throws UserServiceException {
+        if (!AuthValidator.isValidProfileInfo(user.getName(), user.getEmail())){
+            return false;
+        }
+        try {
+            return DAOFactory.getInstance().getUserDAO().changeProfileInfo(user);
+        } catch (UserDAOException ex) {
+            throw new UserServiceException("",ex);
         }
     }
 }

@@ -3,17 +3,17 @@ package by.tr.likeitnetwork.controller.command.impl;
 import by.tr.likeitnetwork.controller.command.Command;
 import by.tr.likeitnetwork.controller.constant.AttributeKey;
 import by.tr.likeitnetwork.controller.constant.JspPath;
-import by.tr.likeitnetwork.controller.util.CookieParser;
 import by.tr.likeitnetwork.entity.Theme;
 import by.tr.likeitnetwork.entity.Topic;
 import by.tr.likeitnetwork.service.ServiceFactory;
-import by.tr.likeitnetwork.util.UserHelper;
+import by.tr.likeitnetwork.service.theme.ThemeService;
+import by.tr.likeitnetwork.service.topic.TopicService;
+import by.tr.likeitnetwork.service.user.UserService;
 import by.tr.likeitnetwork.controller.constant.RedirectQuery;
 import by.tr.likeitnetwork.entity.User;
 import by.tr.likeitnetwork.service.exception.ServiceException;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -29,29 +29,38 @@ public class GoToMainPageCommand implements Command {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        User user;
+        ThemeService themeService = ServiceFactory.getInstance().getThemeService();
+        TopicService topicService = ServiceFactory.getInstance().getTopicService();
+        UserService userService = ServiceFactory.getInstance().getUserService();
+        User user = null;
         List<Theme> themeList;
         List<Topic> topicList;
+        Integer pageNumber = Integer.parseInt(request.getParameter(PAGE_NUMBER));
+        Integer countTopic = Integer.parseInt(request.getParameter(COUNT_TOPIC));
 
-        Cookie[] cookies = request.getCookies();
-        String accessToken = CookieParser.getTokenFromCookies(cookies, ACCESS_TOKEN);
-        try{
-            user = UserHelper.getProfileIfAuthorized(accessToken);
+        String localeLanguage = request.getSession().getAttribute(AttributeKey.LOCALE).toString();
+        Integer userId = (Integer) request.getSession().getAttribute(AttributeKey.ID);
+        try {
+            if (userId != null){
+                user = userService.findUserById(userId);
+            }
             request.setAttribute(USER, user);
 
-            String localeLanguage = request.getSession().getAttribute(AttributeKey.LOCALE).toString();
-
-            themeList = ServiceFactory.getInstance().getThemeService().getAllThemes(localeLanguage);
+            themeList = themeService.getAllThemes(localeLanguage);
             request.setAttribute(THEME_LIST, themeList);
 
-            topicList = ServiceFactory.getInstance().getTopicService().getAll(localeLanguage);
+            String themeId = request.getParameter(THEME_ID);
+            if (themeId == null) {
+                topicList = topicService.getAll(localeLanguage, pageNumber, countTopic);
+            } else {
+                topicList = topicService.getTopicsByThemeId(localeLanguage, Integer.parseInt(themeId), pageNumber, countTopic);
+                request.setAttribute(THEME, topicList.get(0).getTheme());
+            }
             request.setAttribute(TOPIC_LIST, topicList);
-
-
-            //other info on main page
-
-            request.getRequestDispatcher(JspPath.MAIN).forward(request,response);
-        } catch(ServiceException ex){
+            request.setAttribute(PAGE_NUMBER, pageNumber);
+            request.setAttribute(COUNT_TOPIC, countTopic);
+            request.getRequestDispatcher(JspPath.MAIN).forward(request, response);
+        } catch (ServiceException ex) {
             logger.error(ex);
             response.sendRedirect(RedirectQuery.ERROR_WITH_MESSAGE);
         }

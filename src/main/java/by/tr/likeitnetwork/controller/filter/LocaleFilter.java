@@ -1,14 +1,18 @@
 package by.tr.likeitnetwork.controller.filter;
 
 import by.tr.likeitnetwork.controller.constant.AttributeKey;
+import by.tr.likeitnetwork.controller.constant.RedirectQuery;
+import by.tr.likeitnetwork.service.ServiceFactory;
+import by.tr.likeitnetwork.service.exception.LocaleServiceException;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.Locale;
 
-public class LocaleFilter implements Filter{
+public class LocaleFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
 
@@ -22,11 +26,19 @@ public class LocaleFilter implements Filter{
         HttpSession session = request.getSession();
 
         Object locale = session.getAttribute(AttributeKey.LOCALE);
-        if (locale == null){
-            locale = request.getLocale().getLanguage();
-            session.setAttribute(AttributeKey.LOCALE, locale);
+        try {
+            if (locale == null) {
+                locale = request.getLocale().getLanguage();
+                if (!ServiceFactory.getInstance().getLocaleService().checkLanguageExists(String.valueOf(locale))) {
+                    locale = Locale.ENGLISH;
+                }
+                session.setAttribute(AttributeKey.LOCALE, locale);
+            }
+
+            filterChain.doFilter(request, response);
+        } catch (LocaleServiceException ex) {
+            response.sendRedirect(RedirectQuery.ERROR_WITH_MESSAGE);
         }
-        filterChain.doFilter(request,response);
     }
 
     @Override

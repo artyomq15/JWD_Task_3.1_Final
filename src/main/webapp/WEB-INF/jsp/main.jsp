@@ -23,13 +23,14 @@
     <meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="../../css/index.css"/>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.10.2.js"></script>
     <title>Like It</title>
 </head>
 <body>
 <header class="header_container">
     <div class="header_background"></div>
     <div class="header_menu">
-        <a href="/NetworkController?command=go_to_main_page">
+        <a href="/NetworkController?command=go_to_main_page&page_number=1&count_topic=10">
             <div class="header_menu-item header_menu-name">
                 ${name}
             </div>
@@ -59,13 +60,13 @@
 
 <main>
     <nav class="card themes_block">
-        <div class="themes_block-name" onclick="toggle('themes_toggle_element')">
-        ${themes}<img id="down_img" src="img/down.png">
+        <div class="themes_block-name" id="themes">
+            ${themes}<img id="down_img" src="img/down.png">
             <img id="up_img" class="hidden" src="img/up.png">
         </div>
         <div class="themes_block_items hidden" id="themes_toggle_element">
             <c:forEach var="theme" items="${requestScope.theme_list}">
-                <a href="#">
+                <a href="/NetworkController?command=go_to_main_page&theme_id=${theme.id}&page_number=1&count_topic=10">
                     <div class="themes_block-item">${theme.name}</div>
                 </a>
             </c:forEach>
@@ -87,8 +88,8 @@
 
         <c:if test="${sessionScope.role >= 2}">
             <div class="card add_topic_block">
-                <div class="add_topic_opening_line" onclick="toggle('add_topic_block_content')">
-                    ${addTopic}
+                <div class="add_topic_opening_line" id="add_topic"">
+                        ${addTopic}
                 </div>
 
                 <div class="add_topic_content hidden" id="add_topic_block_content">
@@ -112,7 +113,16 @@
         </c:if>
 
 
+
         <div class="topics_block">
+            <c:if test="${requestScope.theme != null}">
+                <div class="topics-theme">
+                        ${requestScope.theme.name}
+                    <a href="/NetworkController?command=go_to_main_page&page_number=1&count_topic=10">
+                        <img src="img/delete.png">
+                    </a>
+                </div>
+            </c:if>
             <c:forEach var="topic" items="${requestScope.topic_list}">
                 <div class="card topics_block-item">
                     <a href="/NetworkController?command=go_to_topic_page&topic_id=${topic.id}">
@@ -121,22 +131,49 @@
                         </div>
                     </a>
                     <div class="topics_block-item-date-author">
-                        <a href="#">${topic.creatingDate}</a> by <a href="/NetworkController?command=go_to_profile&profile_user_id=${topic.user.id}">${topic.user.name}</a>
+                        <a href="#">${topic.creatingDate}</a> by <a
+                            href="/NetworkController?command=go_to_profile&profile_user_id=${topic.user.id}">${topic.user.name}</a>
                     </div>
                     <div class="topics_block-item-theme">
-                        <a href="#">${topic.theme.name}</a>
+                        <a href="/NetworkController?command=go_to_main_page&theme_id=${topic.theme.id}&page_number=1&count_topic=10">${topic.theme.name}</a>
                     </div>
                     <div class="topics_block-item-context">
                             ${topic.context}
                     </div>
                     <a href="/NetworkController?command=go_to_topic_page&topic_id=${topic.id}">
                         <div class="topics_block-item-open">
-                            ${openTopic}
+                                ${openTopic}
                         </div>
                     </a>
                 </div>
             </c:forEach>
         </div>
+
+        <div class="pagination">
+            <c:if test="${requestScope.theme == null}">
+                <a href="/NetworkController?command=go_to_main_page&page_number=1&count_topic=10">1</a>
+
+                <c:if test="${requestScope.page_number != 1}">
+                    <a href="/NetworkController?command=go_to_main_page&page_number=${requestScope.page_number - 1}&count_topic=10">prev</a>
+                </c:if>
+                <c:if test="${requestScope.topic_list.size() == requestScope.count_topic}">
+                    <a href="/NetworkController?command=go_to_main_page&page_number=${requestScope.page_number +1}&count_topic=10">next</a>
+                </c:if>
+            </c:if>
+
+            <c:if test="${requestScope.theme != null}">
+                <a href="/NetworkController?command=go_to_main_page&theme_id=${requestScope.theme.id}&page_number=1&count_topic=10">1</a>
+
+                <c:if test="${requestScope.page_number != 1}">
+                    <a href="/NetworkController?command=go_to_main_page&theme_id=${requestScope.theme.id}&page_number=${requestScope.page_number - 1}&count_topic=10">prev</a>
+                </c:if>
+                <c:if test="${requestScope.topic_list.size() == requestScope.count_topic}">
+                    <a href="/NetworkController?command=go_to_main_page&theme_id=${requestScope.theme.id}&page_number=${requestScope.page_number +1}&count_topic=10">next</a>
+                </c:if>
+            </c:if>
+        </div>
+
+
     </article>
 
 

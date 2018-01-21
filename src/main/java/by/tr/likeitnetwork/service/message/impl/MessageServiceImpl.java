@@ -21,7 +21,11 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     public List<Message> getMessagesByUserId(String localeLanguage, int userId) throws MessageServiceException {
-        return null;
+        try {
+            return DAOFactory.getInstance().getMessageDAO().getMessagesByUserId(localeLanguage, userId);
+        } catch (MessageDAOException ex) {
+            throw new MessageServiceException(ex);
+        }
     }
 
     @Override
@@ -32,6 +36,15 @@ public class MessageServiceImpl implements MessageService {
         try {
             DAOFactory.getInstance().getMessageDAO().addMessage(message);
             return true;
+        } catch (MessageDAOException ex) {
+            throw new MessageServiceException(ex);
+        }
+    }
+
+    @Override
+    public void deleteMessage(int messageId) throws MessageServiceException {
+        try {
+            DAOFactory.getInstance().getMessageDAO().deleteMessage(messageId);
         } catch (MessageDAOException ex) {
             throw new MessageServiceException(ex);
         }
@@ -50,6 +63,15 @@ public class MessageServiceImpl implements MessageService {
     public void unlikeMessage(int messageId, int userId) throws MessageServiceException {
         try {
             DAOFactory.getInstance().getMessageDAO().unlikeMessage(messageId, userId);
+        } catch (MessageDAOException ex) {
+            throw new MessageServiceException(ex);
+        }
+    }
+
+    @Override
+    public int countMessagesOfUser(int userId) throws MessageServiceException {
+        try {
+            return DAOFactory.getInstance().getMessageDAO().countMessagesOfUser(userId);
         } catch (MessageDAOException ex) {
             throw new MessageServiceException(ex);
         }

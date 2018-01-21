@@ -12,12 +12,16 @@ import by.tr.likeitnetwork.service.validation.AuthValidator;
 public class AuthServiceImpl implements AuthService {
     @Override
     public boolean signUp(RegistrationInfo info) throws AuthServiceException{
+        final int VALUE_RETURNED_IF_LOGIN_IS_FREE = 0;
+
         if (!AuthValidator.isValidRegistrationInfo(info)){
             return false;
         }
         AuthDAO authDAO = DAOFactory.getInstance().getAuthDAO();
         try {
-            return authDAO.addUser(info);
+            Integer id = authDAO.getIdByLogin(info.getLogin());
+            return id == VALUE_RETURNED_IF_LOGIN_IS_FREE
+                    && authDAO.addUser(info);
         } catch (AuthDAOException ex) {
             throw new AuthServiceException(ex);
         }
@@ -57,9 +61,9 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public AuthToken getNewTokensByOld(AuthToken tokens) throws AuthServiceException {
+    public AuthToken refreshTokens(int id, String role) throws AuthServiceException {
         try{
-            return DAOFactory.getInstance().getAuthDAO().getAuthTokensByOldTokens(tokens);
+            return DAOFactory.getInstance().getAuthDAO().refreshAuthTokens(id, role);
         } catch (AuthDAOException ex) {
             throw new AuthServiceException(ex);
         }

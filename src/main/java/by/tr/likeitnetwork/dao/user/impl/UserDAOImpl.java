@@ -10,10 +10,7 @@ import by.tr.likeitnetwork.entity.User;
 import by.tr.likeitnetwork.dao.util.Encryptor;
 
 import java.security.NoSuchAlgorithmException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 import static by.tr.likeitnetwork.dao.constant.DBFieldName.*;
 
@@ -47,15 +44,26 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public boolean changePassword(int id, String oldPassword, String newPassword) throws UserDAOException {
-        String passwordSalt = checkOldPasswordMatchesPasswordInDataBase(id, oldPassword);
-        if (passwordSalt == null) {
-            return false;
+    public boolean changeProfileInfo(User user) throws UserDAOException {
+        Connection connection = null;
+        try {
+            connection = DataSource.getConnection();
+            CallableStatement callableStatement = connection.prepareCall(DAOQuery.SQL_CALL_CHANGE_PROFILE_INFO);
+            callableStatement.setInt(1, user.getId());
+            callableStatement.setString(2, user.getName());
+            callableStatement.setString(3, user.getEmail());
+            callableStatement.setString(4, user.getAbout());
+
+            return callableStatement.executeUpdate()==1;
+        }catch (SQLException | DataSourceDAOException ex) {
+            throw new UserDAOException(ex);
+        } finally {
+            DataSource.closeConnection(connection);
         }
-        return updateNewPasswordInDataBase(id, newPassword, passwordSalt);
     }
 
-    private String checkOldPasswordMatchesPasswordInDataBase(int id, String oldPassword) throws UserDAOException {
+    @Override
+    public String checkOldPasswordMatchesPasswordInDataBase(int id, String oldPassword) throws UserDAOException {
         String passwordInDataBase;
         String passwordSalt;
         Connection connection = null;
@@ -79,7 +87,8 @@ public class UserDAOImpl implements UserDAO {
         }
     }
 
-    private boolean updateNewPasswordInDataBase(int id, String password, String passwordSalt) throws UserDAOException {
+    @Override
+    public boolean updateNewPasswordInDataBase(int id, String password, String passwordSalt) throws UserDAOException {
         String passwordHash;
         Connection connection = null;
         try {

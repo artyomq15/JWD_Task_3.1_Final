@@ -5,6 +5,8 @@ import by.tr.likeitnetwork.dao.exception.DAOException;
 import by.tr.likeitnetwork.service.auth.AuthService;
 import by.tr.likeitnetwork.service.auth.impl.AuthServiceImpl;
 import by.tr.likeitnetwork.service.exception.ServiceException;
+import by.tr.likeitnetwork.service.locale.LocaleService;
+import by.tr.likeitnetwork.service.locale.impl.LocaleServiceImpl;
 import by.tr.likeitnetwork.service.message.MessageService;
 import by.tr.likeitnetwork.service.message.impl.MessageServiceImpl;
 import by.tr.likeitnetwork.service.theme.ThemeService;
@@ -22,6 +24,7 @@ public class ServiceFactory {
     private ThemeService themeService = new ThemeServiceImpl();
     private TopicService topicService = new TopicServiceImpl();
     private MessageService messageService = new MessageServiceImpl();
+    private LocaleService localeService = new LocaleServiceImpl();
 
     private ServiceFactory() {
     }
@@ -64,5 +67,9 @@ public class ServiceFactory {
 
     public MessageService getMessageService() {
         return messageService;
+    }
+
+    public LocaleService getLocaleService() {
+        return localeService;
     }
 }

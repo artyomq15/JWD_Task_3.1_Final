@@ -1,13 +1,14 @@
-function toggle (idName) {
-	var element = document.getElementById(idName);
-	element.classList.toggle("hidden");
+$( "#add_topic" ).click(function() {
+	$( "#add_topic_block_content" ).slideToggle("slow");
+});
+
+$( "#themes" ).click(function() {
+	$( "#themes_toggle_element" ).slideToggle("slow");
 	var up_img = document.getElementById("up_img");
 	var down_img = document.getElementById("down_img");
 	up_img.classList.toggle("hidden");
 	down_img.classList.toggle("hidden");
-}
-
-
+});
 
 function validatePassword(){
 	var password = document.getElementById("password"),

@@ -3,12 +3,11 @@ package by.tr.likeitnetwork.controller.command.impl;
 import by.tr.likeitnetwork.controller.command.Command;
 import by.tr.likeitnetwork.controller.constant.AttributeKey;
 import by.tr.likeitnetwork.controller.constant.RedirectQuery;
-import by.tr.likeitnetwork.controller.util.CookieParser;
+import by.tr.likeitnetwork.controller.util.CookieHandler;
 import by.tr.likeitnetwork.service.ServiceFactory;
 import by.tr.likeitnetwork.service.exception.MessageServiceException;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -26,14 +25,14 @@ public class RateMessageCommand implements Command {
         Integer messageId = Integer.parseInt(request.getParameter(AttributeKey.MESSAGE_ID));
         String action = request.getParameter(AttributeKey.ACTION);
         try {
-            if (action.equals(AttributeKey.LIKE_ACTION)){
+            if (action.equals(AttributeKey.ACTION_LIKE)){
                 ServiceFactory.getInstance().getMessageService().likeMessage(messageId, id);
             } else if (action.equals(AttributeKey.UNLIKE_ACTION)) {
                 ServiceFactory.getInstance().getMessageService().unlikeMessage(messageId, id);
             }
 
 
-            response.sendRedirect(CookieParser.getLastRequest(request.getCookies()));
+            response.sendRedirect(CookieHandler.getLastRequest(request.getCookies()));
 
 
         } catch (MessageServiceException ex) {

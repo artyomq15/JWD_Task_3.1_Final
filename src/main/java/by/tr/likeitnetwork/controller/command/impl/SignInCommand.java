@@ -1,16 +1,13 @@
 package by.tr.likeitnetwork.controller.command.impl;
 
-import by.tr.likeitnetwork.controller.constant.CookieConstant;
 import by.tr.likeitnetwork.controller.command.Command;
-import by.tr.likeitnetwork.entity.User;
-import by.tr.likeitnetwork.util.UserHelper;
+import by.tr.likeitnetwork.controller.util.CookieHandler;
 import by.tr.likeitnetwork.controller.constant.RedirectQuery;
 import by.tr.likeitnetwork.entity.AuthToken;
 import by.tr.likeitnetwork.service.ServiceFactory;
 import by.tr.likeitnetwork.service.exception.ServiceException;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -31,19 +28,8 @@ public class SignInCommand implements Command {
         try {
             AuthToken tokens = ServiceFactory.getInstance().getAuthService().signIn(login, password);
             if (tokens != null) {
-                String accessToken = tokens.getAccessToken();
-                String refreshToken = tokens.getRefreshToken();
-                //will be changes in roles
-                request.getSession().setAttribute(ROLE, User.Role.valueOf(UserHelper.parseRoleFromToken(accessToken)).getRole());
-                request.getSession().setAttribute(ID, UserHelper.parseIdFromToken(accessToken));
-
-                Cookie accessCookie = new Cookie(ACCESS_TOKEN, accessToken);
-                accessCookie.setMaxAge(CookieConstant.ACCESS_COOKIE_LIFETIME);
-                response.addCookie(accessCookie);
-
-                Cookie refreshCookie = new Cookie(REFRESH_TOKEN, refreshToken);
-                refreshCookie.setMaxAge(CookieConstant.REFRESH_COOKIE_LIFETIME );
-                response.addCookie(refreshCookie);
+                CookieHandler.addToken(response, ACCESS_TOKEN, tokens.getAccessToken());
+                CookieHandler.addToken(response, REFRESH_TOKEN, tokens.getRefreshToken());
 
                 response.sendRedirect(RedirectQuery.MAIN);
             } else {

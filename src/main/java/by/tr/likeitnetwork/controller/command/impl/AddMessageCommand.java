@@ -9,7 +9,7 @@ import java.io.IOException;
 
 import by.tr.likeitnetwork.controller.constant.AttributeKey;
 import by.tr.likeitnetwork.controller.constant.RedirectQuery;
-import by.tr.likeitnetwork.controller.util.CookieParser;
+import by.tr.likeitnetwork.controller.util.CookieHandler;
 import by.tr.likeitnetwork.entity.Message;
 import by.tr.likeitnetwork.entity.User;
 import by.tr.likeitnetwork.service.ServiceFactory;
@@ -39,7 +39,7 @@ public class AddMessageCommand implements Command {
                 System.out.println("NOT ADDED MESSAGE");
             }
 
-            response.sendRedirect(CookieParser.getLastRequest(request.getCookies()));
+            response.sendRedirect(CookieHandler.getLastRequest(request.getCookies()));
         } catch (MessageServiceException ex) {
             logger.error(ex);
             response.sendRedirect(RedirectQuery.ERROR_WITH_MESSAGE);

@@ -3,7 +3,6 @@ package by.tr.likeitnetwork.controller.command.impl;
 import by.tr.likeitnetwork.controller.command.Command;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -11,14 +10,12 @@ import java.io.IOException;
 
 import by.tr.likeitnetwork.controller.constant.AttributeKey;
 import by.tr.likeitnetwork.controller.constant.RedirectQuery;
-import by.tr.likeitnetwork.controller.util.CookieParser;
 import by.tr.likeitnetwork.service.ServiceFactory;
 import by.tr.likeitnetwork.service.exception.UserServiceException;
-import by.tr.likeitnetwork.util.UserHelper;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import static by.tr.likeitnetwork.controller.constant.AttributeKey.ACCESS_TOKEN;
 
 
 public class ChangePasswordCommand implements Command {
@@ -30,16 +27,15 @@ public class ChangePasswordCommand implements Command {
         String newPassword = request.getParameter(AttributeKey.NEW_PASSWORD);
         String newPasswordConfirmation = request.getParameter(AttributeKey.CONFIRMATION);
 
-        Cookie[] cookies = request.getCookies();
-        String accessToken = CookieParser.getTokenFromCookies(cookies, ACCESS_TOKEN);
-        Integer id = UserHelper.parseIdFromToken(accessToken);
+
+        Integer id = (Integer) request.getSession().getAttribute(AttributeKey.ID);
 
         try {
             boolean success = ServiceFactory.getInstance().getUserService().changePassword(id, oldPassword, newPassword, newPasswordConfirmation);
             if (success) {
-                response.sendRedirect(RedirectQuery.PROFILE);
+                response.sendRedirect(RedirectQuery.PROFILE_SETTINGS + id);
             } else {
-                response.sendRedirect(RedirectQuery.PROFILE_WITH_MESSAGE);
+                response.sendRedirect(RedirectQuery.PROFILE_SETTINGS_WITH_MESSAGE + id);
             }
         } catch (UserServiceException ex) {
             logger.error(ex);

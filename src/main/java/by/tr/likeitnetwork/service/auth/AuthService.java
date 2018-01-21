@@ -9,5 +9,5 @@ public interface AuthService {
     AuthToken signIn(String login, String password) throws AuthServiceException;
     boolean checkAccessTokenIsRight(String token) throws AuthServiceException;
     boolean checkRefreshTokenIsRight(String token) throws AuthServiceException;
-    AuthToken getNewTokensByOld (AuthToken tokens) throws AuthServiceException;
+    AuthToken refreshTokens(int id, String role) throws AuthServiceException;
 }

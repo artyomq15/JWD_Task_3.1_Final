@@ -67,6 +67,14 @@
 }
 
 
+.sign_up_header a{
+    display: block;
+    font-size: 36px;
+    color: #afafaf;
+    text-align: center;
+}
+
+
 @media (min-width: 750px){
     .profile_info_block {
         float: left;
@@ -85,5 +93,19 @@
         margin: 0 1%;
         width: 98%;
     }
+
+    .topics_block-item, .sign_up_container {
+        float: left;
+        margin-left: 1%;
+        width: 98%;
+    }
+
+    .info_change, .password_change {
+        float: left;
+        margin-left: 1%;
+        width: 48%;
+    }
+
+
 
 }

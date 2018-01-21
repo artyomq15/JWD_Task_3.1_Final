@@ -28,7 +28,7 @@
 <header class="header_container">
     <div class="header_background"></div>
     <div class="header_menu">
-        <a href="/NetworkController?command=go_to_main_page">
+        <a href="/NetworkController?command=go_to_main_page&page_number=1&count_topic=10">
             <div class="header_menu-item header_menu-name">
                 ${name}
             </div>

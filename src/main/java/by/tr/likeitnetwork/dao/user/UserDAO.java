@@ -6,5 +6,7 @@ import by.tr.likeitnetwork.entity.User;
 public interface UserDAO {
     User findUserById(int id) throws UserDAOException;
 
-    boolean changePassword(int id, String oldPassword, String newPassword) throws UserDAOException;
+    boolean changeProfileInfo (User user) throws UserDAOException;
+    String checkOldPasswordMatchesPasswordInDataBase(int id, String oldPassword) throws UserDAOException;
+    boolean updateNewPasswordInDataBase(int id, String password, String passwordSalt) throws UserDAOException;
 }

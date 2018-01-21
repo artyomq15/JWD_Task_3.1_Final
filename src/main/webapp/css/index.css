@@ -178,6 +178,19 @@ main {
 }
 
 /*TOPICS*/
+.topics-theme {
+    font-size: xx-large;
+    color: #000;
+    margin: 10px 10px 0;
+    padding: 2px;
+    display: inline-block;
+    border-radius: 5px;
+    background: #dddddd;
+}
+.topics-theme img {
+    height: 18px;
+    width: 18px;
+}
 .topics_block-item {
     width: 100%;
     display: inline-block;
@@ -238,7 +251,7 @@ main {
     font-weight: bold;
     font-size: larger;
 }
-.add_message_content input, textarea {
+.add_message_content input, .add_message_content textarea {
     margin: 5px 1%;
     width: 98%;
     border: none;
@@ -335,7 +348,7 @@ main {
     width: 100%;
 }
 
-.sign_up_container input {
+.sign_up_container input, .sign_up_container textarea {
     margin: 5px 1%;
     width: 98%;
     padding: 10px;
@@ -353,6 +366,7 @@ main {
     margin-left: 2%;
 }
 
+
 #login:invalid ~ .error_validation-login,
 #password:invalid ~ .error_validation-password,
 #age:invalid ~ .error_validation-age,
@@ -361,6 +375,9 @@ main {
     display: block;
 }
 
+
+#confirmation:invalid,
+#old_password:invalid,
 #login:invalid,
 #password:invalid,
 #age:invalid,
@@ -369,6 +386,9 @@ main {
     border: solid 1px red;
 }
 
+
+#confirmation:valid,
+#old_password:valid,
 #login:valid,
 #password:valid,
 #age:valid,
@@ -408,6 +428,20 @@ main {
     text-decoration: underline;
 }
 
+.pagination {
+    text-align: center;
+}
+.pagination a {
+    margin-right: 10px;
+    background: #fff;
+    padding: 5px;
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0.2);
+}
+
+.pagination a:hover {
+    background: #edeef0;
+}
+
 @media (min-width: 750px) {
     .themes_block {
         float: left;
@@ -436,6 +470,10 @@ main {
 
     .card {
         border-radius: 2px;
+    }
+
+    .pagination {
+        text-align: left;
     }
 
 }
