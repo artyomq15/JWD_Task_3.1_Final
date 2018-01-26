@@ -103,12 +103,14 @@ public class AuthDAOImpl implements AuthDAO {
 
     @Override
     public AuthToken refreshAuthTokens(int id, String role) throws AuthDAOException {
-        String accessToken = Encryptor.generateAccessToken(id, role);
-        String refreshToken = Encryptor.generateRefreshToken();
         Connection connection = null;
         try  {
             connection = DataSource.getConnection();
             CallableStatement callableStatement = connection.prepareCall(DAOQuery.SQL_CALL_UPDATE_TOKENS_BY_ID);
+
+            String accessToken = Encryptor.generateAccessToken(id, role);
+            String refreshToken = Encryptor.generateRefreshToken();
+
             callableStatement.setString(1, accessToken);
             callableStatement.setString(2, refreshToken);
             callableStatement.setInt(3, id);

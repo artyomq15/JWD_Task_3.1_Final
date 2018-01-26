@@ -4,7 +4,7 @@ import by.tr.likeitnetwork.controller.command.Command;
 import by.tr.likeitnetwork.controller.command.CommandDirector;
 import by.tr.likeitnetwork.controller.constant.AttributeKey;
 import by.tr.likeitnetwork.controller.constant.CommandType;
-import by.tr.likeitnetwork.controller.constant.QueryConstructor;
+import by.tr.likeitnetwork.controller.util.QueryConstructor;
 import by.tr.likeitnetwork.service.ServiceFactory;
 import by.tr.likeitnetwork.service.exception.ServiceException;
 
@@ -44,6 +44,8 @@ public class NetworkController extends HttpServlet {
 
         if (commandType != CommandType.CHANGE_LOCALE) {
             String lastRequest = request.getServletPath() + QueryConstructor.SIGN_BEFORE_ATTRIBUTES + request.getQueryString();
+
+            lastRequest = QueryConstructor.clearQueryFromUIFlags(lastRequest);
             response.addCookie(new Cookie(AttributeKey.LAST_REQUEST, lastRequest));
         }
 

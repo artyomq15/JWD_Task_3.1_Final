@@ -1,7 +1,7 @@
 package by.tr.likeitnetwork.controller.constant;
 
 public final class JspPath {
-    public static final String INDEX = "index.jsp";
+    public static final String ADMIN = "WEB-INF/jsp/admin.jsp";
     public static final String MAIN = "WEB-INF/jsp/main.jsp";
     public static final String PROFILE = "WEB-INF/jsp/profile.jsp";
     public static final String SETTINGS = "WEB-INF/jsp/settings.jsp";

@@ -73,6 +73,61 @@ public class TopicDAOImpl implements TopicDAO{
     }
 
     @Override
+    public List<Topic> search(String expression, String localeLanguage, int fromIdTopic, int countTopic) throws TopicDAOException {
+        Connection connection = null;
+        try{
+            connection = DataSource.getConnection();
+            CallableStatement search = connection.prepareCall(DAOQuery.SQL_CALL_SEARCH_TOPICS);
+            search.setString(1, expression);
+            search.setString(2, localeLanguage);
+            search.setInt(3, fromIdTopic);
+            search.setInt(4, countTopic);
+            search.registerOutParameter(5, Types.INTEGER);
+            search.registerOutParameter(6, Types.VARCHAR);
+            search.registerOutParameter(7, Types.LONGVARCHAR);
+            search.registerOutParameter(8, Types.TIMESTAMP);
+            search.registerOutParameter(9, Types.INTEGER);
+            search.registerOutParameter(10, Types.VARCHAR);
+            search.registerOutParameter(11, Types.INTEGER);
+            search.registerOutParameter(12, Types.VARCHAR);
+
+            search.execute();
+            List<Topic> topicList = new ArrayList<>();
+            Topic topic;
+            User user;
+            Theme theme;
+
+            ResultSet resultSet = search.getResultSet();
+            while (resultSet.next()){
+                topic = new Topic();
+                topic.setId(resultSet.getInt(1));
+                topic.setHeader(resultSet.getString(2));
+                topic.setContext(resultSet.getString(3));
+
+                DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT, new Locale(localeLanguage));
+                topic.setCreatingDate(dateFormat.format(resultSet.getTimestamp(4)));
+
+                user = new User();
+                user.setId(resultSet.getInt(5));
+                user.setName(resultSet.getString(6));
+                topic.setUser(user);
+
+                theme = new Theme();
+                theme.setId(resultSet.getInt(7));
+                theme.setName(resultSet.getString(8));
+                topic.setTheme(theme);
+
+                topicList.add(topic);
+            }
+            return topicList;
+        } catch (SQLException | DataSourceDAOException ex) {
+            throw new TopicDAOException(ex);
+        } finally {
+            DataSource.closeConnection(connection);
+        }
+    }
+
+    @Override
     public boolean addTopic(Topic topic) throws TopicDAOException {
         Connection connection = null;
         try{

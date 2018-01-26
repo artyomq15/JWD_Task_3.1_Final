@@ -35,6 +35,13 @@ public class CommandDirector {
         dispatcherMap.put(CommandType.ADD_MESSAGE, new AddMessageCommand());
         dispatcherMap.put(CommandType.DELETE_MESSAGE, new DeleteMessageCommand());
 
+        dispatcherMap.put(CommandType.GO_TO_ADMIN_PAGE, new GoToAdminPageCommand());
+        dispatcherMap.put(CommandType.BAN_UNBAN, new BanOrUnbanUserCommand());
+        dispatcherMap.put(CommandType.CHANGE_ROLE, new ChangeRoleCommand());
+
+        dispatcherMap.put(CommandType.SHOW_HIDE_THEME, new ShowOrHideThemeCommand());
+        dispatcherMap.put(CommandType.CHANGE_THEMES, new ChangeThemesCommand());
+
 
     }
 

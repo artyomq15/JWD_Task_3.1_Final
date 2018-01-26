@@ -10,10 +10,10 @@ public class User implements Serializable{
     private String email;
     private String about;
     private boolean banned;
-    private Role role = Role.USER;
+    private Role role;
 
     public enum Role {
-        ADMIN(10), USER(2), GUEST(1) ;
+        SUPER_ADMIN(100), ADMIN(10), USER(2), GUEST(1) ;
 
         private int role;
 

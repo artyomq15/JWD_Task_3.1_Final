@@ -1,0 +1,93 @@
+.search_user {
+    padding: 5px;
+}
+
+.search_user-name a{
+    display: block;
+}
+.search_user-name a:hover {
+    text-decoration: underline;
+}
+
+.ban, .unban, .change_role{
+    border-radius: 2px;
+    padding: 1px;
+}
+.ban:hover, .unban:hover, .change_role:hover, .hide:hover, .show:hover{
+    box-shadow: 0 0 1px rgb(210, 210, 210);
+    background-color: #efefef;
+}
+.ban, .hide {
+    border: solid 1px red;
+}
+.unban, .show {
+    border: solid 1px green;
+}
+.change_role {
+    border: solid 1px black;
+}
+.search_user-id, .search_user-login, .search_user-role {
+    display: inline-block;
+    float: left;
+    margin-right: 5px;
+}
+
+.search_user-id, .search_user-name {
+    font-size: x-large;
+}
+
+.admin {
+    box-shadow: 0 0 5px rgb(255, 241, 17);
+}
+.banned {
+    box-shadow: 0 0 5px rgb(255, 8, 0);
+}
+.selected {
+    border: 1px solid #bababa;
+}
+
+.themes_info {
+    width: 30%;
+    float: left;
+    margin-left: 1.5%;
+    margin-right: 1.5%;
+}
+.themes_info a {
+    display: block;
+}
+.themes_info form {
+    margin: 0;
+}
+
+.themes_info-id {
+    margin-left: 3%;
+    font-size: x-large;
+}
+.themes_info input {
+    margin: 1px 3% 5px;
+    width: 94%;
+}
+.themes_info-language {
+    margin-left: 5%;
+    color :#bababa;
+}
+
+.themes_info input:last-child {
+    float: left;
+    width: 45.5%;
+    margin: 1px 1% 5px 3%;
+    padding: 0;
+}
+.hide_show_button {
+    text-align: center;
+    float: left;
+    display: block;
+    width: 45.5%;
+    margin: 0 0 5px 1%;
+    border-radius: 2px;
+}
+
+.themes_lists {
+    width: 100%;
+    float: left;
+}

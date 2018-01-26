@@ -36,7 +36,7 @@ public class GoToMainPageCommand implements Command {
         List<Theme> themeList;
         List<Topic> topicList;
         Integer pageNumber = Integer.parseInt(request.getParameter(PAGE_NUMBER));
-        Integer countTopic = Integer.parseInt(request.getParameter(COUNT_TOPIC));
+        Integer countTopic = Integer.parseInt(request.getParameter(COUNT));
 
         String localeLanguage = request.getSession().getAttribute(AttributeKey.LOCALE).toString();
         Integer userId = (Integer) request.getSession().getAttribute(AttributeKey.ID);
@@ -49,16 +49,26 @@ public class GoToMainPageCommand implements Command {
             themeList = themeService.getAllThemes(localeLanguage);
             request.setAttribute(THEME_LIST, themeList);
 
-            String themeId = request.getParameter(THEME_ID);
-            if (themeId == null) {
-                topicList = topicService.getAll(localeLanguage, pageNumber, countTopic);
+
+            String expression = request.getParameter(EXPRESSION);
+            if (expression != null){
+                topicList = topicService.search(expression, localeLanguage, pageNumber, countTopic);
+                request.setAttribute(EXPRESSION, expression);
             } else {
-                topicList = topicService.getTopicsByThemeId(localeLanguage, Integer.parseInt(themeId), pageNumber, countTopic);
-                request.setAttribute(THEME, topicList.get(0).getTheme());
+                String themeId = request.getParameter(THEME_ID);
+                if (themeId == null) {
+                    topicList = topicService.getAll(localeLanguage, pageNumber, countTopic);
+                } else {
+                    topicList = topicService.getTopicsByThemeId(localeLanguage, Integer.parseInt(themeId), pageNumber, countTopic);
+                    if (!topicList.isEmpty()){
+                        request.setAttribute(THEME, topicList.get(0).getTheme());
+                    }
+
+                }
             }
             request.setAttribute(TOPIC_LIST, topicList);
             request.setAttribute(PAGE_NUMBER, pageNumber);
-            request.setAttribute(COUNT_TOPIC, countTopic);
+            request.setAttribute(COUNT, countTopic);
             request.getRequestDispatcher(JspPath.MAIN).forward(request, response);
         } catch (ServiceException ex) {
             logger.error(ex);

@@ -10,12 +10,15 @@ import java.io.IOException;
 import by.tr.likeitnetwork.controller.constant.AttributeKey;
 import by.tr.likeitnetwork.controller.constant.RedirectQuery;
 import by.tr.likeitnetwork.controller.util.CookieHandler;
+import by.tr.likeitnetwork.controller.util.QueryConstructor;
 import by.tr.likeitnetwork.entity.Message;
 import by.tr.likeitnetwork.entity.User;
 import by.tr.likeitnetwork.service.ServiceFactory;
 import by.tr.likeitnetwork.service.exception.MessageServiceException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+
 
 public class AddMessageCommand implements Command {
     private final Logger logger = LogManager.getLogger(AddMessageCommand.class);
@@ -32,14 +35,14 @@ public class AddMessageCommand implements Command {
         message.setUser(user);
         message.setContext(context);
         message.setTopicId(topicId);
-        try{
-            if (ServiceFactory.getInstance().getMessageService().addMessage(message)){
-                System.out.println("ADDED MESSAGE");
+        try {
+            String lastRequest = CookieHandler.getLastRequest(request.getCookies());
+            if (ServiceFactory.getInstance().getMessageService().addMessage(message)) {
+                lastRequest = QueryConstructor.addParameter(lastRequest, AttributeKey.MESSAGE_ADDED);
             } else {
-                System.out.println("NOT ADDED MESSAGE");
+                lastRequest = QueryConstructor.addParameter(lastRequest, AttributeKey.MESSAGE_NOT_ADDED);
             }
-
-            response.sendRedirect(CookieHandler.getLastRequest(request.getCookies()));
+            response.sendRedirect(lastRequest);
         } catch (MessageServiceException ex) {
             logger.error(ex);
             response.sendRedirect(RedirectQuery.ERROR_WITH_MESSAGE);

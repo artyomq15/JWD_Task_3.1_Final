@@ -33,6 +33,8 @@ public final class AuthValidator {
         return isValidName(name) && isValidEmail(email);
     }
 
+
+
     private static boolean isRightConfirmation(String password, String confirmation) {
         return password.equals(confirmation);
     }

@@ -36,7 +36,7 @@
 <header class="header_container">
     <div class="header_background"></div>
     <div class="header_menu">
-        <a href="/NetworkController?command=go_to_main_page&page_number=1&count_topic=10">
+        <a href="/NetworkController?command=go_to_main_page&page_number=1&count=10">
             <div class="header_menu-item header_menu-name">
                 ${nameSite}
             </div>
@@ -53,7 +53,7 @@
                 </div>
             </a>
         </c:if>
-        <c:if test="${sessionScope.role == 2}">
+        <c:if test="${sessionScope.role >= 2}">
             <a href="/NetworkController?command=go_to_profile&profile_user_id=${requestScope.user.id}">
                 <div class="header_menu-item">
                         ${requestScope.user.name}
@@ -80,7 +80,7 @@
             <input id="email" type="email" name="email" placeholder="${email}" value="${requestScope.user.email}" required>
             <label class="hidden error_validation error_validation-email">Wrong e-mail</label>
 
-            <textarea name="about" placeholder="${about}" rows="5" content="${requestScope.user.about}"></textarea>
+            <textarea name="about" placeholder="${about}" rows="5">${requestScope.user.about}</textarea>
 
             <c:if test="${requestScope.message != null}">
                 <br/>

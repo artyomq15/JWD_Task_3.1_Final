@@ -33,6 +33,7 @@
 <head>
     <meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.10.2.js"></script>
     <link rel="stylesheet" href="../../css/index.css"/>
     <link rel="stylesheet" href="../../css/profile.css"/>
     <title>Title</title>
@@ -41,7 +42,7 @@
 <header class="header_container">
     <div class="header_background"></div>
     <div class="header_menu">
-        <a href="/NetworkController?command=go_to_main_page&page_number=1&count_topic=10">
+        <a href="/NetworkController?command=go_to_main_page&page_number=1&count=10">
             <div class="header_menu-item header_menu-name">
                 ${nameSite}
             </div>
@@ -58,10 +59,17 @@
                 </div>
             </a>
         </c:if>
-        <c:if test="${sessionScope.role == 2}">
+        <c:if test="${sessionScope.role >= 2}">
             <a href="/NetworkController?command=go_to_profile&profile_user_id=${requestScope.user.id}">
                 <div class="header_menu-item">
                         ${requestScope.user.name}
+                </div>
+            </a>
+        </c:if>
+        <c:if test="${sessionScope.role > 2}">
+            <a href="/NetworkController?command=go_to_admin_page&action=not_banned&page_number=1&count=10">
+                <div class="header_menu-item">
+                        ADMIN PAGE
                 </div>
             </a>
         </c:if>
@@ -83,10 +91,10 @@
             </div>
         </c:if>
         <div class="profile_info-email">
-            ${email}:<c:out value="${requestScope.profile_user.email}"/>
+           <sup>${email}</sup></br><c:out value="${requestScope.profile_user.email}"/>
         </div>
         <div class="profile_info-about">
-            ${about}:<c:out value="${requestScope.profile_user.about}"/>
+            <sup>${about}</sup></br> <c:out value="${requestScope.profile_user.about}"/>
         </div>
 
     </div>
@@ -145,7 +153,7 @@
                         href="/NetworkController?command=go_to_profile&profile_user_id=${requestScope.profile_user.id}">${requestScope.profile_user.name}</a>
                 </div>
                 <div class="topics_block-item-theme">
-                    <a href="/NetworkController?command=go_to_main_page&theme_id=${topic.theme.id}&page_number=1&count_topic=10">${topic.theme.name}</a>
+                    <a href="/NetworkController?command=go_to_main_page&theme_id=${topic.theme.id}&page_number=1&count=10">${topic.theme.name}</a>
                 </div>
                 <div class="topics_block-item-context">
                         ${topic.context}
@@ -174,7 +182,7 @@
                             href="/NetworkController?command=go_to_profile&profile_user_id=${topic.user.id}">${topic.user.name}</a>
                     </div>
                     <div class="topics_block-item-theme">
-                        <a href="/NetworkController?command=go_to_main_page&theme_id=${topic.theme.id}&page_number=1&count_topic=10">${topic.theme.name}</a>
+                        <a href="/NetworkController?command=go_to_main_page&theme_id=${topic.theme.id}&page_number=1&count=10">${topic.theme.name}</a>
                     </div>
                     <div class="topics_block-item-context">
                             ${topic.context}
@@ -225,5 +233,6 @@
 <c:import url="footer.jsp"/>
 
 <script type="text/javascript" src="../../js/index.js"></script>
+<script type="text/javascript" src="../../js/scroll.js"></script>
 </body>
 </html>

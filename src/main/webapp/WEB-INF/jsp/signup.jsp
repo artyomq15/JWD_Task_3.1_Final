@@ -32,7 +32,7 @@
 <header class="header_container">
     <div class="header_background"></div>
     <div class="header_menu">
-        <a href="/NetworkController?command=go_to_main_page&page_number=1&count_topic=10">
+        <a href="/NetworkController?command=go_to_main_page&page_number=1&count=10">
             <div class="header_menu-item header_menu-name">
                 ${name}
             </div>
@@ -49,7 +49,7 @@
                 </div>
             </a>
         </c:if>
-        <c:if test="${sessionScope.role == 2}">
+        <c:if test="${sessionScope.role >= 2}">
             <a href="/NetworkController?command=go_to_profile">
                 <div class="header_menu-item">
                         ${requestScope.user.name}

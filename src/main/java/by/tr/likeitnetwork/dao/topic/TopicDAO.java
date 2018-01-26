@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface TopicDAO {
     List<Topic> getAll(String localeLanguage, int fromIdTopic, int countTopic) throws TopicDAOException;
+    List<Topic> search(String expression, String localeLanguage, int fromIdTopic, int countTopic) throws TopicDAOException;
     boolean addTopic(Topic topic) throws TopicDAOException;
     //delete
     //update

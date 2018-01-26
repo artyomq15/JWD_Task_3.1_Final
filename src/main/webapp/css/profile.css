@@ -18,11 +18,13 @@
     float: left;
     width: 98%;
     padding: 10px 1% 0 1%;
+    word-wrap: break-word;
 }
 .profile_info-about {
     width: 98%;
     float: left;
     padding: 10px 1% 10px 1%;
+    word-wrap: break-word;
 }
 .profile_info-rating {
     background-color: #11ff8e;

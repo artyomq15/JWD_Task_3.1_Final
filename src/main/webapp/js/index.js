@@ -3,12 +3,23 @@ $( "#add_topic" ).click(function() {
 });
 
 $( "#themes" ).click(function() {
-	$( "#themes_toggle_element" ).slideToggle("slow");
-	var up_img = document.getElementById("up_img");
-	var down_img = document.getElementById("down_img");
-	up_img.classList.toggle("hidden");
-	down_img.classList.toggle("hidden");
+	if($(window).width() < 960) {
+		$("#themes_toggle_element").slideToggle("slow");
+		$("#up_img").toggle("fast");
+		$("#down_img").toggle("fast");
+	}
 });
+
+$( document ).ready(showBlocksIfBigDisplay());
+
+function showBlocksIfBigDisplay(){
+	if($(window).width() >= 960){
+		$(".themes_block_items").show();
+		$("#up_img").hide();
+		$("#down_img").hide();
+	}
+}
+
 
 function validatePassword(){
 	var password = document.getElementById("password"),
@@ -28,4 +39,6 @@ function validatePassword(){
 		confirmation.setCustomValidity('');
   	}
 }
+
+
 

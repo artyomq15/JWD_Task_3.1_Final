@@ -8,8 +8,15 @@ public final class DAOQuery {
     public static final String SQL_SELECT_ACCESS_TOKEN_TRUE = "SELECT user_id FROM auth WHERE access_token=? AND access_token_expiration>=now();";
     public static final String SQL_SELECT_REFRESH_TOKEN_TRUE = "SELECT user_id FROM auth WHERE refresh_token=? AND refresh_token_expiration>=now();";
 
-    public static final String SQL_SELECT_ALL_USER_BY_ID = "SELECT * FROM user WHERE user_id = ?";
+    public static final String SQL_CALL_GET_USER_BY_ID = "call getUserById(?, ?, ?, ?, ?, ?, ?)";
+    public static final String SQL_CALL_GET_USER_BY_NAME_OR_LOGIN = "call getUserByLoginOrName(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    public static final String SQL_CALL_GET_USER_BY_BANNED_STATE = "call getUsersByBannedState(?, ?, ?, ?, ?, ?, ?, ?)";
+    public static final String SQL_CALL_GET_ADMINS = "call getAdmins(?, ?, ?, ?, ?, ?, ?, ?)";
 
+    public static final String SQL_CALL_BAN_USER = "call banUser(?)";
+    public static final String SQL_CALL_UNBAN_USER = "call unbanUser(?)";
+    public static final String SQL_CALL_SET_USER_TO_ADMIN = "call setUserToAdmin(?)";
+    public static final String SQL_CALL_SET_ADMIN_TO_USER = "call setAdminToUser(?)";
     public static final String SELECT_PASSWORD_AND_SALT_BY_ID = "SELECT user_password, user_password_salt FROM user WHERE user_id = ?";
     public static final String SQL_UPDATE_NEW_PASSWORD_BY_ID = "UPDATE user SET user_password=? WHERE user_id=?;";
 
@@ -23,8 +30,16 @@ public final class DAOQuery {
 
     public static final String SQL_CALL_GET_THEMES_BY_LANGUAGE = "call getAllThemes(?, ?, ?)";
     public static final String SQL_CALL_GET_THEME_BY_ID_AND_LANGUAGE = "call getThemeById(?, ?, ?)";
+    public static final String SQL_CALL_GET_THEMES_INFO = "call getThemesInfo(?, ?, ?, ?, ?)";
+    public static final String SQL_CALL_SHOW_THEME = "call showTheme(?)";
+    public static final String SQL_CALL_HIDE_THEME = "call hideTheme(?)";
+    public static final String SQL_CALL_GET_ADDED_THEME_ID = "call addNewThemeId(?)";
+    public static final String SQL_CALL_DELETE_THEME = "call deleteTheme(?)";
+    public static final String SQL_CALL_INSERT_LOCALIZED_THEME_NAME = "call addThemeLocalizedName(?, ?, ?)";
+    public static final String SQL_CALL_UPDATE_LOCALIZED_THEME_NAME = "call updateThemeLocalizedName(?, ?, ?)";
 
     public static final String SQL_CALL_GET_ALL_TOPICS = "call getAllTopics(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    public static final String SQL_CALL_SEARCH_TOPICS = "call searchTopics(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     public static final String SQL_CALL_ADD_TOPIC = "call addTopic(?, ?, ?, ?)";
     public static final String SQL_CALL_GET_TOPIC_BY_ID = "call getTopicById(?, ?, ?, ?, ?, ?, ?, ?, ?)";
     public static final String SQL_CALL_GET_TOPICS_BY_THEME_ID = "call getTopicsByThemeId(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";

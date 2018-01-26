@@ -40,8 +40,26 @@ public final class AttributeKey {
     public static final String TOPIC_CONTEXT = "topic_context";
     public static final String TOPIC_THEME_ID = "topic_theme_id";
 
+    public static final String EXPRESSION = "expression";
+
+    public static final String SEARCH_USER_LIST = "search_user_list";
+
     public static final String PAGE_NUMBER = "page_number";
-    public static final String COUNT_TOPIC = "count_topic";
+    public static final String COUNT = "count";
+
+    public static final String ACTION_NOT_BANNED = "not_banned";
+    public static final String ACTION_BANNED = "banned";
+    public static final String ACTION_ADMINS = "admins";
+
+    public static final String ACTION_THEMES_LISTS = "themes_lists";
+    public static final String SHOWN_THEMES = "shown_themes";
+    public static final String HIDDEN_THEMES = "hidden_themes";
+
+    public static final String ACTION_SHOW_THEME = "show";
+    public static final String ACTION_HIDE_THEME = "hide";
+
+    public static final String ACTION_BAN = "ban";
+    public static final String ACTION_UNBAN = "unban";
 
     public static final String PROFILE_USER = "profile_user";
     public static final String PROFILE_USER_ID = "profile_user_id";
@@ -55,6 +73,18 @@ public final class AttributeKey {
     public static final String MESSAGE_CONTEXT = "message_context";
     public static final String ACTION_LIKE = "like";
     public static final String UNLIKE_ACTION = "unlike";
+
+
+    public static final String RUSSIAN_LANGUAGE = "Russian";
+    public static final String BELARUSSIAN_LANGUAGE = "Belarussian";
+    public static final String ENGLISH_LANGUAGE = "English";
+    public static final String ACTION_ADD_THEME = "add";
+    public static final String ACTION_CHANGE_THEME = "change";
+
+    public static final String MESSAGE_ADDED = "message_added";
+    public static final String MESSAGE_NOT_ADDED = "message_not_added";
+    public static final String TOPIC_ADDED = "topic_added";
+    public static final String TOPIC_NOT_ADDED = "topic_not_added";
 
 
 

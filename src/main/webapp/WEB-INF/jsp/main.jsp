@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="/WEB-INF/tld/taglib.tld" prefix="lin" %>
 
 <fmt:setLocale value="${sessionScope.locale}"/>
 <fmt:setBundle basename="localization.auth" var="auth"/>
@@ -23,14 +24,16 @@
     <meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="../../css/index.css"/>
+    <link rel="stylesheet" href="../../css/main.css"/>
     <script type="text/javascript" src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <link rel="icon" href="../../img/logo.png">
     <title>Like It</title>
 </head>
 <body>
 <header class="header_container">
     <div class="header_background"></div>
     <div class="header_menu">
-        <a href="/NetworkController?command=go_to_main_page&page_number=1&count_topic=10">
+        <a href="/NetworkController?command=go_to_main_page&page_number=1&count=10">
             <div class="header_menu-item header_menu-name">
                 ${name}
             </div>
@@ -47,134 +50,160 @@
                 </div>
             </a>
         </c:if>
-        <c:if test="${sessionScope.role == 2}">
+        <c:if test="${sessionScope.role >= 2}">
             <a href="/NetworkController?command=go_to_profile&profile_user_id=${requestScope.user.id}">
                 <div class="header_menu-item">
-                        ${requestScope.user.name}
+                    <img src="../../img/user.png">${requestScope.user.name}
                 </div>
             </a>
         </c:if>
     </div>
 </header>
 
-
 <main>
-    <nav class="card themes_block">
-        <div class="themes_block-name" id="themes">
-            ${themes}<img id="down_img" src="img/down.png">
-            <img id="up_img" class="hidden" src="img/up.png">
-        </div>
-        <div class="themes_block_items hidden" id="themes_toggle_element">
-            <c:forEach var="theme" items="${requestScope.theme_list}">
-                <a href="/NetworkController?command=go_to_main_page&theme_id=${theme.id}&page_number=1&count_topic=10">
-                    <div class="themes_block-item">${theme.name}</div>
-                </a>
-            </c:forEach>
-        </div>
-    </nav>
-
-
-    <article>
-        <div class="search_topic_block">
-            <div class="search_topic_block-content">
-                <form action="#" method="get">
-                    <input type="hidden" name="command" value="search_topic"/>
-                    <input class="search_topic_block-field" type="search" name="text" value="" placeholder="${search}"/>
-                    <input class="search_topic_content-item-button" type="submit" value="OK"/>
-                </form>
+    <aside>
+        <nav class="themes_block">
+            <div class="themes_block-name" id="themes">
+                ${themes}<img id="down_img" src="img/down.png">
+                <img id="up_img" class="hidden" src="img/up.png">
             </div>
-        </div>
+            <div class="themes_block_items hidden" id="themes_toggle_element">
+                <c:forEach var="theme" items="${requestScope.theme_list}">
+                    <a href="/NetworkController?command=go_to_main_page&theme_id=${theme.id}&page_number=1&count=10">
+                        <div class="themes_block-item">${theme.name}</div>
+                    </a>
+                </c:forEach>
+            </div>
+        </nav>
+    </aside>
 
 
-        <c:if test="${sessionScope.role >= 2}">
-            <div class="card add_topic_block">
-                <div class="add_topic_opening_line" id="add_topic"">
-                        ${addTopic}
-                </div>
-
-                <div class="add_topic_content hidden" id="add_topic_block_content">
-                    <form action="/NetworkController" method="post">
-                        <input type="hidden" name="command" value="add_topic"/>
-                        <input type="text" name="topic_header" value="" placeholder="${addTopicHeader}" required/>
-                        <textarea name="topic_context" rows="5" placeholder="${addTopicContext}" required></textarea>
-                        <label>
-                            <select name="topic_theme_id" required>
-                                <c:forEach var="theme" items="${requestScope.theme_list}">
-                                    <option value="${theme.id}">
-                                            ${theme.name}
-                                    </option>
-                                </c:forEach>
-                            </select>
-                        </label>
-                        <input class="add_topic_content-item-button" type="submit" value="${addTopicButton}"/>
+    <section>
+        <article>
+            <div class="search_topic_block">
+                <div class="search_topic_block-content">
+                    <form action="/NetworkController" method="get">
+                        <input type="hidden" name="command" value="go_to_main_page"/>
+                        <input type="hidden" name="page_number" value="1"/>
+                        <input type="hidden" name="count" value="10"/>
+                        <input class="search_topic_block-field" type="search" name="expression" value=""
+                               placeholder="${search}"/>
+                        <input class="search_topic_content-item-button" type="submit" value="OK"/>
                     </form>
                 </div>
             </div>
-        </c:if>
 
 
+            <c:if test="${sessionScope.role >= 2}">
+                <div class="add_topic_block">
+                    <div class="add_topic_opening_line" id="add_topic">
+                        + ${addTopic}
+                    </div>
+
+                    <div class="add_topic_content hidden" id="add_topic_block_content">
+                        <form action="/NetworkController" method="post">
+                            <input type="hidden" name="command" value="add_topic"/>
+                            <input type="text" name="topic_header" value="" placeholder="${addTopicHeader}" required/>
+                            <textarea name="topic_context" rows="5" placeholder="${addTopicContext}"
+                                      required></textarea>
+                            <label>
+                                <select name="topic_theme_id" required>
+                                    <c:forEach var="theme" items="${requestScope.theme_list}">
+                                        <option value="${theme.id}">
+                                                ${theme.name}
+                                        </option>
+                                    </c:forEach>
+                                </select>
+                            </label>
+                            <input class="add_topic_content-item-button" type="submit" value="${addTopicButton}"/>
+                        </form>
+                    </div>
+                </div>
+            </c:if>
+
+
+        </article>
 
         <div class="topics_block">
             <c:if test="${requestScope.theme != null}">
                 <div class="topics-theme">
                         ${requestScope.theme.name}
-                    <a href="/NetworkController?command=go_to_main_page&page_number=1&count_topic=10">
+                    <a href="/NetworkController?command=go_to_main_page&page_number=1&count=10">
                         <img src="img/delete.png">
                     </a>
                 </div>
             </c:if>
+            <c:if test="${requestScope.expression != null}">
+                <div class="topics-theme">
+                        ${requestScope.expression}
+                    <a href="/NetworkController?command=go_to_main_page&page_number=1&count=10">
+                        <img src="img/delete.png">
+                    </a>
+                </div>
+            </c:if>
+
+
             <c:forEach var="topic" items="${requestScope.topic_list}">
-                <div class="card topics_block-item">
-                    <a href="/NetworkController?command=go_to_topic_page&topic_id=${topic.id}">
+                <div class="topic_container">
+                    <hr>
+                    <div class="topics_block-item">
                         <div class="topics_block-item-header">
-                                ${topic.header}
+                            <a href="/NetworkController?command=go_to_topic_page&topic_id=${topic.id}">
+                                    ${topic.header}
+                            </a>
                         </div>
-                    </a>
+
+                        <div class="topics_block-item-theme">
+                            <a href="/NetworkController?command=go_to_main_page&theme_id=${topic.theme.id}&page_number=1&count=10">
+                                    ${topic.theme.name}
+                            </a>
+                        </div>
+                        <div class="topics_block-item-context">
+                                ${topic.context}
+                        </div>
+                    </div>
+
                     <div class="topics_block-item-date-author">
-                        <a href="#">${topic.creatingDate}</a> by <a
-                            href="/NetworkController?command=go_to_profile&profile_user_id=${topic.user.id}">${topic.user.name}</a>
+                        <a href="/NetworkController?command=go_to_profile&profile_user_id=${topic.user.id}">${topic.user.name}</a>
+                        <br>
+                            ${topic.creatingDate}
                     </div>
-                    <div class="topics_block-item-theme">
-                        <a href="/NetworkController?command=go_to_main_page&theme_id=${topic.theme.id}&page_number=1&count_topic=10">${topic.theme.name}</a>
+
+                    <div class="topics_block-item-open">
+                        <a href="/NetworkController?command=go_to_topic_page&topic_id=${topic.id}">
+                            <img src="../../img/open.png">
+                        </a>
                     </div>
-                    <div class="topics_block-item-context">
-                            ${topic.context}
-                    </div>
-                    <a href="/NetworkController?command=go_to_topic_page&topic_id=${topic.id}">
-                        <div class="topics_block-item-open">
-                                ${openTopic}
-                        </div>
-                    </a>
                 </div>
             </c:forEach>
         </div>
 
         <div class="pagination">
-            <c:if test="${requestScope.theme == null}">
-                <a href="/NetworkController?command=go_to_main_page&page_number=1&count_topic=10">1</a>
+            <c:if test="${requestScope.theme == null && requestScope.expression == null}">
 
-                <c:if test="${requestScope.page_number != 1}">
-                    <a href="/NetworkController?command=go_to_main_page&page_number=${requestScope.page_number - 1}&count_topic=10">prev</a>
-                </c:if>
-                <c:if test="${requestScope.topic_list.size() == requestScope.count_topic}">
-                    <a href="/NetworkController?command=go_to_main_page&page_number=${requestScope.page_number +1}&count_topic=10">next</a>
-                </c:if>
+                <lin:pagination command="go_to_main_page" count="10" pageNumber="${requestScope.page_number}"
+                                listSize="${requestScope.topic_list.size()}"/>
+
             </c:if>
 
             <c:if test="${requestScope.theme != null}">
-                <a href="/NetworkController?command=go_to_main_page&theme_id=${requestScope.theme.id}&page_number=1&count_topic=10">1</a>
 
-                <c:if test="${requestScope.page_number != 1}">
-                    <a href="/NetworkController?command=go_to_main_page&theme_id=${requestScope.theme.id}&page_number=${requestScope.page_number - 1}&count_topic=10">prev</a>
-                </c:if>
-                <c:if test="${requestScope.topic_list.size() == requestScope.count_topic}">
-                    <a href="/NetworkController?command=go_to_main_page&theme_id=${requestScope.theme.id}&page_number=${requestScope.page_number +1}&count_topic=10">next</a>
-                </c:if>
+                <lin:pagination command="go_to_main_page" themeId="${requestScope.theme.id}" count="10"
+                                pageNumber="${requestScope.page_number}"
+                                listSize="${requestScope.topic_list.size()}"/>
+
+            </c:if>
+
+            <c:if test="${requestScope.expression != null}">
+
+                <lin:pagination command="go_to_main_page" expression="${requestScope.expression}" count="10"
+                                pageNumber="${requestScope.page_number}"
+                                listSize="${requestScope.topic_list.size()}"/>
+
             </c:if>
         </div>
 
-
-    </article>
+    </section>
 
 
 </main>

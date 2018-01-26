@@ -21,6 +21,16 @@ public class TopicServiceImpl implements TopicService{
     }
 
     @Override
+    public List<Topic> search(String expression, String localeLanguage, int pageNumber, int countTopic) throws TopicServiceException {
+        try {
+            int fromIdTopic = Pagination.countFromId(pageNumber,countTopic);
+            return DAOFactory.getInstance().getTopicDAO().search(expression, localeLanguage, fromIdTopic, countTopic);
+        } catch (TopicDAOException ex) {
+            throw new TopicServiceException(ex);
+        }
+    }
+
+    @Override
     public boolean addTopic(Topic topic) throws TopicServiceException {
         //validate
         try{
