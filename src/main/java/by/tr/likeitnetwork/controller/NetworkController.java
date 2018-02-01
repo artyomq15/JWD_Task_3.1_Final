@@ -13,6 +13,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.IOException;
 
 import org.apache.logging.log4j.LogManager;
@@ -48,6 +49,8 @@ public class NetworkController extends HttpServlet {
             lastRequest = QueryConstructor.clearQueryFromUIFlags(lastRequest);
             response.addCookie(new Cookie(AttributeKey.LAST_REQUEST, lastRequest));
         }
+
+
 
         long time1 = System.currentTimeMillis();
         command.execute(request, response);

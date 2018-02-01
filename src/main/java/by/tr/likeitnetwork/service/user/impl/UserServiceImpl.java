@@ -128,4 +128,13 @@ public class UserServiceImpl implements UserService {
             throw new UserServiceException("", ex);
         }
     }
+
+    @Override
+    public boolean changeImg(int id, String pathImg) throws UserServiceException {
+        try {
+            return DAOFactory.getInstance().getUserDAO().updateImg(id, pathImg);
+        } catch (UserDAOException ex) {
+            throw new UserServiceException("S", ex);
+        }
+    }
 }

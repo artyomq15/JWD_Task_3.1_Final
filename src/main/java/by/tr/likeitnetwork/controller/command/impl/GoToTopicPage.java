@@ -4,7 +4,6 @@ import by.tr.likeitnetwork.controller.command.Command;
 import by.tr.likeitnetwork.controller.constant.AttributeKey;
 import by.tr.likeitnetwork.controller.constant.JspPath;
 import by.tr.likeitnetwork.controller.constant.RedirectQuery;
-import by.tr.likeitnetwork.controller.util.CookieHandler;
 import by.tr.likeitnetwork.entity.Message;
 import by.tr.likeitnetwork.entity.Theme;
 import by.tr.likeitnetwork.entity.Topic;
@@ -12,7 +11,6 @@ import by.tr.likeitnetwork.entity.User;
 import by.tr.likeitnetwork.service.ServiceFactory;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -64,7 +62,7 @@ public class GoToTopicPage implements Command {
             request.getRequestDispatcher(JspPath.TOPIC).forward(request, response);
         } catch (TopicServiceException | UserServiceException | ThemeServiceException | MessageServiceException ex) {
             logger.error(ex);
-            response.sendRedirect(RedirectQuery.ERROR_WITH_MESSAGE);
+            response.sendRedirect(RedirectQuery.ERROR);
         }
     }
 }

@@ -32,6 +32,7 @@ public class UserDAOImpl implements UserDAO {
             callableStatement.registerOutParameter(5, Types.LONGVARCHAR);
             callableStatement.registerOutParameter(6, Types.VARCHAR);
             callableStatement.registerOutParameter(7, Types.BIT);
+            callableStatement.registerOutParameter(8, Types.VARCHAR);
 
 
             ResultSet resultSet = callableStatement.executeQuery();
@@ -43,6 +44,7 @@ public class UserDAOImpl implements UserDAO {
                 user.setAbout(resultSet.getString(4));
                 user.setRole(User.Role.valueOf(resultSet.getString(5)));
                 user.setBanned(resultSet.getBoolean(6));
+                user.setImg(resultSet.getString(7));
                 return user;
             } else {
                 return null;
@@ -287,6 +289,23 @@ public class UserDAOImpl implements UserDAO {
             return rowsAdded != 0;
         } catch (SQLException | DataSourceDAOException | NoSuchAlgorithmException ex) {
             throw new UserDAOException(ex);
+        } finally {
+            DataSource.closeConnection(connection);
+        }
+    }
+
+    @Override
+    public boolean updateImg(int id, String pathImg) throws UserDAOException {
+        Connection connection = null;
+        try {
+            connection = DataSource.getConnection();
+            PreparedStatement update = connection.prepareCall(DAOQuery.SQL_CALL_UPDATE_IMG);
+            update.setString(1, pathImg);
+            update.setInt(2, id);
+
+            return update.executeUpdate() > 0;
+        } catch (SQLException | DataSourceDAOException ex) {
+            throw new UserDAOException("M", ex);
         } finally {
             DataSource.closeConnection(connection);
         }

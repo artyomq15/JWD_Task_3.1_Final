@@ -12,9 +12,6 @@ import java.io.IOException;
 public class GoToErrorPageCommand implements Command{
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String message = request.getParameter(AttributeKey.MESSAGE);
-
-        request.setAttribute(AttributeKey.MESSAGE, message);
         request.getRequestDispatcher(JspPath.ERROR).forward(request, response);
     }
 }

@@ -27,7 +27,7 @@ public class DeleteMessageCommand implements Command{
             response.sendRedirect(CookieHandler.getLastRequest(request.getCookies()));
         } catch (MessageServiceException ex) {
             logger.error(ex);
-            response.sendRedirect(RedirectQuery.ERROR_WITH_MESSAGE);
+            response.sendRedirect(RedirectQuery.ERROR);
         }
     }
 }

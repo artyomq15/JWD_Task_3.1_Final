@@ -30,7 +30,9 @@ public class BanOrUnbanUserCommand implements Command {
             if (roleValue >= (Integer) request.getSession().getAttribute(AttributeKey.ROLE)){
                 response.sendRedirect(CookieHandler.getLastRequest(request.getCookies()));
                 return;
-            } else if (action.equals(AttributeKey.ACTION_BAN)){
+            }
+
+            if (action.equals(AttributeKey.ACTION_BAN)){
                 userService.banUser(id);
             } else if (action.equals(AttributeKey.ACTION_UNBAN)){
                 userService.unbanUser(id);
@@ -38,7 +40,7 @@ public class BanOrUnbanUserCommand implements Command {
             response.sendRedirect(CookieHandler.getLastRequest(request.getCookies()));
         } catch (UserServiceException ex) {
             logger.error(ex);
-            response.sendRedirect(RedirectQuery.ERROR_WITH_MESSAGE);
+            response.sendRedirect(RedirectQuery.ERROR);
         }
     }
 }

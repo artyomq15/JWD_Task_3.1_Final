@@ -45,7 +45,7 @@ public class AddMessageCommand implements Command {
             response.sendRedirect(lastRequest);
         } catch (MessageServiceException ex) {
             logger.error(ex);
-            response.sendRedirect(RedirectQuery.ERROR_WITH_MESSAGE);
+            response.sendRedirect(RedirectQuery.ERROR);
         }
     }
 }

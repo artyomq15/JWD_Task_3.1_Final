@@ -6,9 +6,6 @@ body {
     background-color: #fdfdfd;
 }
 
-hr {
-}
-
 a {
     text-decoration: none;
     color: #000;
@@ -33,6 +30,27 @@ ul {
     margin: 0;
     padding: 0;
     list-style-type: none;
+}
+
+input, textarea, select {
+    margin: 5px 2%;
+    width: 96%;
+    border: solid 1px #adadad;
+    border-radius: 5px;
+    padding-left: 1px;
+    resize: none;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+input:focus, textarea:focus, select:focus {
+    border: solid 1px #ffa17f;
+}
+
+input[type="submit"] {
+    color: #000000;
+    background-color: #ffa17f;
 }
 
 /*-------HEADER-------*/
@@ -211,14 +229,26 @@ main {
 }
 
 .topics_block-item-header {
-    padding: 0 10px 0;
+    float: left;
+    width: 90%;
+    padding: 0 2% 0;
     font-weight: bold;
     font-size: xx-large;
+}
+.topics_block-item-delete {
+    width: 6%;
+    display: inline-block;
+    float: right;
+    text-align: center;
+}
+.topics_block-item-delete img {
+    height: 18px;
+    width: 18px;
 }
 
 .topics_block-item-date-author {
     display: inline-block;
-    padding: 0 10px;
+    padding: 0 2%;
     color: #7d7e80;
 }
 
@@ -227,12 +257,12 @@ main {
 }
 
 .topics_block-item-theme {
-    padding: 0 10px;
+    padding: 0 2%;
     font-size: smaller;
 }
 
 .topics_block-item-context {
-    padding: 0 10px;
+    padding: 0 2%;
     font-size: x-large;
 }
 
@@ -345,7 +375,7 @@ main {
 /*-------SIGN UP-------*/
 .sign_up_header {
     font-size: 36px;
-    color: #afafaf;
+    color: #000000;
     text-align: center;
 }
 
@@ -355,15 +385,24 @@ main {
 }
 
 .sign_up_container input, .sign_up_container textarea {
-    margin: 5px 1%;
-    width: 98%;
-    padding: 10px;
-    border: none;
+    margin: 5px 2%;
+    width: 96%;
+    border: solid 1px #adadad;
+    border-radius: 5px;
+    padding-left: 1px;
     resize: none;
-    box-shadow: 0 0 1px rgba(0, 0, 0, 0.26);
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
+}
+
+.sign_up_container input:focus, .sign_up_container textarea:focus {
+    border: solid 1px #ffa17f;
+}
+
+.add_topic_content-item-button {
+    color: #000000;
+    background-color: #ffa17f;
 }
 
 .error_validation {
@@ -474,9 +513,19 @@ main {
     background-color: rgb(255, 174, 169);
     box-shadow: 0 0 1px rgb(241, 15, 12);
 }
-
+.centred {
+    object-fit: cover;
+    border-radius: 50%;
+}
+.user_img {
+    float: left;
+    text-align: center;
+}
+.user_img img {
+    width: 50px;
+    height: 50px;
+}
 @media (min-width: 960px) {
-
     hr {
         margin-right: 25%;
     }
@@ -522,7 +571,8 @@ main {
         width: unset;
         position: fixed;
         top:60px;
-        left:45%;
+        left:unset;
+        right: 10px;
         padding: 10px;
         z-index: 999;
     }
@@ -559,5 +609,11 @@ main {
 
     .messages_block, .add_message_block {
         width: 75%;
+    }
+
+    .sign_up_container {
+        float: left;
+        margin-left: 20%;
+        width: 60%;
     }
 }

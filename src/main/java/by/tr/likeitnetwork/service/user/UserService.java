@@ -18,4 +18,5 @@ public interface UserService {
     void setAdminToUser (int userId) throws UserServiceException;
     boolean changePassword (int id, String oldPassword, String newPassword, String newPasswordConfirmation) throws UserServiceException;
     boolean changeProfileInfo(User user) throws UserServiceException;
+    boolean changeImg (int id, String pathImg) throws UserServiceException;
 }

@@ -37,7 +37,7 @@ public class LocaleFilter implements Filter {
 
             filterChain.doFilter(request, response);
         } catch (LocaleServiceException ex) {
-            response.sendRedirect(RedirectQuery.ERROR_WITH_MESSAGE);
+            response.sendRedirect(RedirectQuery.ERROR);
         }
     }
 

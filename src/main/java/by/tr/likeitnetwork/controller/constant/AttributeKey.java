@@ -85,6 +85,12 @@ public final class AttributeKey {
     public static final String MESSAGE_NOT_ADDED = "message_not_added";
     public static final String TOPIC_ADDED = "topic_added";
     public static final String TOPIC_NOT_ADDED = "topic_not_added";
+    public static final String TOPIC_DELETED = "topic_deleted";
+    public static final String TOPIC_NOT_DELETED = "topic_not_deleted";
+    public static final String PASSWORD_CHANGED = "password_changed";
+    public static final String PASSWORD_NOT_CHANGED = "password_not_changed";
+    public static final String PROFILE_INFO_CHANGED = "profile_info_changed";
+    public static final String PROFILE_INFO_NOT_CHANGED = "profile_info_not_changed";
 
 
 

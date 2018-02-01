@@ -37,7 +37,7 @@ public class AuthFilter implements Filter {
             checkTokens(request,response);
             filterChain.doFilter(request,response);
         } catch (AuthServiceException ex){
-            response.sendRedirect(RedirectQuery.ERROR_WITH_MESSAGE);
+            response.sendRedirect(RedirectQuery.ERROR);
         }
     }
 

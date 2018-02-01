@@ -11,6 +11,7 @@ public class User implements Serializable{
     private String about;
     private boolean banned;
     private Role role;
+    private String img;
 
     public enum Role {
         SUPER_ADMIN(100), ADMIN(10), USER(2), GUEST(1) ;
@@ -82,6 +83,14 @@ public class User implements Serializable{
         this.role = role;
     }
 
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
+
     @Override
     public boolean equals(Object object) {
         if (this == object) return true;
@@ -97,7 +106,8 @@ public class User implements Serializable{
         if (name != null ? !name.equals(user.name) : user.name != null) return false;
         if (email != null ? !email.equals(user.email) : user.email != null) return false;
         if (about != null ? !about.equals(user.about) : user.about != null) return false;
-        return role == user.role;
+        if (role != user.role) return false;
+        return img != null ? img.equals(user.img) : user.img == null;
 
     }
 
@@ -110,6 +120,7 @@ public class User implements Serializable{
         result = 31 * result + (about != null ? about.hashCode() : 0);
         result = 31 * result + (banned ? 1 : 0);
         result = 31 * result + (role != null ? role.hashCode() : 0);
+        result = 31 * result + (img != null ? img.hashCode() : 0);
         return result;
     }
 
@@ -123,6 +134,7 @@ public class User implements Serializable{
                 ", about='" + about + '\'' +
                 ", banned=" + banned +
                 ", role=" + role +
+                ", img='" + img + '\'' +
                 '}';
     }
 }

@@ -82,6 +82,14 @@
                         <div class="topics_block-item-header">
                             ${requestScope.topic.header}
                         </div>
+                        <c:if test="${requestScope.topic.user.id == requestScope.user.id}">
+                            <div class="topics_block-item-delete">
+
+                                <a href="/NetworkController?command=delete_topic&topic_id=${requestScope.topic.id}"><img
+                                        src="img/delete.png"></a>
+
+                            </div>
+                        </c:if>
                         <div class="topics_block-item-theme">
                             <a href="/NetworkController?command=go_to_main_page&theme_id=${requestScope.topic.theme.id}&page_number=1&count=10">${requestScope.topic.theme.name}</a>
                         </div>
@@ -91,6 +99,9 @@
                     </div>
 
                     <div class="topics_block-item-date-author">
+                        <div class="user_img">
+                            <img class="centred" src="/images/?file=${requestScope.topic.user.img}">
+                        </div>
                         <a href="/NetworkController?command=go_to_profile&profile_user_id=${requestScope.topic.user.id}">
                             ${requestScope.topic.user.name}
                         </a>
@@ -180,7 +191,7 @@
 <c:import url="footer.jsp"/>
 
 <script type="text/javascript" src="../../js/index.js"></script>
-<script type="text/javascript" src="../../js/topic.js"></script>
+<script type="text/javascript" src="../../js/popup.js"></script>
 <script type="text/javascript" src="../../js/scroll.js"></script>
 
 </body>

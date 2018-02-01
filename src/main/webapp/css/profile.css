@@ -6,6 +6,7 @@
     width: 89%;
     float: left;
     padding: 10px 0 0 1%;
+    font-size: x-large;
     font-weight: bold;
 
 }
@@ -47,9 +48,6 @@
 .profile_info-settings a {
     display: block;
 }
-.profile_info-settings:hover {
-    background-color: #edeef0;
-}
 
 .profile_post_info {
     text-align: center;
@@ -64,7 +62,8 @@
 .profile_post_info-topics a, .profile_post_info-messages a  {
     display: block;
 }
-.profile_post_info-topics:hover, .profile_post_info-messages:hover  {
+.profile_post_info-topics:hover,
+.profile_post_info-messages:hover{
     background-color: #edeef0;
 }
 
@@ -72,42 +71,79 @@
 .sign_up_header a{
     display: block;
     font-size: 36px;
-    color: #afafaf;
+    color: #000000;
+    text-align: center;
+}
+.img_change img{
+    width: 40%;
+    margin: 1% 30%;
+}
+.profile_img img {
+    height: 150px;
+    width: 150px;
+}
+.profile_img {
     text-align: center;
 }
 
 
-@media (min-width: 750px){
+@media (min-width: 960px){
+    .profile_img {
+        text-align: center;
+        float: left;
+        width: 19%;
+        margin-left: 1%;
+    }
     .profile_info_block {
         float: left;
         margin-left: 1%;
-        width: 79%;
+        width: 59%;
     }
 
     .profile_info-rating {
         float: left;
-        margin-left: 1%;
-        width: 18%;
+        width: 19%;
     }
 
     .profile_post_info {
         float: left;
-        margin: 0 1%;
-        width: 98%;
-    }
-
-    .topics_block-item, .sign_up_container {
-        float: left;
-        margin-left: 1%;
-        width: 98%;
+        margin: 0 2%;
+        width: 94%;
     }
 
     .info_change, .password_change {
         float: left;
-        margin-left: 1%;
-        width: 48%;
     }
 
+    article {
+        float: left;
+        margin-left: 1%;
+        width: 80%;
+    }
+    article>hr {
+        width: 98%;
+    }
+    .topics_block-item {
+        float: left;
+        width: 80%;
+    }
+    .topics_block-item-date-author {
+        float: left;
+        width: 20%;
+    }
+    hr {
+        float: left;
+        width: 80%;
+    }
+    .messages_block {
+        width: 80%;
+    }
+
+    .sign_up_container {
+        border-radius: 5px;
+        border: 1px solid #969696;
+        margin-bottom: 20px;
+    }
 
 
 }

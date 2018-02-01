@@ -9,6 +9,7 @@ public interface TopicService {
     List<Topic> getAll(String localeLanguage, int pageNumber, int countTopic) throws TopicServiceException;
     List<Topic> search(String expression, String localeLanguage, int pageNumber, int countTopic) throws TopicServiceException;
     boolean addTopic (Topic topic) throws TopicServiceException;
+    boolean deleteTopic (int id) throws TopicServiceException;
     Topic getTopicById (String localeLanguage, int id) throws TopicServiceException;
     List<Topic> getTopicsByThemeId (String localeLanguage, int themeId, int pageNumber, int countTopic) throws TopicServiceException;
     List<Topic> getTopicsByUserId (String localeLanguage, int userId) throws TopicServiceException;

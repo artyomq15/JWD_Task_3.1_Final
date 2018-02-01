@@ -13,6 +13,7 @@ public enum CommandType {
     EXIT,
     CHANGE_PASSWORD,
     ADD_TOPIC,
+    DELETE_TOPIC,
     GO_TO_TOPIC_PAGE,
     RATE_MESSAGE,
     ADD_MESSAGE,
@@ -23,4 +24,5 @@ public enum CommandType {
     CHANGE_ROLE,
     SHOW_HIDE_THEME,
     CHANGE_THEMES,
+    GO_TO_PROFILE_SETTINGS
 }

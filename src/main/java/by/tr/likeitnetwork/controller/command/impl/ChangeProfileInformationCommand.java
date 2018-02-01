@@ -11,6 +11,8 @@ import java.io.IOException;
 
 import by.tr.likeitnetwork.controller.constant.AttributeKey;
 import by.tr.likeitnetwork.controller.constant.RedirectQuery;
+import by.tr.likeitnetwork.controller.util.CookieHandler;
+import by.tr.likeitnetwork.controller.util.QueryConstructor;
 import by.tr.likeitnetwork.entity.User;
 import by.tr.likeitnetwork.service.ServiceFactory;
 import by.tr.likeitnetwork.service.exception.UserServiceException;
@@ -36,14 +38,16 @@ public class ChangeProfileInformationCommand implements Command{
         user.setAbout(about);
         try {
             boolean success = ServiceFactory.getInstance().getUserService().changeProfileInfo(user);
+            String lastRequest = CookieHandler.getLastRequest(request.getCookies());
             if (success) {
-                response.sendRedirect(RedirectQuery.PROFILE_SETTINGS + id);
+                lastRequest = QueryConstructor.addParameter(lastRequest, AttributeKey.PROFILE_INFO_CHANGED);
             } else {
-                response.sendRedirect(RedirectQuery.PROFILE_SETTINGS_WITH_MESSAGE + id);
+                lastRequest = QueryConstructor.addParameter(lastRequest, AttributeKey.PROFILE_INFO_NOT_CHANGED);
             }
+            response.sendRedirect(lastRequest);
         } catch (UserServiceException ex) {
             logger.error(ex);
-            response.sendRedirect(RedirectQuery.ERROR_WITH_MESSAGE);
+            response.sendRedirect(RedirectQuery.ERROR);
         }
     }
 }

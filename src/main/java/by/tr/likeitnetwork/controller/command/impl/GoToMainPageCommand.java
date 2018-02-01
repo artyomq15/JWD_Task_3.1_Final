@@ -69,10 +69,16 @@ public class GoToMainPageCommand implements Command {
             request.setAttribute(TOPIC_LIST, topicList);
             request.setAttribute(PAGE_NUMBER, pageNumber);
             request.setAttribute(COUNT, countTopic);
+
+            request.setAttribute(AttributeKey.TOPIC_ADDED, request.getParameter(AttributeKey.TOPIC_ADDED));
+            request.setAttribute(AttributeKey.TOPIC_NOT_ADDED, request.getParameter(AttributeKey.TOPIC_NOT_ADDED));
+            request.setAttribute(AttributeKey.TOPIC_DELETED, request.getParameter(AttributeKey.TOPIC_DELETED));
+            request.setAttribute(AttributeKey.TOPIC_NOT_DELETED, request.getParameter(AttributeKey.TOPIC_NOT_DELETED));
+
             request.getRequestDispatcher(JspPath.MAIN).forward(request, response);
         } catch (ServiceException ex) {
             logger.error(ex);
-            response.sendRedirect(RedirectQuery.ERROR_WITH_MESSAGE);
+            response.sendRedirect(RedirectQuery.ERROR);
         }
 
     }

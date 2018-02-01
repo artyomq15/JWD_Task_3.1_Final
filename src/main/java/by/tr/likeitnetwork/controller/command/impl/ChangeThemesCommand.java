@@ -45,7 +45,7 @@ public class ChangeThemesCommand implements Command {
             response.sendRedirect(CookieHandler.getLastRequest(request.getCookies()));
         } catch (ThemeServiceException ex) {
             logger.error(ex);
-            response.sendRedirect(RedirectQuery.ERROR_WITH_MESSAGE);
+            response.sendRedirect(RedirectQuery.ERROR);
         }
     }
 }

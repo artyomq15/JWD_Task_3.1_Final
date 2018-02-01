@@ -10,6 +10,8 @@ import java.io.IOException;
 
 import by.tr.likeitnetwork.controller.constant.AttributeKey;
 import by.tr.likeitnetwork.controller.constant.RedirectQuery;
+import by.tr.likeitnetwork.controller.util.CookieHandler;
+import by.tr.likeitnetwork.controller.util.QueryConstructor;
 import by.tr.likeitnetwork.service.ServiceFactory;
 import by.tr.likeitnetwork.service.exception.UserServiceException;
 
@@ -27,19 +29,20 @@ public class ChangePasswordCommand implements Command {
         String newPassword = request.getParameter(AttributeKey.NEW_PASSWORD);
         String newPasswordConfirmation = request.getParameter(AttributeKey.CONFIRMATION);
 
-
         Integer id = (Integer) request.getSession().getAttribute(AttributeKey.ID);
 
         try {
             boolean success = ServiceFactory.getInstance().getUserService().changePassword(id, oldPassword, newPassword, newPasswordConfirmation);
+            String lastRequest = CookieHandler.getLastRequest(request.getCookies());
             if (success) {
-                response.sendRedirect(RedirectQuery.PROFILE_SETTINGS + id);
+                lastRequest = QueryConstructor.addParameter(lastRequest, AttributeKey.PASSWORD_CHANGED);
             } else {
-                response.sendRedirect(RedirectQuery.PROFILE_SETTINGS_WITH_MESSAGE + id);
+                lastRequest = QueryConstructor.addParameter(lastRequest, AttributeKey.PASSWORD_NOT_CHANGED);
             }
+            response.sendRedirect(lastRequest);
         } catch (UserServiceException ex) {
             logger.error(ex);
-            response.sendRedirect(RedirectQuery.ERROR_WITH_MESSAGE);
+            response.sendRedirect(RedirectQuery.ERROR);
         }
     }
 }

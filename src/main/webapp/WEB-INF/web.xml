@@ -21,6 +21,17 @@
     <url-pattern>/NetworkController</url-pattern>
   </servlet-mapping>
 
+  <servlet>
+    <servlet-name>ImageServlet</servlet-name>
+    <servlet-class>by.tr.likeitnetwork.controller.ImageServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ImageServlet</servlet-name>
+    <url-pattern>/images/*</url-pattern>
+  </servlet-mapping>
+
+
+
 
   <filter>
     <filter-name>CharsetFilter</filter-name>

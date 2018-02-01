@@ -9,8 +9,7 @@ public interface TopicDAO {
     List<Topic> getAll(String localeLanguage, int fromIdTopic, int countTopic) throws TopicDAOException;
     List<Topic> search(String expression, String localeLanguage, int fromIdTopic, int countTopic) throws TopicDAOException;
     boolean addTopic(Topic topic) throws TopicDAOException;
-    //delete
-    //update
+    boolean deleteTopic (int id) throws TopicDAOException;
     Topic getTopicById (String localeLanguage, int id) throws TopicDAOException;
     List<Topic> getTopicsByThemeId (String localeLanguage, int themeId, int fromId, int countTopic) throws TopicDAOException;
     List<Topic> getTopicsByUserId (String localeLanguage, int userId) throws TopicDAOException;

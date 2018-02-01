@@ -15,6 +15,11 @@
 <fmt:message key="label.email" bundle="${profile}" var="email"/>
 <fmt:message key="label.about" bundle="${profile}" var="about"/>
 
+<fmt:message key="label.passwordChanged" bundle="${profile}" var="passwordChanged"/>
+<fmt:message key="label.passwordNotChanged" bundle="${profile}" var="passwordNotChanged"/>
+<fmt:message key="label.profileInfoChanged" bundle="${profile}" var="profileInfoChanged"/>
+<fmt:message key="label.profileInfoNotChanged" bundle="${profile}" var="profileInfoNotChanged"/>
+
 <fmt:message key="label.exit" bundle="${auth}" var="exit"/>
 <fmt:message key="label.password" bundle="${auth}" var="password"/>
 <fmt:message key="label.newPassword" bundle="${auth}" var="newPassword"/>
@@ -56,7 +61,7 @@
         <c:if test="${sessionScope.role >= 2}">
             <a href="/NetworkController?command=go_to_profile&profile_user_id=${requestScope.user.id}">
                 <div class="header_menu-item">
-                        ${requestScope.user.name}
+                    <img src="../../img/user.png">${requestScope.user.name}
                 </div>
             </a>
         </c:if>
@@ -65,7 +70,20 @@
 
 
 <main>
-    <div class="card sign_up_container info_change">
+
+    <div class="sign_up_container img_change">
+        <div class="sign_up_header">
+            ${changeProfileInfo}
+        </div>
+        <!---->
+        <img src="/images/?file=${requestScope.user.img}">
+
+        <form action="/images/" method="post" enctype="multipart/form-data">
+            <input type="file" name="file">
+            <input type="submit" value="submit">
+        </form>
+    </div>
+    <div class="sign_up_container info_change">
         <div class="sign_up_header">
             ${changeProfileInfo}
         </div>
@@ -90,7 +108,7 @@
         </form>
     </div>
 
-    <div class="card sign_up_container password_change">
+    <div class="sign_up_container password_change">
         <div class="sign_up_header">
             ${changePassword}
         </div>
@@ -118,11 +136,33 @@
         </form>
     </div>
 
-    <div class="card sign_up_container">
+    <div class="sign_up_container">
         <div class="sign_up_header">
             <a href="/NetworkController?command=exit">${exit}</a>
         </div>
     </div>
+
+    <c:if test="${requestScope.password_changed != null}">
+        <div id="popup_message" class="card added">
+                ${passwordChanged}
+        </div>
+    </c:if>
+    <c:if test="${requestScope.password_not_changed != null}">
+        <div id="popup_message" class="card not_added">
+                ${passwordNotChanged}
+        </div>
+    </c:if>
+    <c:if test="${requestScope.profile_info_changed != null}">
+        <div id="popup_message" class="card added">
+                ${profileInfoChanged}
+        </div>
+    </c:if>
+    <c:if test="${requestScope.profile_info_not_changed != null}">
+        <div id="popup_message" class="card not_added">
+                ${profileInfoNotChanged}
+        </div>
+    </c:if>
+
 </main>
 
 
@@ -131,5 +171,6 @@
 <c:import url="footer.jsp"/>
 
 <script type="text/javascript" src="../../js/index.js"></script>
+<script type="text/javascript" src="../../js/popup.js"></script>
 </body>
 </html>

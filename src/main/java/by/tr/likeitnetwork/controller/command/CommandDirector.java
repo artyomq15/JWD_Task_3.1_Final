@@ -20,6 +20,7 @@ public class CommandDirector {
         dispatcherMap.put(CommandType.GO_TO_MAIN_PAGE, new GoToMainPageCommand());
 
         dispatcherMap.put(CommandType.GO_TO_PROFILE, new GoToProfileCommand());
+        dispatcherMap.put(CommandType.GO_TO_PROFILE_SETTINGS, new GoToProfileSettingsCommand());
 
         dispatcherMap.put(CommandType.GO_TO_ERROR_PAGE, new GoToErrorPageCommand());
 
@@ -29,6 +30,7 @@ public class CommandDirector {
         dispatcherMap.put(CommandType.CHANGE_PROFILE_INFO, new ChangeProfileInformationCommand());
 
         dispatcherMap.put(CommandType.ADD_TOPIC, new AddTopicCommand());
+        dispatcherMap.put(CommandType.DELETE_TOPIC, new DeleteTopicCommand());
         dispatcherMap.put(CommandType.GO_TO_TOPIC_PAGE, new GoToTopicPage());
 
         dispatcherMap.put(CommandType.RATE_MESSAGE, new RateMessageCommand());

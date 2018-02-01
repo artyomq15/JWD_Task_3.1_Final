@@ -42,6 +42,15 @@ public class TopicServiceImpl implements TopicService{
     }
 
     @Override
+    public boolean deleteTopic(int id) throws TopicServiceException {
+        try{
+            return DAOFactory.getInstance().getTopicDAO().deleteTopic(id);
+        } catch (TopicDAOException ex) {
+            throw new TopicServiceException(ex);
+        }
+    }
+
+    @Override
     public Topic getTopicById(String localeLanguage, int id) throws TopicServiceException {
         try{
             return DAOFactory.getInstance().getTopicDAO().getTopicById(localeLanguage, id);

@@ -5,28 +5,38 @@ public final class DAOQuery {
     public static final String SQL_CALL_GET_INFO_FOR_SIGN_IN_BY_LOGIN = "call getInfoForSignInByLogin(?, ?, ?, ?, ?)";
     public static final String SQL_CALL_UPDATE_TOKENS_BY_ID = "call updateTokensById(?, ?, ?)";
 
+    /////
     public static final String SQL_SELECT_ACCESS_TOKEN_TRUE = "SELECT user_id FROM auth WHERE access_token=? AND access_token_expiration>=now();";
     public static final String SQL_SELECT_REFRESH_TOKEN_TRUE = "SELECT user_id FROM auth WHERE refresh_token=? AND refresh_token_expiration>=now();";
+    /////
 
-    public static final String SQL_CALL_GET_USER_BY_ID = "call getUserById(?, ?, ?, ?, ?, ?, ?)";
+    public static final String SQL_CALL_GET_USER_BY_ID = "call getUserById(?, ?, ?, ?, ?, ?, ?, ?)";
     public static final String SQL_CALL_GET_USER_BY_NAME_OR_LOGIN = "call getUserByLoginOrName(?, ?, ?, ?, ?, ?, ?, ?, ?)";
     public static final String SQL_CALL_GET_USER_BY_BANNED_STATE = "call getUsersByBannedState(?, ?, ?, ?, ?, ?, ?, ?)";
     public static final String SQL_CALL_GET_ADMINS = "call getAdmins(?, ?, ?, ?, ?, ?, ?, ?)";
+    public static final String SQL_CALL_UPDATE_IMG = "call updateUserImg(?, ?)";
 
     public static final String SQL_CALL_BAN_USER = "call banUser(?)";
     public static final String SQL_CALL_UNBAN_USER = "call unbanUser(?)";
     public static final String SQL_CALL_SET_USER_TO_ADMIN = "call setUserToAdmin(?)";
     public static final String SQL_CALL_SET_ADMIN_TO_USER = "call setAdminToUser(?)";
+
+    /////
     public static final String SELECT_PASSWORD_AND_SALT_BY_ID = "SELECT user_password, user_password_salt FROM user WHERE user_id = ?";
     public static final String SQL_UPDATE_NEW_PASSWORD_BY_ID = "UPDATE user SET user_password=? WHERE user_id=?;";
+    /////
 
     public static final String SQL_CALL_CHANGE_PROFILE_INFO = "call changeProfileInfo(?, ?, ?, ?)";
 
+    /////
     public static final String SQL_INSERT_USER = "INSERT INTO user (user_name, user_email, user_login, user_password, user_password_salt) VALUES (?,?,?,?,?);";
+    /////
 
     public static final String SQL_CALL_GET_USER_ID_BY_LOGIN = "call getUserByLogin(?, ?)";
 
+    //////
     public static final String SQL_SELECT_LANGUAGE_ID_BY_NAME = "SELECT lang_id FROM language WHERE lang_short_name=?;";
+    /////
 
     public static final String SQL_CALL_GET_THEMES_BY_LANGUAGE = "call getAllThemes(?, ?, ?)";
     public static final String SQL_CALL_GET_THEME_BY_ID_AND_LANGUAGE = "call getThemeById(?, ?, ?)";
@@ -38,14 +48,15 @@ public final class DAOQuery {
     public static final String SQL_CALL_INSERT_LOCALIZED_THEME_NAME = "call addThemeLocalizedName(?, ?, ?)";
     public static final String SQL_CALL_UPDATE_LOCALIZED_THEME_NAME = "call updateThemeLocalizedName(?, ?, ?)";
 
-    public static final String SQL_CALL_GET_ALL_TOPICS = "call getAllTopics(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    public static final String SQL_CALL_SEARCH_TOPICS = "call searchTopics(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    public static final String SQL_CALL_GET_ALL_TOPICS = "call getAllTopics(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    public static final String SQL_CALL_SEARCH_TOPICS = "call searchTopics(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     public static final String SQL_CALL_ADD_TOPIC = "call addTopic(?, ?, ?, ?)";
-    public static final String SQL_CALL_GET_TOPIC_BY_ID = "call getTopicById(?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    public static final String SQL_CALL_GET_TOPICS_BY_THEME_ID = "call getTopicsByThemeId(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    public static final String SQL_CALL_GET_TOPIC_BY_ID = "call getTopicById(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    public static final String SQL_CALL_GET_TOPICS_BY_THEME_ID = "call getTopicsByThemeId(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     public static final String SQL_CALL_GET_TOPICS_BY_USER_ID = "call getTopicsByUserId(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     public static final String SQL_CALL_GET_TOPICS_WHICH_COMMENTED_BY_USER = "call getTopicsWhichCommendedByUser(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     public static final String SCL_CALL_COUNT_TOPICS_OF_USER = "call countTopicsOfUser(?, ?)";
+    public static final String SQL_CALL_DELETE_TOPIC = "call deleteTopic(?)";
 
     public static final String SQL_CALL_ADD_MESSAGE = "call addMessage(?, ?, ?)";
     public static final String SQL_CALL_DELETE_MESSAGE = "call deleteMessage(?)";

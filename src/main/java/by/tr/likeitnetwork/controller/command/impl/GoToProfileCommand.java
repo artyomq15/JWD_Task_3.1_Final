@@ -22,7 +22,6 @@ import org.apache.logging.log4j.Logger;
 
 import static by.tr.likeitnetwork.controller.constant.AttributeKey.*;
 import static by.tr.likeitnetwork.controller.constant.JspPath.PROFILE;
-import static by.tr.likeitnetwork.controller.constant.JspPath.SETTINGS;
 
 public class GoToProfileCommand implements Command {
     private static final Logger logger = LogManager.getLogger(GoToProfileCommand.class);
@@ -41,12 +40,6 @@ public class GoToProfileCommand implements Command {
             if (role > User.Role.GUEST.getRole()) {
                 user = ServiceFactory.getInstance().getUserService().findUserById(userId);
                 request.setAttribute(USER, user);
-            }
-
-            if (ACTION_GET_SETTINGS.equals(action)) {
-                request.setAttribute(MESSAGE, request.getParameter(MESSAGE));
-                request.getRequestDispatcher(SETTINGS).forward(request, response);
-                return;
             }
 
             if (user != null && user.getId() == profileUserId) {
@@ -78,7 +71,7 @@ public class GoToProfileCommand implements Command {
             request.getRequestDispatcher(PROFILE).forward(request, response);
         } catch (ServiceException ex) {
             logger.error(ex);
-            response.sendRedirect(RedirectQuery.ERROR_WITH_MESSAGE);
+            response.sendRedirect(RedirectQuery.ERROR);
         }
 
     }

@@ -46,9 +46,9 @@
             </a>
         </c:if>
         <c:if test="${sessionScope.role >= 2}">
-            <a href="/NetworkController?command=go_to_profile">
+            <a href="/NetworkController?command=go_to_profile&profile_user_id=${requestScope.user.id}">
                 <div class="header_menu-item">
-                        ${requestScope.user.name}
+                    <img src="../../img/user.png">${requestScope.user.name}
                 </div>
             </a>
         </c:if>
@@ -56,7 +56,7 @@
 </header>
 
 <main>
-    <div class="card sign_up_container">
+    <div class="sign_up_container">
         <div class="sign_up_header">
             ${signIn}
         </div>

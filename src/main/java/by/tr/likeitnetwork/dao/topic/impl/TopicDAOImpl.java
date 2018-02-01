@@ -35,6 +35,7 @@ public class TopicDAOImpl implements TopicDAO{
             getAll.registerOutParameter(9, Types.VARCHAR);
             getAll.registerOutParameter(10, Types.INTEGER);
             getAll.registerOutParameter(11, Types.VARCHAR);
+            getAll.registerOutParameter(12, Types.VARCHAR);
 
             getAll.execute();
             List<Topic> topicList = new ArrayList<>();
@@ -55,12 +56,15 @@ public class TopicDAOImpl implements TopicDAO{
                 user = new User();
                 user.setId(resultSet.getInt(5));
                 user.setName(resultSet.getString(6));
-                topic.setUser(user);
+
 
                 theme = new Theme();
                 theme.setId(resultSet.getInt(7));
                 theme.setName(resultSet.getString(8));
+
+                user.setImg(resultSet.getString(9));
                 topic.setTheme(theme);
+                topic.setUser(user);
 
                 topicList.add(topic);
             }
@@ -90,6 +94,7 @@ public class TopicDAOImpl implements TopicDAO{
             search.registerOutParameter(10, Types.VARCHAR);
             search.registerOutParameter(11, Types.INTEGER);
             search.registerOutParameter(12, Types.VARCHAR);
+            search.registerOutParameter(13, Types.VARCHAR);
 
             search.execute();
             List<Topic> topicList = new ArrayList<>();
@@ -110,12 +115,15 @@ public class TopicDAOImpl implements TopicDAO{
                 user = new User();
                 user.setId(resultSet.getInt(5));
                 user.setName(resultSet.getString(6));
-                topic.setUser(user);
+
 
                 theme = new Theme();
                 theme.setId(resultSet.getInt(7));
                 theme.setName(resultSet.getString(8));
+
+                user.setImg(resultSet.getString(9));
                 topic.setTheme(theme);
+                topic.setUser(user);
 
                 topicList.add(topic);
             }
@@ -146,6 +154,21 @@ public class TopicDAOImpl implements TopicDAO{
     }
 
     @Override
+    public boolean deleteTopic(int id) throws TopicDAOException {
+        Connection connection = null;
+        try{
+            connection = DataSource.getConnection();
+            CallableStatement deleteTopic = connection.prepareCall(DAOQuery.SQL_CALL_DELETE_TOPIC);
+            deleteTopic.setInt(1, id);
+            return deleteTopic.executeUpdate() == 1;///////////////////
+        } catch (SQLException | DataSourceDAOException ex) {
+            throw new TopicDAOException(ex);
+        } finally {
+            DataSource.closeConnection(connection);
+        }
+    }
+
+    @Override
     public Topic getTopicById(String localeLanguage, int id) throws TopicDAOException {
         Connection connection = null;
         try{
@@ -161,6 +184,7 @@ public class TopicDAOImpl implements TopicDAO{
             getTopic.registerOutParameter(7, Types.VARCHAR);
             getTopic.registerOutParameter(8, Types.INTEGER);
             getTopic.registerOutParameter(9, Types.VARCHAR);
+            getTopic.registerOutParameter(10, Types.VARCHAR);
 
             getTopic.executeQuery();
 
@@ -181,12 +205,16 @@ public class TopicDAOImpl implements TopicDAO{
                 user = new User();
                 user.setId(resultSet.getInt(4));
                 user.setName(resultSet.getString(5));
-                topic.setUser(user);
+
 
                 theme = new Theme();
                 theme.setId(resultSet.getInt(6));
                 theme.setName(resultSet.getString(7));
+
+                user.setImg(resultSet.getString(8));
+
                 topic.setTheme(theme);
+                topic.setUser(user);
 
                 return topic;
             }
@@ -216,6 +244,7 @@ public class TopicDAOImpl implements TopicDAO{
             getTopics.registerOutParameter(9, Types.INTEGER);
             getTopics.registerOutParameter(10, Types.VARCHAR);
             getTopics.registerOutParameter(11, Types.VARCHAR);
+            getTopics.registerOutParameter(12, Types.VARCHAR);
 
             List<Topic> topicList = new ArrayList<>();
             Topic topic;
@@ -240,6 +269,8 @@ public class TopicDAOImpl implements TopicDAO{
                 theme = new Theme();
                 theme.setId(themeId);
                 theme.setName(resultSet.getString(7));
+
+                user.setImg(resultSet.getString(8));
 
                 topic.setUser(user);
                 topic.setTheme(theme);

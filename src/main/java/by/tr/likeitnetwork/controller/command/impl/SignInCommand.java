@@ -37,7 +37,7 @@ public class SignInCommand implements Command {
             }
         } catch (ServiceException ex) {
             logger.error(ex);
-            response.sendRedirect(RedirectQuery.ERROR_WITH_MESSAGE);
+            response.sendRedirect(RedirectQuery.ERROR);
         }
 
     }

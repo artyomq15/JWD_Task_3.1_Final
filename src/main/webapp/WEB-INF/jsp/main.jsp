@@ -17,6 +17,10 @@
 <fmt:message key="label.context" bundle="${main}" var="addTopicContext"/>
 <fmt:message key="button.create" bundle="${main}" var="addTopicButton"/>
 <fmt:message key="label.openTopic" bundle="${main}" var="openTopic"/>
+<fmt:message key="label.topicAdded" bundle="${main}" var="topicAdded"/>
+<fmt:message key="label.topicNotAdded" bundle="${main}" var="topicNotAdded"/>
+<fmt:message key="label.topicDeleted" bundle="${main}" var="topicDeleted"/>
+<fmt:message key="label.topicNotDeleted" bundle="${main}" var="topicNotDeleted"/>
 
 
 <html>
@@ -87,7 +91,7 @@
                         <input type="hidden" name="page_number" value="1"/>
                         <input type="hidden" name="count" value="10"/>
                         <input class="search_topic_block-field" type="search" name="expression" value=""
-                               placeholder="${search}"/>
+                               placeholder="${search}" required/>
                         <input class="search_topic_content-item-button" type="submit" value="OK"/>
                     </form>
                 </div>
@@ -164,6 +168,9 @@
                     </div>
 
                     <div class="topics_block-item-date-author">
+                        <div class="user_img">
+                            <img class="centred" src="/images/?file=${topic.user.img}">
+                        </div>
                         <a href="/NetworkController?command=go_to_profile&profile_user_id=${topic.user.id}">${topic.user.name}</a>
                         <br>
                             ${topic.creatingDate}
@@ -205,11 +212,33 @@
 
     </section>
 
+    <c:if test="${requestScope.topic_added != null}">
+        <div id="popup_message" class="card added">
+                ${topicAdded}
+        </div>
+    </c:if>
+    <c:if test="${requestScope.topic_not_added != null}">
+        <div id="popup_message" class="card not_added">
+                ${topicNotAdded}
+        </div>
+    </c:if>
+    <c:if test="${requestScope.topic_deleted != null}">
+        <div id="popup_message" class="card added">
+                ${topicDeleted}
+        </div>
+    </c:if>
+    <c:if test="${requestScope.topic_not_deleted != null}">
+        <div id="popup_message" class="card not_added">
+                ${topicNotDeleted}
+        </div>
+    </c:if>
+
 
 </main>
 
 <c:import url="footer.jsp"/>
 
 <script type="text/javascript" src="../../js/index.js"></script>
+<script type="text/javascript" src="../../js/popup.js"></script>
 </body>
 </html>

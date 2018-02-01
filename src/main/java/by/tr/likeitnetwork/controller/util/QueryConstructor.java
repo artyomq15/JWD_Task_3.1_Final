@@ -17,6 +17,12 @@ public final class QueryConstructor {
         uiFlags.add(AttributeKey.MESSAGE_NOT_ADDED);
         uiFlags.add(AttributeKey.TOPIC_ADDED);
         uiFlags.add(AttributeKey.TOPIC_NOT_ADDED);
+        uiFlags.add(AttributeKey.PASSWORD_CHANGED);
+        uiFlags.add(AttributeKey.PASSWORD_NOT_CHANGED);
+        uiFlags.add(AttributeKey.PROFILE_INFO_CHANGED);
+        uiFlags.add(AttributeKey.PROFILE_INFO_NOT_CHANGED);
+        uiFlags.add(AttributeKey.TOPIC_DELETED);
+        uiFlags.add(AttributeKey.TOPIC_NOT_DELETED);
     }
 
     public static String clearQueryFromUIFlags(String query){

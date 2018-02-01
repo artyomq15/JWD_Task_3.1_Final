@@ -51,7 +51,7 @@ public class AddTopicCommand implements Command {
             response.sendRedirect(lastRequest);
         } catch (TopicServiceException ex) {
             logger.error(ex);
-            response.sendRedirect(RedirectQuery.ERROR_WITH_MESSAGE);
+            response.sendRedirect(RedirectQuery.ERROR);
         }
     }
 }

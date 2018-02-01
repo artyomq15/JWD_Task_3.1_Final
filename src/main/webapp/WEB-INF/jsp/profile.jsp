@@ -36,6 +36,7 @@
     <script type="text/javascript" src="https://code.jquery.com/jquery-1.10.2.js"></script>
     <link rel="stylesheet" href="../../css/index.css"/>
     <link rel="stylesheet" href="../../css/profile.css"/>
+    <link rel="icon" href="../../img/logo.png">
     <title>Title</title>
 </head>
 <body>
@@ -62,14 +63,14 @@
         <c:if test="${sessionScope.role >= 2}">
             <a href="/NetworkController?command=go_to_profile&profile_user_id=${requestScope.user.id}">
                 <div class="header_menu-item">
-                        ${requestScope.user.name}
+                    <img src="../../img/user.png">${requestScope.user.name}
                 </div>
             </a>
         </c:if>
         <c:if test="${sessionScope.role > 2}">
             <a href="/NetworkController?command=go_to_admin_page&action=not_banned&page_number=1&count=10">
                 <div class="header_menu-item">
-                        ADMIN PAGE
+                    ADMIN PAGE
                 </div>
             </a>
         </c:if>
@@ -78,20 +79,23 @@
 
 
 <main>
+    <div class="profile_img">
+        <img class="centred" src="/images/?file=${requestScope.profile_user.img}">
+    </div>
 
-    <div class="card profile_info_block">
+    <div class="profile_info_block">
         <div class="profile_info-name">
             ${requestScope.profile_user.name}
         </div>
         <c:if test="${requestScope.user != null && requestScope.user.id==requestScope.profile_user.id}">
             <div class="profile_info-settings">
-                <a href="/NetworkController?command=go_to_profile&action=get_settings&profile_user_id=${requestScope.user.id}">
+                <a href="/NetworkController?command=go_to_profile_settings">
                     <img src="../../img/settings.png">
                 </a>
             </div>
         </c:if>
         <div class="profile_info-email">
-           <sup>${email}</sup></br><c:out value="${requestScope.profile_user.email}"/>
+            <sup>${email}</sup></br><c:out value="${requestScope.profile_user.email}"/>
         </div>
         <div class="profile_info-about">
             <sup>${about}</sup></br> <c:out value="${requestScope.profile_user.about}"/>
@@ -100,7 +104,7 @@
     </div>
 
 
-    <div class="card profile_info-rating">
+    <div class="profile_info-rating">
         <div class="profile-digit">
             <c:out value="${requestScope.profile_user.rating}"/>
         </div>
@@ -109,60 +113,71 @@
         </div>
     </div>
 
-    <div class="card profile_post_info">
 
-        <a href="/NetworkController?command=go_to_profile&profile_user_id=${requestScope.profile_user.id}&action=get_topics">
+    <article>
+        <hr>
+        <div class="profile_post_info">
+
             <div class="profile_post_info-topics">
-                <div class="profile-digit">
-                    <c:out value="${requestScope.topics_count}"/>
-                </div>
-                <div class="profile-text">
+                <a href="/NetworkController?command=go_to_profile&profile_user_id=${requestScope.profile_user.id}&action=get_topics">
+                    <div class="profile-digit">
+                        <c:out value="${requestScope.topics_count}"/>
+                    </div>
+                    <div class="profile-text">
 
-                    ${topic}
+                        ${topic}
 
-                </div>
+                    </div>
+                </a>
             </div>
-        </a>
 
 
-        <a href="/NetworkController?command=go_to_profile&profile_user_id=${requestScope.profile_user.id}&action=get_messages">
             <div class="profile_post_info-messages">
-                <div class="profile-digit">
-                    <c:out value="${requestScope.messages_count}"/>
-                </div>
-                <div class="profile-text">
+                <a href="/NetworkController?command=go_to_profile&profile_user_id=${requestScope.profile_user.id}&action=get_messages">
+                    <div class="profile-digit">
+                        <c:out value="${requestScope.messages_count}"/>
+                    </div>
+                    <div class="profile-text">
 
-                    ${message}
+                        ${message}
 
-                </div>
+                    </div>
+                </a>
             </div>
-        </a>
 
-    </div>
 
+        </div>
+    </article>
     <c:if test="${requestScope.topic_list != null}">
         <c:forEach var="topic" items="${requestScope.topic_list}">
-            <div class="card topics_block-item">
-                <a href="/NetworkController?command=go_to_topic_page&topic_id=${topic.id}">
+            <div class="topic_container">
+                <hr>
+                <div class="topics_block-item">
                     <div class="topics_block-item-header">
-                            ${topic.header}
+                        <a href="/NetworkController?command=go_to_topic_page&topic_id=${topic.id}">
+                                ${topic.header}
+                        </a>
                     </div>
-                </a>
+                    <div class="topics_block-item-theme">
+                        <a href="/NetworkController?command=go_to_main_page&theme_id=${topic.theme.id}&page_number=1&count=10">${topic.theme.name}</a>
+                    </div>
+                    <div class="topics_block-item-context">
+                            ${topic.context}
+                    </div>
+                </div>
                 <div class="topics_block-item-date-author">
-                    <a href="#">${topic.creatingDate}</a> by <a
-                        href="/NetworkController?command=go_to_profile&profile_user_id=${requestScope.profile_user.id}">${requestScope.profile_user.name}</a>
+                    <a href="/NetworkController?command=go_to_profile&profile_user_id=${requestScope.profile_user.id}">
+                            ${requestScope.profile_user.name}
+                    </a>
+                    <br>
+                        ${topic.creatingDate}
                 </div>
-                <div class="topics_block-item-theme">
-                    <a href="/NetworkController?command=go_to_main_page&theme_id=${topic.theme.id}&page_number=1&count=10">${topic.theme.name}</a>
+                <div class="topics_block-item-open">
+                    <a href="/NetworkController?command=go_to_topic_page&topic_id=${topic.id}">
+                        <img src="../../img/open.png">
+                    </a>
                 </div>
-                <div class="topics_block-item-context">
-                        ${topic.context}
-                </div>
-                <a href="/NetworkController?command=go_to_topic_page&topic_id=${topic.id}">
-                    <div class="topics_block-item-open">
-                            ${openTopic}
-                    </div>
-                </a>
+
             </div>
         </c:forEach>
     </c:if>
@@ -171,21 +186,33 @@
     <c:if test="${requestScope.message_list != null}">
         <div class="topics_block">
             <c:forEach var="topic" items="${requestScope.topic_list_for_messages}">
-                <div class="card topics_block-item">
-                    <div class="topics_block-item-header">
-                        <a href="/NetworkController?command=go_to_topic_page&topic_id=${topic.id}">
-                                ${topic.header}
-                        </a>
+                <div class="topic_container">
+                    <hr>
+                    <div class="topics_block-item">
+                        <div class="topics_block-item-header">
+                            <a href="/NetworkController?command=go_to_topic_page&topic_id=${topic.id}">
+                                    ${topic.header}
+                            </a>
+                        </div>
+
+                        <div class="topics_block-item-theme">
+                            <a href="/NetworkController?command=go_to_main_page&theme_id=${topic.theme.id}&page_number=1&count=10">${topic.theme.name}</a>
+                        </div>
+                        <div class="topics_block-item-context">
+                                ${topic.context}
+                        </div>
                     </div>
                     <div class="topics_block-item-date-author">
-                        <a href="#">${topic.creatingDate}</a> by <a
-                            href="/NetworkController?command=go_to_profile&profile_user_id=${topic.user.id}">${topic.user.name}</a>
+                        <a href="/NetworkController?command=go_to_profile&profile_user_id=${topic.user.id}">
+                                ${topic.user.name}
+                        </a>
+                        <br>
+                            ${topic.creatingDate}
                     </div>
-                    <div class="topics_block-item-theme">
-                        <a href="/NetworkController?command=go_to_main_page&theme_id=${topic.theme.id}&page_number=1&count=10">${topic.theme.name}</a>
-                    </div>
-                    <div class="topics_block-item-context">
-                            ${topic.context}
+                    <div class="topics_block-item-open">
+                        <a href="/NetworkController?command=go_to_topic_page&topic_id=${topic.id}">
+                            <img src="../../img/open.png">
+                        </a>
                     </div>
                     <div class="messages_block">
                         <c:forEach var="message" items="${requestScope.message_list}">
@@ -224,6 +251,7 @@
                         </c:forEach>
                     </div>
                 </div>
+
             </c:forEach>
         </div>
 

@@ -17,4 +17,5 @@ public interface UserDAO {
     boolean changeProfileInfo (User user) throws UserDAOException;
     String checkOldPasswordMatchesPasswordInDataBase(int id, String oldPassword) throws UserDAOException;
     boolean updateNewPasswordInDataBase(int id, String password, String passwordSalt) throws UserDAOException;
+    boolean updateImg (int id, String pathImg) throws UserDAOException;
 }
