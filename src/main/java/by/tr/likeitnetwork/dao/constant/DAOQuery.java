@@ -5,10 +5,8 @@ public final class DAOQuery {
     public static final String SQL_CALL_GET_INFO_FOR_SIGN_IN_BY_LOGIN = "call getInfoForSignInByLogin(?, ?, ?, ?, ?)";
     public static final String SQL_CALL_UPDATE_TOKENS_BY_ID = "call updateTokensById(?, ?, ?)";
 
-    /////
-    public static final String SQL_SELECT_ACCESS_TOKEN_TRUE = "SELECT user_id FROM auth WHERE access_token=? AND access_token_expiration>=now();";
-    public static final String SQL_SELECT_REFRESH_TOKEN_TRUE = "SELECT user_id FROM auth WHERE refresh_token=? AND refresh_token_expiration>=now();";
-    /////
+    public static final String SQL_CALL_GET_ID_BY_ACCESS_TOKEN = "call getIdByAccessToken(?, ?)";
+    public static final String SQL_CALL_GET_ID_BY_REFRESH_TOKEN = "call getIdByRefreshToken(?, ?)";
 
     public static final String SQL_CALL_GET_USER_BY_ID = "call getUserById(?, ?, ?, ?, ?, ?, ?, ?)";
     public static final String SQL_CALL_GET_USER_BY_NAME_OR_LOGIN = "call getUserByLoginOrName(?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -21,22 +19,17 @@ public final class DAOQuery {
     public static final String SQL_CALL_SET_USER_TO_ADMIN = "call setUserToAdmin(?)";
     public static final String SQL_CALL_SET_ADMIN_TO_USER = "call setAdminToUser(?)";
 
-    /////
-    public static final String SELECT_PASSWORD_AND_SALT_BY_ID = "SELECT user_password, user_password_salt FROM user WHERE user_id = ?";
-    public static final String SQL_UPDATE_NEW_PASSWORD_BY_ID = "UPDATE user SET user_password=? WHERE user_id=?;";
-    /////
+
+    public static final String SQL_CALL_GET_PASSWORD_AND_SALT_BY_ID = "call getPasswordAndSaltById(?, ?, ?)";
+    public static final String SQL_CALL_UPDATE_PASSWORD_BY_ID = "call updatePasswordById(?, ?)";
 
     public static final String SQL_CALL_CHANGE_PROFILE_INFO = "call changeProfileInfo(?, ?, ?, ?)";
 
-    /////
-    public static final String SQL_INSERT_USER = "INSERT INTO user (user_name, user_email, user_login, user_password, user_password_salt) VALUES (?,?,?,?,?);";
-    /////
+    public static final String SQL_CALL_ADD_USER = "call addUser(?, ?, ?, ?, ?)";
 
     public static final String SQL_CALL_GET_USER_ID_BY_LOGIN = "call getUserByLogin(?, ?)";
 
-    //////
-    public static final String SQL_SELECT_LANGUAGE_ID_BY_NAME = "SELECT lang_id FROM language WHERE lang_short_name=?;";
-    /////
+    public static final String SQL_CALL_GET_LANGUAGE_ID_BY_NAME = "call getLanguageIdByName(?, ?)";
 
     public static final String SQL_CALL_GET_THEMES_BY_LANGUAGE = "call getAllThemes(?, ?, ?)";
     public static final String SQL_CALL_GET_THEME_BY_ID_AND_LANGUAGE = "call getThemeById(?, ?, ?)";

@@ -6,16 +6,16 @@
 <fmt:setBundle basename="localization.auth" var="auth"/>
 <fmt:setBundle basename="localization.main" var="main"/>
 
-<fmt:message key="label.name" bundle="${main}" var="name"/>
-<fmt:message key="label.messageAdded" bundle="${main}" var="messageAdded"/>
-<fmt:message key="label.messageNotAdded" bundle="${main}" var="messageNotAdded"/>
+<fmt:message key="name" bundle="${main}" var="name"/>
+<fmt:message key="messageAdded" bundle="${main}" var="messageAdded"/>
+<fmt:message key="messageNotAdded" bundle="${main}" var="messageNotAdded"/>
 
-<fmt:message key="label.themes" bundle="${main}" var="themes"/>
-<fmt:message key="button.signIn" bundle="${auth}" var="signIn"/>
-<fmt:message key="button.signUp" bundle="${auth}" var="signUp"/>
-<fmt:message key="label.addCommentHeader" bundle="${main}" var="addCommentHeader"/>
-<fmt:message key="label.addCommentPlaceholder" bundle="${main}" var="addCommentPlaceholder"/>
-<fmt:message key="label.likes" bundle="${main}" var="likes"/>
+<fmt:message key="themes" bundle="${main}" var="themes"/>
+<fmt:message key="signIn" bundle="${auth}" var="signIn"/>
+<fmt:message key="signUp" bundle="${auth}" var="signUp"/>
+<fmt:message key="addCommentHeader" bundle="${main}" var="addCommentHeader"/>
+<fmt:message key="addCommentPlaceholder" bundle="${main}" var="addCommentPlaceholder"/>
+<fmt:message key="likes" bundle="${main}" var="likes"/>
 <html>
 <head>
     <title></title>

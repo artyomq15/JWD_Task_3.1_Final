@@ -1,6 +1,7 @@
 package by.tr.likeitnetwork.dao.user.impl;
 
 
+import by.tr.likeitnetwork.dao.constant.ConstantVariable;
 import by.tr.likeitnetwork.dao.datasource.DataSource;
 import by.tr.likeitnetwork.dao.exception.DataSourceDAOException;
 import by.tr.likeitnetwork.dao.exception.UserDAOException;
@@ -14,14 +15,12 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static by.tr.likeitnetwork.dao.constant.DBFieldName.*;
-
 public class UserDAOImpl implements UserDAO {
     @Override
     public User findUserById(int id) throws UserDAOException {
         User user = new User();
         Connection connection = null;
-        try  {
+        try {
             connection = DataSource.getConnection();
             CallableStatement callableStatement = connection.prepareCall(DAOQuery.SQL_CALL_GET_USER_BY_ID);
             callableStatement.setInt(1, id);
@@ -51,7 +50,7 @@ public class UserDAOImpl implements UserDAO {
             }
 
         } catch (SQLException | DataSourceDAOException ex) {
-            throw new UserDAOException(ex);// не забывай про собственные сообщения в исключениях
+            throw new UserDAOException("Find user by id error.", ex);
         } finally {
             DataSource.closeConnection(connection);
         }
@@ -60,7 +59,7 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public List<User> findUsersByNameOrLogin(String expression, int fromId, int countUser) throws UserDAOException {
         Connection connection = null;
-        try  {
+        try {
             connection = DataSource.getConnection();
             CallableStatement getUsers = connection.prepareCall(DAOQuery.SQL_CALL_GET_USER_BY_NAME_OR_LOGIN);
             getUsers.setString(1, expression);
@@ -87,7 +86,7 @@ public class UserDAOImpl implements UserDAO {
             }
             return userList;
         } catch (SQLException | DataSourceDAOException ex) {
-            throw new UserDAOException(ex);
+            throw new UserDAOException("Find user by name or login error.", ex);
         } finally {
             DataSource.closeConnection(connection);
         }
@@ -96,7 +95,7 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public List<User> findUsersByBannedState(boolean isBanned, int fromId, int countUser) throws UserDAOException {
         Connection connection = null;
-        try  {
+        try {
             connection = DataSource.getConnection();
             CallableStatement getUsers = connection.prepareCall(DAOQuery.SQL_CALL_GET_USER_BY_BANNED_STATE);
             getUsers.setBoolean(1, isBanned);
@@ -122,7 +121,7 @@ public class UserDAOImpl implements UserDAO {
             }
             return userList;
         } catch (SQLException | DataSourceDAOException ex) {
-            throw new UserDAOException(ex);
+            throw new UserDAOException("Find user by banned state error.", ex);
         } finally {
             DataSource.closeConnection(connection);
         }
@@ -131,7 +130,7 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public List<User> findAdmins(int fromId, int countUser) throws UserDAOException {
         Connection connection = null;
-        try  {
+        try {
             connection = DataSource.getConnection();
             CallableStatement getUsers = connection.prepareCall(DAOQuery.SQL_CALL_GET_ADMINS);
             getUsers.setInt(1, fromId);
@@ -158,7 +157,7 @@ public class UserDAOImpl implements UserDAO {
             }
             return userList;
         } catch (SQLException | DataSourceDAOException ex) {
-            throw new UserDAOException(ex);
+            throw new UserDAOException("Find admins error.", ex);
         } finally {
             DataSource.closeConnection(connection);
         }
@@ -173,8 +172,8 @@ public class UserDAOImpl implements UserDAO {
             callableStatement.setInt(1, userId);
 
             callableStatement.executeUpdate();
-        }catch (SQLException | DataSourceDAOException ex) {
-            throw new UserDAOException(ex);
+        } catch (SQLException | DataSourceDAOException ex) {
+            throw new UserDAOException("Ban user error.", ex);
         } finally {
             DataSource.closeConnection(connection);
         }
@@ -189,8 +188,8 @@ public class UserDAOImpl implements UserDAO {
             callableStatement.setInt(1, userId);
 
             callableStatement.executeUpdate();
-        }catch (SQLException | DataSourceDAOException ex) {
-            throw new UserDAOException(ex);
+        } catch (SQLException | DataSourceDAOException ex) {
+            throw new UserDAOException("Unban user error.", ex);
         } finally {
             DataSource.closeConnection(connection);
         }
@@ -205,8 +204,8 @@ public class UserDAOImpl implements UserDAO {
             callableStatement.setInt(1, userId);
 
             callableStatement.executeUpdate();
-        }catch (SQLException | DataSourceDAOException ex) {
-            throw new UserDAOException(ex);
+        } catch (SQLException | DataSourceDAOException ex) {
+            throw new UserDAOException("Set user to admin error.", ex);
         } finally {
             DataSource.closeConnection(connection);
         }
@@ -221,8 +220,8 @@ public class UserDAOImpl implements UserDAO {
             callableStatement.setInt(1, userId);
 
             callableStatement.executeUpdate();
-        }catch (SQLException | DataSourceDAOException ex) {
-            throw new UserDAOException(ex);
+        } catch (SQLException | DataSourceDAOException ex) {
+            throw new UserDAOException("Set admin to user error.", ex);
         } finally {
             DataSource.closeConnection(connection);
         }
@@ -239,9 +238,9 @@ public class UserDAOImpl implements UserDAO {
             callableStatement.setString(3, user.getEmail());
             callableStatement.setString(4, user.getAbout());
 
-            return callableStatement.executeUpdate()==1;
-        }catch (SQLException | DataSourceDAOException ex) {
-            throw new UserDAOException(ex);
+            return callableStatement.executeUpdate() == ConstantVariable.SUCCESSFUL_UPDATE_ONE_ROW_VALUE;
+        } catch (SQLException | DataSourceDAOException ex) {
+            throw new UserDAOException("Change profile info error.", ex);
         } finally {
             DataSource.closeConnection(connection);
         }
@@ -252,21 +251,25 @@ public class UserDAOImpl implements UserDAO {
         String passwordInDataBase;
         String passwordSalt;
         Connection connection = null;
-        try  {
+        try {
             connection = DataSource.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(DAOQuery.SELECT_PASSWORD_AND_SALT_BY_ID);
-            preparedStatement.setInt(1, id);
-            ResultSet resultSet = preparedStatement.executeQuery();
+            CallableStatement call = connection.prepareCall(DAOQuery.SQL_CALL_GET_PASSWORD_AND_SALT_BY_ID);
+            call.setInt(1, id);
+
+            call.registerOutParameter(2, Types.VARCHAR);
+            call.registerOutParameter(3, Types.VARCHAR);
+
+            ResultSet resultSet = call.executeQuery();
             if (resultSet.next()) {
-                passwordInDataBase = resultSet.getString(USER_PASSWORD);
-                passwordSalt = resultSet.getString(USER_PASSWORD_SALT);
+                passwordInDataBase = resultSet.getString(1);
+                passwordSalt = resultSet.getString(2);
                 if (Encryptor.getPasswordHashCode(oldPassword, passwordSalt).equals(passwordInDataBase)) {
                     return passwordSalt;
                 }
             }
             return null;
         } catch (SQLException | DataSourceDAOException | NoSuchAlgorithmException ex) {
-            throw new UserDAOException(ex);
+            throw new UserDAOException("Check old password matches password in database error.", ex);
         } finally {
             DataSource.closeConnection(connection);
         }
@@ -280,15 +283,13 @@ public class UserDAOImpl implements UserDAO {
             connection = DataSource.getConnection();
             passwordHash = Encryptor.getPasswordHashCode(password, passwordSalt);
 
-            PreparedStatement addUser = connection.prepareStatement(DAOQuery.SQL_UPDATE_NEW_PASSWORD_BY_ID);
-            addUser.setString(1, passwordHash);
-            addUser.setInt(2, id);
+            CallableStatement addUser = connection.prepareCall(DAOQuery.SQL_CALL_UPDATE_PASSWORD_BY_ID);
+            addUser.setInt(1, id);
+            addUser.setString(2, passwordHash);
 
-            int rowsAdded = addUser.executeUpdate();
-
-            return rowsAdded != 0;
+            return addUser.executeUpdate() == ConstantVariable.SUCCESSFUL_UPDATE_ONE_ROW_VALUE;
         } catch (SQLException | DataSourceDAOException | NoSuchAlgorithmException ex) {
-            throw new UserDAOException(ex);
+            throw new UserDAOException("Update new password in database error.", ex);
         } finally {
             DataSource.closeConnection(connection);
         }
@@ -303,9 +304,9 @@ public class UserDAOImpl implements UserDAO {
             update.setString(1, pathImg);
             update.setInt(2, id);
 
-            return update.executeUpdate() > 0;
+            return update.executeUpdate() == ConstantVariable.SUCCESSFUL_UPDATE_ONE_ROW_VALUE;
         } catch (SQLException | DataSourceDAOException ex) {
-            throw new UserDAOException("M", ex);
+            throw new UserDAOException("Update img error.", ex);
         } finally {
             DataSource.closeConnection(connection);
         }

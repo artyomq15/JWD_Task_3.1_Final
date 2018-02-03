@@ -1,5 +1,6 @@
 package by.tr.likeitnetwork.dao.message.impl;
 
+import by.tr.likeitnetwork.dao.constant.ConstantVariable;
 import by.tr.likeitnetwork.dao.constant.DAOQuery;
 import by.tr.likeitnetwork.dao.datasource.DataSource;
 import by.tr.likeitnetwork.dao.exception.DataSourceDAOException;
@@ -60,7 +61,7 @@ public class MessageDAOImpl implements MessageDAO {
             }
             return messageList;
         } catch (SQLException | DataSourceDAOException ex) {
-            throw new MessageDAOException(ex);
+            throw new MessageDAOException("Get messages by topic id error.", ex);
         } finally {
             DataSource.closeConnection(connection);
         }
@@ -109,14 +110,14 @@ public class MessageDAOImpl implements MessageDAO {
             }
             return messageList;
         } catch (SQLException | DataSourceDAOException ex) {
-            throw new MessageDAOException(ex);
+            throw new MessageDAOException("Get messages by user id error.", ex);
         } finally {
             DataSource.closeConnection(connection);
         }
     }
 
     @Override
-    public void addMessage(Message message) throws MessageDAOException {
+    public boolean addMessage(Message message) throws MessageDAOException {
         Connection connection = null;
         try {
             connection = DataSource.getConnection();
@@ -125,9 +126,9 @@ public class MessageDAOImpl implements MessageDAO {
             addMessage.setInt(2, message.getUser().getId());
             addMessage.setInt(3, message.getTopicId());
 
-            addMessage.executeUpdate();
+            return addMessage.executeUpdate() == ConstantVariable.SUCCESSFUL_UPDATE_ONE_ROW_VALUE;
         } catch (SQLException | DataSourceDAOException ex) {
-            throw new MessageDAOException(ex);
+            throw new MessageDAOException("Add message error.", ex);
         } finally {
             DataSource.closeConnection(connection);
         }
@@ -143,7 +144,7 @@ public class MessageDAOImpl implements MessageDAO {
 
             callableStatement.executeUpdate();
         } catch (SQLException | DataSourceDAOException ex) {
-            throw new MessageDAOException(ex);
+            throw new MessageDAOException("Delete message error.", ex);
         } finally {
             DataSource.closeConnection(connection);
         }
@@ -152,12 +153,20 @@ public class MessageDAOImpl implements MessageDAO {
 
     @Override
     public void likeMessage(int messageId, int userId) throws MessageDAOException {
-        likeOrUnlikeMessage(messageId, userId, DAOQuery.SQL_CALL_LIKE_MESSAGE);
+        try {
+            likeOrUnlikeMessage(messageId, userId, DAOQuery.SQL_CALL_LIKE_MESSAGE);
+        } catch (SQLException | DataSourceDAOException ex) {
+            throw new MessageDAOException("Like message error.", ex);
+        }
     }
 
     @Override
     public void unlikeMessage(int messageId, int userId) throws MessageDAOException {
-        likeOrUnlikeMessage(messageId, userId, DAOQuery.SQL_CALL_UNLIKE_MESSAGE);
+        try {
+            likeOrUnlikeMessage(messageId, userId, DAOQuery.SQL_CALL_UNLIKE_MESSAGE);
+        } catch (SQLException | DataSourceDAOException ex) {
+            throw new MessageDAOException("Unlike message error.", ex);
+        }
     }
 
     @Override
@@ -175,13 +184,13 @@ public class MessageDAOImpl implements MessageDAO {
             }
             return 0;
         } catch (SQLException | DataSourceDAOException ex) {
-            throw new MessageDAOException(ex);
+            throw new MessageDAOException("Count messages of user error.", ex);
         } finally {
             DataSource.closeConnection(connection);
         }
     }
 
-    private void likeOrUnlikeMessage(int messageId, int userId, String query) throws MessageDAOException {
+    private void likeOrUnlikeMessage(int messageId, int userId, String query) throws SQLException, DataSourceDAOException {
         Connection connection = null;
         try {
             connection = DataSource.getConnection();
@@ -190,8 +199,6 @@ public class MessageDAOImpl implements MessageDAO {
             callableStatement.setInt(2, messageId);
 
             callableStatement.executeQuery();
-        } catch (SQLException | DataSourceDAOException ex) {
-            throw new MessageDAOException(ex);
         } finally {
             DataSource.closeConnection(connection);
         }

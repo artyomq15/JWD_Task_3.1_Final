@@ -5,10 +5,10 @@ import by.tr.likeitnetwork.entity.RegistrationInfo;
 import java.util.regex.Pattern;
 
 public final class AuthValidator {
-    private static final Pattern LOGIN_VALIDATION = Pattern.compile("[A-Za-z0-9_]+");
+    private static final Pattern LOGIN_VALIDATION = Pattern.compile("^[A-Za-z][A-Za-z0-9_]{4,49}$");
     private static final Pattern PASSWORD_VALIDATION = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{6,}$");
     private static final Pattern EMAIL_VALIDATION = Pattern.compile("^[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)?@[A-Za-z0-9]+\\.[A-Za-z]{2,4}$");
-    private static final Pattern NAME_VALIDATION = Pattern.compile("[A-Za-z]+");
+    private static final Pattern NAME_VALIDATION = Pattern.compile("^[A-Za-zА-Яа-яІіўЁё'-]{2,50}$");
 
     public static boolean isValidRegistrationInfo(RegistrationInfo info) {
         return isRightConfirmation(info.getPassword(), info.getConfirmation())
@@ -18,7 +18,7 @@ public final class AuthValidator {
                 && isValidName(info.getName());
     }
 
-    public static boolean isValidLoginInfo(String login, String password){
+    public static boolean isValidSignInInfo(String login, String password){
 
         return isValidLogin(login) && isValidPassword(password);
     }

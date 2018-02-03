@@ -15,7 +15,7 @@ public final class DataSource {
         try {
             connectionPool.initPool();
         } catch (ConnectionPoolException ex) {
-            throw new DataSourceDAOException(ex);
+            throw new DataSourceDAOException("Initialization datasource error.",ex);
         }
     }
 
@@ -23,7 +23,7 @@ public final class DataSource {
         try {
             return connectionPool.getConnectionFromPool();
         } catch (ConnectionPoolException ex) {
-            throw new DataSourceDAOException(ex);
+            throw new DataSourceDAOException("Getting connection from datasource error.", ex);
         }
     }
 
@@ -35,7 +35,7 @@ public final class DataSource {
         try {
             connectionPool.closePool();
         } catch (ConnectionPoolException ex) {
-            throw new DataSourceDAOException(ex);
+            throw new DataSourceDAOException("Destroying datasource error.", ex);
         }
     }
 

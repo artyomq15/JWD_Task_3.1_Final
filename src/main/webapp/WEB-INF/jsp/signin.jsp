@@ -8,14 +8,14 @@
 
 
 
-<fmt:message key="label.name" bundle="${main}" var="name"/>
+<fmt:message key="name" bundle="${main}" var="name"/>
 
 
-<fmt:message key="label.login" bundle="${auth}" var="login"/>
-<fmt:message key="label.password" bundle="${auth}" var="password"/>
-<fmt:message key="button.signIn" bundle="${auth}" var="signIn"/>
-<fmt:message key="button.signUp" bundle="${auth}" var="signUp"/>
-<fmt:message key="label.errorSignInMessage" bundle="${auth}" var="errMessage"/>
+<fmt:message key="login" bundle="${auth}" var="login"/>
+<fmt:message key="password" bundle="${auth}" var="password"/>
+<fmt:message key="signIn" bundle="${auth}" var="signIn"/>
+<fmt:message key="signUp" bundle="${auth}" var="signUp"/>
+<fmt:message key="errorSignInMessage" bundle="${auth}" var="errMessage"/>
 
 <html>
 <head>
@@ -64,7 +64,7 @@
             <input type="hidden" name="command" value="sign_in"/>
 
             <input type="text" id="login" name="login" value="" placeholder="${login}"
-                   pattern="[a-zA-Z][A-Za-z_0-9]{4,}"
+                   pattern="^[A-Za-z][A-Za-z0-9_]{4,49}$"
                    required>
 
             <input type="password" id="password" name="password" value="" placeholder="${password}"

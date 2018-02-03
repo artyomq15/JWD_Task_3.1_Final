@@ -33,10 +33,9 @@ public class ThemeDAOImpl implements ThemeDAO {
                 themeList.add(theme);
             }
 
-
             return themeList;
         } catch (SQLException | DataSourceDAOException ex) {
-            throw new ThemeDAOException(ex);
+            throw new ThemeDAOException("Get all themes error.", ex);
         } finally {
             DataSource.closeConnection(connection);
         }
@@ -69,7 +68,7 @@ public class ThemeDAOImpl implements ThemeDAO {
             }
             return themeList;
         } catch (SQLException | DataSourceDAOException ex) {
-            throw new ThemeDAOException(ex);
+            throw new ThemeDAOException("Get themes info error.", ex);
         } finally {
             DataSource.closeConnection(connection);
         }
@@ -77,12 +76,33 @@ public class ThemeDAOImpl implements ThemeDAO {
 
     @Override
     public void showTheme(int id) throws ThemeDAOException {
-        showOrHideTheme(id, DAOQuery.SQL_CALL_SHOW_THEME);
+        try {
+            showOrHideTheme(id, DAOQuery.SQL_CALL_SHOW_THEME);
+        } catch (SQLException | DataSourceDAOException ex) {
+            throw new ThemeDAOException("Show theme error.", ex);
+        }
     }
 
     @Override
     public void hideTheme(int id) throws ThemeDAOException {
-        showOrHideTheme(id, DAOQuery.SQL_CALL_HIDE_THEME);
+        try{
+            showOrHideTheme(id, DAOQuery.SQL_CALL_HIDE_THEME);
+        } catch (SQLException | DataSourceDAOException ex) {
+            throw new ThemeDAOException("Hide theme error.", ex);
+        }
+    }
+
+    private void showOrHideTheme(int id, String query) throws SQLException, DataSourceDAOException {
+        Connection connection = null;
+        try {
+            connection = DataSource.getConnection();
+            CallableStatement statement = connection.prepareCall(query);
+            statement.setInt(1, id);
+
+            statement.executeUpdate();
+        } finally {
+            DataSource.closeConnection(connection);
+        }
     }
 
     @Override
@@ -116,10 +136,9 @@ public class ThemeDAOImpl implements ThemeDAO {
                     connection.rollback();
                 }
             } catch (SQLException e) {
-                e.printStackTrace();
-                throw new ThemeDAOException("Rollback Error", e);
+                throw new ThemeDAOException("Add theme rollback error.", e);
             }
-            throw new ThemeDAOException(ex);
+            throw new ThemeDAOException("Add theme error.", ex);
         } finally {
             DataSource.closeConnection(connection);
         }
@@ -140,22 +159,7 @@ public class ThemeDAOImpl implements ThemeDAO {
             }
 
         } catch (SQLException | DataSourceDAOException ex) {
-            throw new ThemeDAOException(ex);
-        } finally {
-            DataSource.closeConnection(connection);
-        }
-    }
-
-    private void showOrHideTheme(int id, String query) throws ThemeDAOException {
-        Connection connection = null;
-        try {
-            connection = DataSource.getConnection();
-            CallableStatement statement = connection.prepareCall(query);
-            statement.setInt(1, id);
-
-            statement.executeUpdate();
-        } catch (SQLException | DataSourceDAOException ex) {
-            throw new ThemeDAOException(ex);
+            throw new ThemeDAOException("Update theme error.", ex);
         } finally {
             DataSource.closeConnection(connection);
         }
@@ -180,7 +184,7 @@ public class ThemeDAOImpl implements ThemeDAO {
             }
             return theme;
         } catch (SQLException | DataSourceDAOException ex) {
-            throw new ThemeDAOException(ex);
+            throw new ThemeDAOException("Get theme by id error.", ex);
         } finally {
             DataSource.closeConnection(connection);
         }

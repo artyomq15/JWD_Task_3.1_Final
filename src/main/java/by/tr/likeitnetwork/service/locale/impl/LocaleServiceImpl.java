@@ -10,7 +10,7 @@ public class LocaleServiceImpl implements LocaleService {
     @Override
     public boolean checkLanguageExists(String language) throws LocaleServiceException {
         try{
-            return !(DAOFactory.getInstance().getLocaleDAO().getLanguageIdIfExists(language) == null);
+            return DAOFactory.getInstance().getLocaleDAO().getLanguageIdIfExists(language) != null;
         } catch (LocaleDAOException ex) {
             throw new LocaleServiceException(ex);
         }

@@ -8,27 +8,27 @@
 <fmt:setBundle basename="localization.main" var="main"/>
 <fmt:setBundle basename="localization.profile" var="profile"/>
 
-<fmt:message key="label.name" bundle="${main}" var="nameSite"/>
+<fmt:message key="name" bundle="${main}" var="nameSite"/>
 
-<fmt:message key="label.name" bundle="${profile}" var="name"/>
-<fmt:message key="label.rating" bundle="${profile}" var="rating"/>
-<fmt:message key="label.email" bundle="${profile}" var="email"/>
-<fmt:message key="label.about" bundle="${profile}" var="about"/>
+<fmt:message key="name" bundle="${profile}" var="name"/>
+<fmt:message key="rating" bundle="${profile}" var="rating"/>
+<fmt:message key="email" bundle="${profile}" var="email"/>
+<fmt:message key="about" bundle="${profile}" var="about"/>
 
-<fmt:message key="label.passwordChanged" bundle="${profile}" var="passwordChanged"/>
-<fmt:message key="label.passwordNotChanged" bundle="${profile}" var="passwordNotChanged"/>
-<fmt:message key="label.profileInfoChanged" bundle="${profile}" var="profileInfoChanged"/>
-<fmt:message key="label.profileInfoNotChanged" bundle="${profile}" var="profileInfoNotChanged"/>
+<fmt:message key="passwordChanged" bundle="${profile}" var="passwordChanged"/>
+<fmt:message key="passwordNotChanged" bundle="${profile}" var="passwordNotChanged"/>
+<fmt:message key="profileInfoChanged" bundle="${profile}" var="profileInfoChanged"/>
+<fmt:message key="profileInfoNotChanged" bundle="${profile}" var="profileInfoNotChanged"/>
 
-<fmt:message key="label.exit" bundle="${auth}" var="exit"/>
-<fmt:message key="label.password" bundle="${auth}" var="password"/>
-<fmt:message key="label.newPassword" bundle="${auth}" var="newPassword"/>
-<fmt:message key="label.confirm" bundle="${auth}" var="confirm"/>
-<fmt:message key="label.errorChangePasswordMessage" bundle="${auth}" var="errMessage"/>
-<fmt:message key="label.changePassword" bundle="${auth}" var="changePassword"/>
-<fmt:message key="label.changeProfileInfo" bundle="${auth}" var="changeProfileInfo"/>
-<fmt:message key="button.signIn" bundle="${auth}" var="signIn"/>
-<fmt:message key="button.signUp" bundle="${auth}" var="signUp"/>
+<fmt:message key="exit" bundle="${auth}" var="exit"/>
+<fmt:message key="password" bundle="${auth}" var="password"/>
+<fmt:message key="newPassword" bundle="${auth}" var="newPassword"/>
+<fmt:message key="confirm" bundle="${auth}" var="confirm"/>
+<fmt:message key="errorChangePasswordMessage" bundle="${auth}" var="errMessage"/>
+<fmt:message key="changePassword" bundle="${auth}" var="changePassword"/>
+<fmt:message key="changeProfileInfo" bundle="${auth}" var="changeProfileInfo"/>
+<fmt:message key="signIn" bundle="${auth}" var="signIn"/>
+<fmt:message key="signUp" bundle="${auth}" var="signUp"/>
 <html>
 <head>
     <meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>
@@ -75,7 +75,6 @@
         <div class="sign_up_header">
             ${changeProfileInfo}
         </div>
-        <!---->
         <img src="/images/?file=${requestScope.user.img}">
 
         <form action="/images/" method="post" enctype="multipart/form-data">
@@ -90,12 +89,14 @@
         <form action="/NetworkController" method="post">
             <input type="hidden" name="command" value="change_profile_info"/>
 
-            <input id="name" type="text" name="name" value="${requestScope.user.name}" placeholder="${name}" pattern="[А-Яа-яA-Za-z]+"
+            <input id="name" type="text" name="name" value="${requestScope.user.name}" placeholder="${name}" pattern="^[A-Za-zА-Яа-яІіўЁё'-]{2,50}$"
                    required>
             <label class="hidden error_validation error_validation-name">Name must contain only letters</label>
 
 
-            <input id="email" type="email" name="email" placeholder="${email}" value="${requestScope.user.email}" required>
+            <input id="email" type="text" name="email" placeholder="${email}" value="${requestScope.user.email}"
+                   pattern="^[A-Za-z0-9_-]+(\.[A-Za-z0-9_-]+)?@[A-Za-z0-9]+\.[A-Za-z]{2,4}$" required>
+
             <label class="hidden error_validation error_validation-email">Wrong e-mail</label>
 
             <textarea name="about" placeholder="${about}" rows="5">${requestScope.user.about}</textarea>

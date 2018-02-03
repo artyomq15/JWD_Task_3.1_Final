@@ -1,8 +1,11 @@
 package by.tr.likeitnetwork.service.auth.impl;
 
+import by.tr.likeitnetwork.controller.util.TokenParser;
+import by.tr.likeitnetwork.controller.util.exception.InvalidTokenException;
 import by.tr.likeitnetwork.dao.DAOFactory;
 import by.tr.likeitnetwork.dao.auth.AuthDAO;
 import by.tr.likeitnetwork.dao.exception.AuthDAOException;
+import by.tr.likeitnetwork.dao.util.Encryptor;
 import by.tr.likeitnetwork.entity.AuthToken;
 import by.tr.likeitnetwork.entity.RegistrationInfo;
 import by.tr.likeitnetwork.service.auth.AuthService;
@@ -30,18 +33,24 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public AuthToken signIn(String login, String password) throws AuthServiceException {
-        if (!AuthValidator.isValidLoginInfo(login, password)){
+        if (!AuthValidator.isValidSignInInfo(login, password)){
             return null;
         }
         AuthDAO authDAO = DAOFactory.getInstance().getAuthDAO();
         try{
-            return authDAO.getAuthTokensWhileSignIn(login, password);
+            AuthToken tokens = authDAO.getAuthTokensWhileSignIn(login, password);
+            Integer id = TokenParser.parseId(tokens.getAccessToken());
+
+            if (!authDAO.refreshAuthTokens(id, tokens)){
+                return null;
+            }
+            return tokens;
         } catch (AuthDAOException ex){
-            throw new AuthServiceException(ex);
+            throw new AuthServiceException("Sign in error", ex);
+        } catch (InvalidTokenException e) {
+            throw new AuthServiceException("Invalid token in sign in", e);
         }
-
     }
-
     @Override
     public boolean checkAccessTokenIsRight(String token) throws AuthServiceException {
         try{
@@ -63,7 +72,15 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public AuthToken refreshTokens(int id, String role) throws AuthServiceException {
         try{
-            return DAOFactory.getInstance().getAuthDAO().refreshAuthTokens(id, role);
+            String accessToken = Encryptor.generateAccessToken(id, role);
+            String refreshToken = Encryptor.generateRefreshToken();
+            AuthToken tokens = new AuthToken(accessToken, refreshToken);
+
+            if (!DAOFactory.getInstance().getAuthDAO().refreshAuthTokens(id, tokens)){
+                return null;
+            }
+
+            return tokens;
         } catch (AuthDAOException ex) {
             throw new AuthServiceException(ex);
         }

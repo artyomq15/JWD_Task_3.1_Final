@@ -34,8 +34,7 @@ public class MessageServiceImpl implements MessageService {
             return false;
         }
         try {
-            DAOFactory.getInstance().getMessageDAO().addMessage(message);
-            return true;
+            return DAOFactory.getInstance().getMessageDAO().addMessage(message);
         } catch (MessageDAOException ex) {
             throw new MessageServiceException(ex);
         }

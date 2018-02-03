@@ -8,14 +8,14 @@
 <fmt:setBundle basename="localization.main" var="main"/>
 <fmt:setBundle basename="localization.admin" var="admin"/>
 
-<fmt:message key="label.name" bundle="${main}" var="name"/>
-<fmt:message key="label.search" bundle="${main}" var="search"/>
+<fmt:message key="name" bundle="${main}" var="name"/>
+<fmt:message key="search" bundle="${main}" var="search"/>
 
-<fmt:message key="button.signIn" bundle="${auth}" var="signIn"/>
-<fmt:message key="button.signUp" bundle="${auth}" var="signUp"/>
+<fmt:message key="signIn" bundle="${auth}" var="signIn"/>
+<fmt:message key="signUp" bundle="${auth}" var="signUp"/>
 
-<fmt:message key="label.users" bundle="${admin}" var="users"/>
-<fmt:message key="label.themes" bundle="${admin}" var="themes"/>
+<fmt:message key="users" bundle="${admin}" var="users"/>
+<fmt:message key="themes" bundle="${admin}" var="themes"/>
 
 
 

@@ -6,7 +6,7 @@
 <fmt:setBundle basename="localization.error" var="error"/>
 
 <fmt:message key="header.error" bundle="${error}" var="headerError"/>
-<fmt:message key="label.error" bundle="${error}" var="label"/>
+<fmt:message key="text.error" bundle="${error}" var="label"/>
 <html>
 <head>
     <meta charset="utf-8">

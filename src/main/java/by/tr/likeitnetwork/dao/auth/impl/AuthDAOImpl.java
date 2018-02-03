@@ -2,6 +2,7 @@ package by.tr.likeitnetwork.dao.auth.impl;
 
 
 import by.tr.likeitnetwork.dao.auth.AuthDAO;
+import by.tr.likeitnetwork.dao.constant.ConstantVariable;
 import by.tr.likeitnetwork.dao.datasource.DataSource;
 import by.tr.likeitnetwork.dao.exception.AuthDAOException;
 import by.tr.likeitnetwork.dao.exception.DataSourceDAOException;
@@ -13,16 +14,14 @@ import by.tr.likeitnetwork.entity.RegistrationInfo;
 import java.security.NoSuchAlgorithmException;
 import java.sql.*;
 
-import static by.tr.likeitnetwork.dao.constant.DBFieldName.*;
-
 public class AuthDAOImpl implements AuthDAO {
 
     @Override
     public boolean addUser(RegistrationInfo info) throws AuthDAOException {
         Connection connection = null;
-        try  {
+        try {
             connection = DataSource.getConnection();
-            PreparedStatement addUser = connection.prepareStatement(DAOQuery.SQL_INSERT_USER);
+            CallableStatement addUser = connection.prepareCall(DAOQuery.SQL_CALL_ADD_USER);
             addUser.setString(1, info.getName());
             addUser.setString(2, info.getEmail());
             addUser.setString(3, info.getLogin());
@@ -31,12 +30,12 @@ public class AuthDAOImpl implements AuthDAO {
 
             addUser.setString(4, Encryptor.getPasswordHashCode(info.getPassword(), salt));
             addUser.setString(5, salt);
-            int rowsUser = addUser.executeUpdate();
 
-            return rowsUser != 0;
+
+            return addUser.executeUpdate() == ConstantVariable.SUCCESSFUL_UPDATE_ONE_ROW_VALUE;
 
         } catch (SQLException | DataSourceDAOException | NoSuchAlgorithmException ex) {
-            throw new AuthDAOException("INSERTING USER", ex);
+            throw new AuthDAOException("Add user error.", ex);
         } finally {
             DataSource.closeConnection(connection);
         }
@@ -56,7 +55,7 @@ public class AuthDAOImpl implements AuthDAO {
             return callId.getInt(2);
         } catch (SQLException | DataSourceDAOException ex) {
 
-            throw new AuthDAOException("GETTING", ex);
+            throw new AuthDAOException("Get id by login error", ex);
         } finally {
             DataSource.closeConnection(connection);
         }
@@ -70,7 +69,7 @@ public class AuthDAOImpl implements AuthDAO {
         int id;
         String role;
         Connection connection = null;
-        try  {
+        try {
             connection = DataSource.getConnection();
             CallableStatement callableStatement = connection.prepareCall(DAOQuery.SQL_CALL_GET_INFO_FOR_SIGN_IN_BY_LOGIN);
             callableStatement.setString(1, login);
@@ -81,44 +80,46 @@ public class AuthDAOImpl implements AuthDAO {
             callableStatement.registerOutParameter(5, Types.VARCHAR);
 
             ResultSet resultSet = callableStatement.executeQuery();
-            if (resultSet.next()) {
-                passwordHash = resultSet.getString(USER_PASSWORD);
-                salt = resultSet.getString(USER_PASSWORD_SALT);
-                id = Integer.parseInt(resultSet.getString(USER_ID));
-                role = resultSet.getString(USER_ROLE);
-            } else {
+            if (!resultSet.next()) {
                 return null;
             }
+
+            id = Integer.parseInt(resultSet.getString(1));
+            passwordHash = resultSet.getString(2);
+            salt = resultSet.getString(3);
+            role = resultSet.getString(4);
+
             if (!Encryptor.getPasswordHashCode(password, salt).equals(passwordHash)) {
                 return null;
             }
-            return refreshAuthTokens(id, role);
+
+            String accessToken = Encryptor.generateAccessToken(id, role);
+            String refreshToken = Encryptor.generateRefreshToken();
+
+            return new AuthToken(accessToken, refreshToken);
 
         } catch (SQLException | DataSourceDAOException | NoSuchAlgorithmException ex) {
-            throw new AuthDAOException(ex);
+            throw new AuthDAOException("Get tokens for sign in error.", ex);
         } finally {
             DataSource.closeConnection(connection);
         }
     }
 
     @Override
-    public AuthToken refreshAuthTokens(int id, String role) throws AuthDAOException {
+    public boolean refreshAuthTokens(int id, AuthToken tokens) throws AuthDAOException {
         Connection connection = null;
-        try  {
+        try {
             connection = DataSource.getConnection();
             CallableStatement callableStatement = connection.prepareCall(DAOQuery.SQL_CALL_UPDATE_TOKENS_BY_ID);
 
-            String accessToken = Encryptor.generateAccessToken(id, role);
-            String refreshToken = Encryptor.generateRefreshToken();
-
-            callableStatement.setString(1, accessToken);
-            callableStatement.setString(2, refreshToken);
+            callableStatement.setString(1, tokens.getAccessToken());
+            callableStatement.setString(2, tokens.getRefreshToken());
             callableStatement.setInt(3, id);
 
-            callableStatement.executeUpdate();
-            return new AuthToken(accessToken, refreshToken);
+            return callableStatement.executeUpdate() == ConstantVariable.SUCCESSFUL_UPDATE_ONE_ROW_VALUE;
+
         } catch (SQLException | DataSourceDAOException ex) {
-            throw new AuthDAOException(ex);
+            throw new AuthDAOException("Refresh tokens error.", ex);
         } finally {
             DataSource.closeConnection(connection);
         }
@@ -126,25 +127,32 @@ public class AuthDAOImpl implements AuthDAO {
 
     @Override
     public boolean isAccessTokenRight(String token) throws AuthDAOException {
-        return isTokenRight(token, DAOQuery.SQL_SELECT_ACCESS_TOKEN_TRUE);
+        try {
+            return isTokenRight(token, DAOQuery.SQL_CALL_GET_ID_BY_ACCESS_TOKEN);
+        } catch (SQLException | DataSourceDAOException ex) {
+            throw new AuthDAOException("Checking access token error.", ex);
+        }
     }
 
     @Override
     public boolean isRefreshTokenRight(String token) throws AuthDAOException {
-        return isTokenRight(token, DAOQuery.SQL_SELECT_REFRESH_TOKEN_TRUE);
+        try {
+            return isTokenRight(token, DAOQuery.SQL_CALL_GET_ID_BY_REFRESH_TOKEN);
+        } catch (SQLException | DataSourceDAOException ex) {
+            throw new AuthDAOException("Checking refresh token error.", ex);
+        }
     }
 
-    private boolean isTokenRight(String token, String tokenTypeSQLQuery) throws AuthDAOException{
+    private boolean isTokenRight(String token, String tokenTypeSQLQuery) throws SQLException, DataSourceDAOException {
         Connection connection = null;
-        try  {
+        try {
             connection = DataSource.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(tokenTypeSQLQuery);
-            preparedStatement.setString(1, token);
-            ResultSet resultSet= preparedStatement.executeQuery();
+            CallableStatement getId = connection.prepareCall(tokenTypeSQLQuery);
+            getId.setString(1, token);
+            getId.registerOutParameter(2, Types.INTEGER);
 
+            ResultSet resultSet = getId.executeQuery();
             return resultSet.next();
-        } catch (SQLException | DataSourceDAOException ex) {
-            throw new AuthDAOException(ex);
         } finally {
             DataSource.closeConnection(connection);
         }

@@ -40,15 +40,11 @@ public class ImageServlet extends HttpServlet {
             FileItem fileItem = fileItems.get(0);
 
 
-
-
             String name = fileItem.getName();
 
             if (ServiceFactory.getInstance().getUserService().changeImg((Integer)request.getSession().getAttribute(AttributeKey.ID), name)){
                 fileItem.write(new File(PATH + File.separator + name));
             }
-
-
 
 
             //File old= new File(PATH + File.separator + file);

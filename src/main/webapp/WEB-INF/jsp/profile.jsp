@@ -9,26 +9,26 @@
 <fmt:setBundle basename="localization.auth" var="auth"/>
 
 
-<fmt:message key="label.name" bundle="${main}" var="nameSite"/>
-<fmt:message key="label.openTopic" bundle="${main}" var="openTopic"/>
-<fmt:message key="label.likes" bundle="${main}" var="likes"/>
+<fmt:message key="name" bundle="${main}" var="nameSite"/>
+<fmt:message key="openTopic" bundle="${main}" var="openTopic"/>
+<fmt:message key="likes" bundle="${main}" var="likes"/>
 
-<fmt:message key="label.name" bundle="${profile}" var="name"/>
-<fmt:message key="label.rating" bundle="${profile}" var="rating"/>
-<fmt:message key="label.email" bundle="${profile}" var="email"/>
-<fmt:message key="label.about" bundle="${profile}" var="about"/>
-<fmt:message key="label.topic" bundle="${profile}" var="topic"/>
-<fmt:message key="label.message" bundle="${profile}" var="message"/>
+<fmt:message key="name" bundle="${profile}" var="name"/>
+<fmt:message key="rating" bundle="${profile}" var="rating"/>
+<fmt:message key="email" bundle="${profile}" var="email"/>
+<fmt:message key="about" bundle="${profile}" var="about"/>
+<fmt:message key="topic" bundle="${profile}" var="topic"/>
+<fmt:message key="message" bundle="${profile}" var="message"/>
 
-<fmt:message key="label.exit" bundle="${auth}" var="exit"/>
-<fmt:message key="label.password" bundle="${auth}" var="password"/>
-<fmt:message key="label.newPassword" bundle="${auth}" var="newPassword"/>
-<fmt:message key="label.confirm" bundle="${auth}" var="confirm"/>
-<fmt:message key="label.errorChangePasswordMessage" bundle="${auth}" var="errMessage"/>
-<fmt:message key="label.changePassword" bundle="${auth}" var="changePassword"/>
+<fmt:message key="exit" bundle="${auth}" var="exit"/>
+<fmt:message key="password" bundle="${auth}" var="password"/>
+<fmt:message key="newPassword" bundle="${auth}" var="newPassword"/>
+<fmt:message key="confirm" bundle="${auth}" var="confirm"/>
+<fmt:message key="errorChangePasswordMessage" bundle="${auth}" var="errMessage"/>
+<fmt:message key="changePassword" bundle="${auth}" var="changePassword"/>
 
-<fmt:message key="button.signIn" bundle="${auth}" var="signIn"/>
-<fmt:message key="button.signUp" bundle="${auth}" var="signUp"/>
+<fmt:message key="signIn" bundle="${auth}" var="signIn"/>
+<fmt:message key="signUp" bundle="${auth}" var="signUp"/>
 <html>
 <head>
     <meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>

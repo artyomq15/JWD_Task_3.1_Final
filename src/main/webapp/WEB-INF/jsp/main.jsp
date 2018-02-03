@@ -7,20 +7,20 @@
 <fmt:setBundle basename="localization.auth" var="auth"/>
 <fmt:setBundle basename="localization.main" var="main"/>
 
-<fmt:message key="label.name" bundle="${main}" var="name"/>
-<fmt:message key="label.themes" bundle="${main}" var="themes"/>
-<fmt:message key="button.signIn" bundle="${auth}" var="signIn"/>
-<fmt:message key="button.signUp" bundle="${auth}" var="signUp"/>
-<fmt:message key="label.search" bundle="${main}" var="search"/>
-<fmt:message key="label.addTopic" bundle="${main}" var="addTopic"/>
-<fmt:message key="label.header" bundle="${main}" var="addTopicHeader"/>
-<fmt:message key="label.context" bundle="${main}" var="addTopicContext"/>
-<fmt:message key="button.create" bundle="${main}" var="addTopicButton"/>
-<fmt:message key="label.openTopic" bundle="${main}" var="openTopic"/>
-<fmt:message key="label.topicAdded" bundle="${main}" var="topicAdded"/>
-<fmt:message key="label.topicNotAdded" bundle="${main}" var="topicNotAdded"/>
-<fmt:message key="label.topicDeleted" bundle="${main}" var="topicDeleted"/>
-<fmt:message key="label.topicNotDeleted" bundle="${main}" var="topicNotDeleted"/>
+<fmt:message key="name" bundle="${main}" var="name"/>
+<fmt:message key="themes" bundle="${main}" var="themes"/>
+<fmt:message key="signIn" bundle="${auth}" var="signIn"/>
+<fmt:message key="signUp" bundle="${auth}" var="signUp"/>
+<fmt:message key="search" bundle="${main}" var="search"/>
+<fmt:message key="addTopic" bundle="${main}" var="addTopic"/>
+<fmt:message key="header" bundle="${main}" var="addTopicHeader"/>
+<fmt:message key="context" bundle="${main}" var="addTopicContext"/>
+<fmt:message key="create" bundle="${main}" var="addTopicButton"/>
+<fmt:message key="openTopic" bundle="${main}" var="openTopic"/>
+<fmt:message key="topicAdded" bundle="${main}" var="topicAdded"/>
+<fmt:message key="topicNotAdded" bundle="${main}" var="topicNotAdded"/>
+<fmt:message key="topicDeleted" bundle="${main}" var="topicDeleted"/>
+<fmt:message key="topicNotDeleted" bundle="${main}" var="topicNotDeleted"/>
 
 
 <html>

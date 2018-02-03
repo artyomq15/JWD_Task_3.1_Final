@@ -42,7 +42,7 @@ CREATE TABLE `auth` (
 
 LOCK TABLES `auth` WRITE;
 /*!40000 ALTER TABLE `auth` DISABLE KEYS */;
-INSERT INTO `auth` VALUES (1,'1:f283220c75bb8e00a4b47575902d12efb5c556100c82a8b94fde6176ac4702e5:SUPER_ADMIN','2018-01-24 13:38:21','5310e72e778fa333d2a6657cb691fd43c4461842f394543b1e003e0b88d7e307','2019-01-24 11:38:21'),(2,'2:23b1fcb0dfdfd851582b05b6d65157333a1ba03d2c6133363b00dc8a29613136:USER','2018-01-22 17:17:01','073650444a14e83bf5d65e70b4d28c1aee88c415bed560e0adf9645fe14227d9','2019-01-22 15:17:01'),(3,'3:fb0203801cc6773cf076d7d1356fc12df5a1b226bebfd6403d4129a42064ab7d:ADMIN','2018-01-24 14:28:55','a8d4e89e8be701e151d210d1e17ce255d5215c55ce7d1de84ed9a1b2f3e40363','2019-01-24 12:28:55'),(4,'4:77339e90324733ff9919db84f406c8986cb62fba74346d68c9b4cbbd1ff17dac:USER','2018-01-22 17:09:59','c726a0182050a9ce45a5ec5b88b535bf616853324798c181e4d144fd7ecb54b4','2019-01-22 15:09:59');
+INSERT INTO `auth` VALUES (1,'1:40d4d273cc5e276d9f7ef591e9a6c8fa13f59d53a956306867d498124831d1d9:SUPER_ADMIN','2018-02-02 14:27:12','a7295f1812720c4c51d7e2785439a1a96691f698589c367d79f9c78e7a9f8f60','2019-02-02 12:27:12'),(2,'2:23b1fcb0dfdfd851582b05b6d65157333a1ba03d2c6133363b00dc8a29613136:USER','2018-01-22 17:17:01','073650444a14e83bf5d65e70b4d28c1aee88c415bed560e0adf9645fe14227d9','2019-01-22 15:17:01'),(3,'3:8cda06ff014f8fe6ee59f0db12cc280557dda0551265dceed12e1f42633ade57:ADMIN','2018-02-01 18:53:47','9cc6bccb3eb1dd2831e8cf9873c74e1d315c2e0618957f69534164960578409a','2019-02-01 16:53:47'),(4,'4:77339e90324733ff9919db84f406c8986cb62fba74346d68c9b4cbbd1ff17dac:USER','2018-01-22 17:09:59','c726a0182050a9ce45a5ec5b88b535bf616853324798c181e4d144fd7ecb54b4','2019-01-22 15:09:59'),(5,NULL,NULL,NULL,NULL),(6,'6:133d411af1dbfb08c83d3282a51556cb9d6b60e43070d64e05e807209daecb62:USER','2018-01-27 12:15:56','779ba372719ff55e38c98898ade1f5bab4050e0b6ed1eef9ba704c94b8ea42ca','2019-01-27 10:15:56'),(7,NULL,NULL,NULL,NULL),(8,NULL,NULL,NULL,NULL),(9,NULL,NULL,NULL,NULL),(10,NULL,NULL,NULL,NULL),(11,NULL,NULL,NULL,NULL),(12,'12:da3eb4dfda12d1e4b41cf4651c1dc15c00746cf24b1b77788040fa9b8bce2f5e:USER','2018-02-01 21:45:50','0e58fa39e6e30db185e982250674b3078b2ca969da98e1d1a787c020d912479e','2019-02-01 19:45:50');
 /*!40000 ALTER TABLE `auth` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -96,7 +96,7 @@ CREATE TABLE `likes` (
 
 LOCK TABLES `likes` WRITE;
 /*!40000 ALTER TABLE `likes` DISABLE KEYS */;
-INSERT INTO `likes` VALUES (2,1),(2,2),(1,3),(2,3),(2,4),(1,7),(1,14),(2,14),(3,14),(2,16),(1,42),(3,83),(1,118),(1,135),(1,136),(3,136);
+INSERT INTO `likes` VALUES (2,1),(1,14),(2,14),(3,14),(3,83);
 /*!40000 ALTER TABLE `likes` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -162,7 +162,7 @@ CREATE TABLE `message` (
   KEY `fk_message_topic1_idx` (`topic_id`),
   CONSTRAINT `fk_message_topic1` FOREIGN KEY (`topic_id`) REFERENCES `topic` (`topic_id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `fk_message_user1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=142 DEFAULT CHARSET=utf8 COMMENT='message (comment) of user in topic';
+) ENGINE=InnoDB AUTO_INCREMENT=84 DEFAULT CHARSET=utf8 COMMENT='message (comment) of user in topic';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -171,7 +171,7 @@ CREATE TABLE `message` (
 
 LOCK TABLES `message` WRITE;
 /*!40000 ALTER TABLE `message` DISABLE KEYS */;
-INSERT INTO `message` VALUES (1,'Kek','2018-01-09 14:45:05',1,1,1),(2,'Нормас, Дима оценит)','2018-01-09 14:34:07',1,1,2),(3,'Yes, hi will like it','2018-01-08 13:49:17',2,2,2),(4,'Агась','2018-01-10 09:17:42',1,1,2),(5,'Здароу','2018-01-10 09:20:03',0,1,3),(7,'Шо за непонятная тема????????','2018-01-10 09:33:02',1,1,3),(14,'А мне не спадабалася','2018-01-10 15:56:42',3,2,4),(16,'Кэк','2018-01-10 16:58:36',1,2,5),(18,'Отлично','2018-01-11 11:14:00',0,1,4),(19,'Good luck ahaphahahah','2018-01-11 14:23:43',0,1,1),(21,'I dont know','2018-01-12 23:28:32',0,2,7),(42,'Kek','2018-01-21 16:57:56',1,2,22),(83,'Я люблю с сырным. Думаю это классический для курочки :)','2018-01-21 19:46:46',1,2,24),(97,'s','2018-01-24 11:46:00',0,1,34),(104,'kkk','2018-01-24 12:09:58',0,1,34),(105,'kkkk','2018-01-24 12:10:06',0,1,34),(106,'asda','2018-01-24 12:10:22',0,1,34),(113,'s','2018-01-24 12:20:09',0,1,33),(114,'s','2018-01-24 12:20:17',0,1,33),(116,'mm','2018-01-24 12:22:31',0,1,27),(117,'3','2018-01-24 12:23:29',0,1,27),(118,'3','2018-01-24 12:23:35',1,1,27),(122,'sadasd','2018-01-24 12:25:32',0,1,28),(124,'Kek','2018-01-24 12:29:56',0,3,20),(132,'S','2018-01-24 12:54:57',0,1,35),(133,'n','2018-01-24 12:55:04',0,1,35),(134,'ываыв','2018-01-24 13:10:26',0,1,24),(135,'ываыва','2018-01-24 13:10:30',1,1,24),(136,'ываываыва','2018-01-24 13:10:34',2,1,24),(137,'asdasd','2018-01-24 13:18:36',0,1,35),(138,'asdasda','2018-01-24 13:18:42',0,1,35);
+INSERT INTO `message` VALUES (1,'Kek','2018-01-09 14:45:05',1,1,1),(14,'А мне не спадабалася','2018-01-10 15:56:42',3,2,4),(19,'Good luck ahaphahahah','2018-01-11 14:23:43',0,1,1),(83,'Я люблю с сырным. Думаю это классический для курочки :)','2018-01-21 19:46:46',1,2,24);
 /*!40000 ALTER TABLE `message` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -186,7 +186,7 @@ CREATE TABLE `theme` (
   `theme_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `theme_is_blocked` bit(1) NOT NULL DEFAULT b'0' COMMENT 'show/not show this theme',
   PRIMARY KEY (`theme_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8 COMMENT='theme of topics';
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8 COMMENT='theme of topics';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -195,7 +195,7 @@ CREATE TABLE `theme` (
 
 LOCK TABLES `theme` WRITE;
 /*!40000 ALTER TABLE `theme` DISABLE KEYS */;
-INSERT INTO `theme` VALUES (1,'\0'),(2,'\0'),(3,'\0'),(4,'\0'),(5,'\0'),(16,''),(18,'');
+INSERT INTO `theme` VALUES (1,'\0'),(2,'\0'),(3,'\0'),(4,'\0'),(5,'\0'),(16,'\0'),(18,'\0');
 /*!40000 ALTER TABLE `theme` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -249,7 +249,7 @@ CREATE TABLE `topic` (
   FULLTEXT KEY `full_text_header` (`topic_header`,`topic_context`),
   CONSTRAINT `fk_topic_theme1` FOREIGN KEY (`theme_id`) REFERENCES `theme` (`theme_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_topic_user1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8 COMMENT='topic on what will be the conversation.';
+) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8 COMMENT='topic on what will be the conversation.';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -258,7 +258,7 @@ CREATE TABLE `topic` (
 
 LOCK TABLES `topic` WRITE;
 /*!40000 ALTER TABLE `topic` DISABLE KEYS */;
-INSERT INTO `topic` VALUES (1,'My first post with new database','Надеюсь больше не нужно будет перестраивать бд. Ну пажээээээээ','2018-01-04 19:07:08',1,2),(2,'Дыыыыыыыыма','Этот пост я посвящаю Диме','2018-01-06 22:34:46',1,3),(3,'Hsysyssy','Hsjsjsj','2018-01-06 22:57:12',1,1),(4,'Мертвые души. Гоголь','Шо за книга, норм полистац?','2018-01-07 11:50:12',2,3),(5,'New Post','Newest','2018-01-10 16:58:18',2,2),(6,'фывфыв','sdfsdfsdf','2018-01-12 12:51:56',1,2),(7,'Как бросіть піть','Подскажіте, ніо не помогает','2018-01-12 23:26:55',2,2),(8,'Pfujkjdjr','KJLJlkdfs','2018-01-21 12:28:12',1,3),(9,'Pfdfsdfsdfsdfs``','ssdfsdfsdf','2018-01-21 12:56:47',1,1),(10,'qwqwrqwr','qwrqwrqwrqw','2018-01-21 12:58:23',1,1),(11,'qwrqwrqwrqwrqwrq','qwrqwrqwr','2018-01-21 12:58:29',1,2),(12,'qwrqwrqeseqwes','qeqeqweqcqeq','2018-01-21 12:58:38',1,2),(13,'qweqweqweqwesqwe','qwseqwseqwesqwes','2018-01-21 12:58:44',1,3),(14,'qwesqeqwesq','wseqwseqwesqwe','2018-01-21 12:58:49',1,1),(15,'qwesqwseqwseqw','seqwesqwesqwes','2018-01-21 12:58:54',1,2),(16,'Hfdfd','sdasd','2018-01-21 13:03:34',1,1),(17,'asdasdasdasdas','asdasdad','2018-01-21 13:03:43',1,2),(18,'asdasdasdasdasd','asdasdada','2018-01-21 13:03:53',1,1),(19,'asdasdasda','asdasdasd','2018-01-21 13:04:07',1,1),(20,'asdasdasda','asdasdas','2018-01-21 13:04:13',1,1),(21,'Fsdffs','IIAsdia','2018-01-21 13:36:23',1,2),(22,'PPPPP','asdasd','2018-01-21 13:36:33',1,2),(23,'asdasdasda','{pasdoa[sd','2018-01-21 13:36:43',1,2),(24,'Кто любит курочку KFC?','С каким соусом вкуснее?','2018-01-21 19:42:28',3,2),(25,'sdfsqs','sdfsdfsd','2018-01-21 21:27:02',3,1),(26,'Гоголь','Сколько там','2018-01-21 21:28:32',3,3),(27,'Гоголь','Сколько там','2018-01-21 21:28:52',3,2),(28,'фывыфвфв','гоголь моголь','2018-01-21 21:29:42',3,1),(29,'ujujk','гоголь','2018-01-21 21:37:57',3,1),(30,'гоголь моголь','гогогогого','2018-01-21 21:38:07',3,1),(31,'гогого','гоголь','2018-01-21 21:38:15',3,1),(32,'гоголь','гоголь','2018-01-21 21:38:22',3,1),(33,'бе гоголь','Гоголь','2018-01-21 21:38:33',3,1),(34,'Гоголь','гоголь','2018-01-21 21:38:41',3,1),(35,'гоголь','гоголь','2018-01-21 21:39:05',3,1);
+INSERT INTO `topic` VALUES (1,'My first post with new database','Надеюсь больше не нужно будет перестраивать бд. Ну пажээээээээ','2018-01-04 19:07:08',1,2),(4,'Мертвые души. Гоголь','Шо за книга, норм полистац?','2018-01-07 11:50:12',2,3),(24,'Кто любит курочку KFC?','С каким соусом вкуснее?','2018-01-21 19:42:28',3,2),(36,'Lorem','Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer mattis auctor ullamcorper. Integer et sollicitudin enim, et eleifend felis. Curabitur tempor auctor sapien, sollicitudin malesuada purus euismod non. Vestibulum ac vulputate nisi. Integer ultrices, lacus sit amet condimentum malesuada, ex odio eleifend mauris, vitae sollicitudin odio turpis vitae sapien. Vestibulum elementum ultrices cursus. Curabitur malesuada ut tellus ac pretium. Suspendisse dolor ligula, tristique nec semper nec, suscipit sit amet leo. Ut orci eros, congue non libero quis, hendrerit malesuada purus. Nam condimentum purus at ante posuere, at aliquam mauris condimentum. Suspendisse vitae quam aliquam, ullamcorper velit vitae, pretium augue. Donec ac velit purus. Sed id diam est.\r\n\r\nVivamus venenatis, nisi non cursus faucibus, dolor nibh laoreet mi, ut bibendum nulla lorem a libero. Morbi posuere ullamcorper turpis, non auctor nunc eleifend vitae. Suspendisse eu massa in sem vulputate pharetra. Cras fringilla felis sed efficitur aliquet. Etiam ullamcorper semper nunc et imperdiet. Morbi rutrum at neque in tincidunt. Nunc pretium tincidunt justo, et porttitor ipsum eleifend vitae. Morbi efficitur, ante quis mattis venenatis, urna erat consectetur nibh, sit amet aliquet est tortor eget nibh. Cras a dui velit. Vivamus tellus dui, mattis quis varius vel, scelerisque vitae risus.','2018-01-25 20:50:26',1,2),(41,'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer mattis auctor ullamcorper. ','Donec ac velit purus. Sed id diam est. Vivamus venenatis, nisi non cursus faucibus, dolor nibh laoreet mi, ut bibendum nulla lorem a libero. Morbi posuere ullamcorper turpis, non auctor nunc eleifend vitae. Suspendisse eu massa in sem vulputate pharetra. Cras fringilla felis sed efficitur aliquet. Etiam ullamcorper semper nunc et imperdiet. Morbi rutrum at neque in tincidunt. Nunc pretium tincidunt justo, et porttitor ipsum eleifend vitae. Morbi efficitur, ante quis mattis venenatis, urna erat consectetur nibh, sit amet aliquet est tortor eget nibh. Cras a dui velit. Vivamus tellus dui, mattis quis varius vel, scelerisque vitae risus.','2018-02-01 17:16:30',1,3),(42,'Vestibulum elementum ultrices cursus. Curabitur malesuada ut tellus ac pretium. ','Ut orci eros, congue non libero quis, hendrerit malesuada purus. Nam condimentum purus at ante posuere, at aliquam mauris condimentum. Suspendisse vitae quam aliquam, ullamcorper velit vitae, pretium augue. ','2018-02-01 17:19:33',1,1),(43,'Morbi posuere ullamcorper turpis, non auctor nunc eleifend vitae. Suspendisse eu massa in sem vulputate pharetra. Cras fringilla felis sed efficitur aliquet.','Morbi rutrum at neque in tincidunt. Nunc pretium tincidunt justo, et porttitor ipsum eleifend vitae. Morbi efficitur, ante quis mattis venenatis, urna erat consectetur nibh, sit amet aliquet est tortor eget nibh. Cras a dui velit. Vivamus tellus dui, mattis quis varius vel, scelerisque vitae risus.','2018-02-01 17:20:02',1,5),(44,'Suspendisse eu massa in sem vulputate pharetra. Cras fringilla felis sed efficitur aliquet. ','Etiam ullamcorper semper nunc et imperdiet. Morbi rutrum at neque in tincidunt. Nunc pretium tincidunt justo, et porttitor ipsum eleifend vitae. Morbi efficitur, ante quis mattis venenatis, urna erat consectetur nibh, sit amet aliquet est tortor eget nibh. Cras a dui velit. Vivamus tellus dui, mattis quis varius vel, scelerisque vitae risus.','2018-02-01 17:20:38',1,4),(45,'Cras fringilla felis sed efficitur aliquet. Etiam ullamcorper semper nunc et imperdiet.','Nunc pretium tincidunt justo, et porttitor ipsum eleifend vitae. Morbi efficitur, ante quis mattis venenatis, urna erat consectetur nibh, sit amet aliquet est tortor eget nibh.','2018-02-01 17:21:28',1,16),(46,'Morbi efficitur','Nunc pretium tincidunt justo, et porttitor ipsum eleifend vitae. Morbi efficitur, ante quis mattis venenatis, urna erat consectetur nibh, sit amet aliquet est tortor eget nibh.','2018-02-01 17:23:04',3,4),(47,'Curabitur malesuada ut tellus ac pretium. Suspendisse dolor ligula, tristique nec semper nec, suscipit sit amet leo. ','Nunc pretium tincidunt justo, et porttitor ipsum eleifend vitae. Morbi efficitur, ante quis mattis venenatis, urna erat consectetur nibh, sit amet aliquet est tortor eget nibh. Cras a dui velit. Vivamus tellus dui, mattis quis varius vel, scelerisque vitae risus.','2018-02-01 17:23:49',3,5),(48,'Etiam ullamcorper semper nunc et imperdiet.','Morbi rutrum at neque in tincidunt. Nunc pretium tincidunt justo, et porttitor ipsum eleifend vitae. ','2018-02-01 17:24:45',1,4);
 /*!40000 ALTER TABLE `topic` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -280,10 +280,11 @@ CREATE TABLE `user` (
   `user_about` longtext COMMENT 'additional information about user?, which he wrote by himself',
   `user_is_banned` bit(1) DEFAULT b'0' COMMENT 'state of user. Default - not banned',
   `user_role` enum('ADMIN','USER','SUPER_ADMIN') NOT NULL DEFAULT 'USER',
+  `user_img` varchar(256) NOT NULL DEFAULT 'like_it_profile.jpg',
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `user_login_UNIQUE` (`user_login`),
   KEY `user_name_INDEX` (`user_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='User of network';
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COMMENT='User of network';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -292,7 +293,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'Tema','artyom.sths5@gmail.com','temaq15','552148560dfa24bb6cebc075777b2271c47f1d96664267b83fa200e1b4eafdee','0948add46a395077c953ae02701c6fad257ee4c95cb75b04729fe823f040c8c8',20,'Я Артёkdbdbhdhdhdhdhdhdhdjxhxhxh','\0','SUPER_ADMIN'),(2,'KalaJa','Kala@mail.com','kalakala','756987331fa5fdd93dba487b03729b9d68b72080ac5d25434729fbac87d75a24','8b672f17b07325bed231e018c7754a5b4e4efb8c9d84afd121ddf86e5623eb24',8,'Just Kala','\0','USER'),(3,'QweRty','qwer@gmail.com','qweqweqwe','d938d60885b54094f665b22617482d00145536a0a5de570b4d9b31e6169c91d8','ccdbe9878feb312a7dcbbf5a1a17a6d9e4b84e359f554b0a4fc7ffbf36171d32',0,'Im Qwe Rty. I like baseball & chicken :)','\0','ADMIN'),(4,'Hazel','hazelololo@gmail.com','hazelololo','f38768050b851e7f966bdadcfcef313f61dd70d5377a0a6bc466321501cb6526','eeb7d89ef8dbb245f01a03afaf45dfa4612629085574dc05bb014b2a86fb40fe',0,NULL,'\0','USER');
+INSERT INTO `user` VALUES (1,'Tema','artyom.sths5@gmail.com','temaq15','552148560dfa24bb6cebc075777b2271c47f1d96664267b83fa200e1b4eafdee','0948add46a395077c953ae02701c6fad257ee4c95cb75b04729fe823f040c8c8',16,'Der ds sd','\0','SUPER_ADMIN','8uDimjTtebc.jpg'),(2,'KalaJa','Kala@mail.com','kalakala','756987331fa5fdd93dba487b03729b9d68b72080ac5d25434729fbac87d75a24','8b672f17b07325bed231e018c7754a5b4e4efb8c9d84afd121ddf86e5623eb24',8,'Just Kala','\0','USER','like_it_profile.jpg'),(3,'QweRty','qwer@gmail.com','qweqweqwe','d938d60885b54094f665b22617482d00145536a0a5de570b4d9b31e6169c91d8','ccdbe9878feb312a7dcbbf5a1a17a6d9e4b84e359f554b0a4fc7ffbf36171d32',0,'Im Qwe Rty. I like baseball & chicken :)','\0','ADMIN','Screenshot_20180105-235936.png'),(4,'Hazel','hazelololo@gmail.com','hazelololo','f38768050b851e7f966bdadcfcef313f61dd70d5377a0a6bc466321501cb6526','eeb7d89ef8dbb245f01a03afaf45dfa4612629085574dc05bb014b2a86fb40fe',0,NULL,'\0','USER','like_it_profile.jpg'),(5,'ZxcZxc','artyom.stan0905@gmail.com','zxczxczxc','9c738e7efdf9503717b0e64fc62935fdf061762b143df1f756d32dc99f7e32dc','10e6950874d5f3c4d6f5f4ec9e5a4ceb1fe6777af461df3dc3bbbb46cc154cef',0,NULL,'\0','USER','like_it_profile.jpg'),(6,'AsdAsd','artyom.stan0905@gmail.com','asdasdasd','99018a3dd897260458c3cbd3651c28cde487cad4c36fd60fcda8ec581a8c0bd6','75541ed44348430d6bfa17ce6e32dbfd73c6a6779a3ea5d9ea01e7024d0e5582',0,NULL,'\0','USER','like_it_profile.jpg'),(7,'RtyRty','artyom.stan0905@gmail.com','rtyrty','b53a3a52e94238fcdea5a75603fea28a005f1362dc5a19d98c33e696bd567ed9','c784bff5a066cc9e96d736d62fdcbfd0333d8c234fa86ee2ce192a4e3ede7832',0,NULL,'\0','USER','like_it_profile.jpg'),(8,'FghFgh','artyom.stan0905@gmail.com','fghfgh','26a0b36fc4ade0b871d1f11490c424cc54511692a60f3c00780f4ce9d41fb6fa','2d5689403a31293f6bf7455441431981d5e7abe370190ff3feb19ca68c6082cf',0,NULL,'\0','USER','like_it_profile.jpg'),(9,'UioUio','artyom.stan0905@gmail.com','uiouio','d00b96b84deae9465781aa284bb0e2024f912d81dfa06c396da903f56b439ca1','04e983c3321989292f57672913fe3eb5532db9d5ce36fd4b0187109815284944',0,NULL,'\0','USER','like_it_profile.jpg'),(10,'JklJKl','artyom.stan0905@gmail.com','jkljkl','8156730f65ac74ee2b679ae0688265a78051410ef6b46b48a8fc6176aa3bf815','4985a7b29cb530a8ae1b6d7a6f28e925b560c4d7861c6d3797a62ed762eddc39',0,NULL,'\0','USER','like_it_profile.jpg'),(11,'EwqEwq','artyom.stan0905@gmail.com','ewqewq','36936607463f8e1021d753b66ee498641099b5afba5d2e04b236f206e447880c','3dc51838816628fd3644c5d112ce4ed3ffee6c691a2984d8cd10d007f5b413a2',0,NULL,'\0','USER','like_it_profile.jpg'),(12,'IpIn','ipin@gmail.com','ipimq','fb4c0e32d5a77bf9683c73be67be5dab363e4eb20a06756f368daf70a8534740','3d0819c2b2cbd1a0167421ede117550e64433c7de4517696f7eb4be8c2e4a308',0,'Ёп Ян','\0','USER','like_it_profile.jpg');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -420,6 +421,44 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `addTopic`(
 )
 BEGIN
 	INSERT INTO topic (topic.topic_header, topic.topic_context, topic.user_id, topic.theme_id) VALUES (topic_header, topic_context, user_id, theme_id);
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `addUser` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `addUser`(
+	IN user_name VARCHAR(50),
+    IN user_email VARCHAR(250),
+    IN user_login VARCHAR(50),
+    IN user_password VARCHAR(64),
+    IN user_password_salt VARCHAR(64)    
+)
+BEGIN
+	INSERT INTO user (
+		user.user_name, 
+        user.user_email, 
+        user.user_login, 
+        user.user_password,
+        user.user_password_salt
+	) 
+        VALUES (
+			user_name, 
+			user_email, 
+			user_login, 
+			user_password,
+			user_password_salt
+        );
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -557,6 +596,27 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `deleteTopic` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `deleteTopic`(
+	IN topic_id INT
+)
+BEGIN
+	DELETE FROM topic WHERE topic.topic_id = topic_id;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `getAdmins` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -645,7 +705,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getAllTopics`(
     OUT user_id INT,
     OUT user_name VARCHAR(50),
     OUT theme_id INT,
-    OUT theme_name VARCHAR(50)
+    OUT theme_name VARCHAR(50),
+    OUT user_img VARCHAR(256)
 )
 BEGIN
 	SELECT  topic.topic_id,
@@ -660,7 +721,8 @@ BEGIN
                 FROM theme_has_language as themes 
                 JOIN language ON themes.lang_id = language.lang_id 
                 WHERE language.lang_short_name = locale AND themes.theme_id = topic.theme_id
-			) as theme_name
+			) as theme_name,
+            user.user_img
 	FROM topic
 	JOIN (SELECT topic.topic_id 
 			FROM topic 
@@ -670,6 +732,50 @@ BEGIN
             LIMIT from_id, count_topic
             ) as t ON t.topic_id = topic.topic_id
     JOIN user ON topic.user_id = user.user_id;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `getIdByAccessToken` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getIdByAccessToken`(
+	IN token VARCHAR(100),
+    OUT user_id INT
+)
+BEGIN
+	SELECT auth.user_id FROM auth WHERE auth.access_token=token AND auth.access_token_expiration>=now();
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `getIdByRefreshToken` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getIdByRefreshToken`(
+	IN token VARCHAR(100),
+    OUT user_id INT
+)
+BEGIN
+	SELECT auth.user_id FROM auth WHERE auth.refresh_token=token AND auth.refresh_token_expiration>=now();
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -695,6 +801,28 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getInfoForSignInByLogin`(
 )
 BEGIN
 	SELECT user.user_id, user.user_password, user.user_password_salt, user.user_role FROM user WHERE user.user_login = user_login;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `getLanguageIdByName` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getLanguageIdByName`(
+	IN lang_short_name VARCHAR(3),
+    OUT lang_id INT
+)
+BEGIN
+	SELECT language.lang_id FROM language WHERE language.lang_short_name=lang_short_name;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -777,6 +905,29 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `getPasswordAndSaltById` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getPasswordAndSaltById`(
+	IN user_id INT,
+    OUT user_password VARCHAR(64),
+    OUT user_password_salt VARCHAR(64)
+)
+BEGIN
+	SELECT user.user_password, user.user_password_salt FROM user WHERE user.user_id = user_id;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `getThemeById` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -853,7 +1004,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getTopicById`(
     OUT user_id INT,
     OUT user_name VARCHAR(50),
     OUT theme_id INT,
-    OUT theme_name VARCHAR(50)
+    OUT theme_name VARCHAR(50),
+    OUT user_img VARCHAR(256)
     
 )
 BEGIN
@@ -868,7 +1020,8 @@ BEGIN
                 FROM theme_has_language as themes 
                 JOIN language ON themes.lang_id = language.lang_id 
                 WHERE language.lang_short_name = locale AND themes.theme_id = topic.theme_id
-			) as theme_name
+			) as theme_name,
+            user.user_img
 	FROM topic
     JOIN user ON topic.user_id = user.user_id
     JOIN theme ON topic.theme_id = theme.theme_id
@@ -900,7 +1053,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getTopicsByThemeId`(
     OUT topic_creating_date TIMESTAMP,
     OUT user_id INT,
     OUT user_name VARCHAR(50),
-    OUT theme_name VARCHAR(50)
+    OUT theme_name VARCHAR(50),
+    OUT user_img VARCHAR(256)
 )
 BEGIN
 	SELECT topic.topic_id,
@@ -914,7 +1068,8 @@ BEGIN
                 FROM theme_has_language as themes 
                 JOIN language ON themes.lang_id = language.lang_id 
                 WHERE language.lang_short_name = locale AND themes.theme_id = topic.theme_id
-			) as theme_name
+			) as theme_name,
+            user.user_img
 	FROM topic 
     JOIN (SELECT topic.topic_id 
 			FROM topic 
@@ -1040,7 +1195,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getUserById`(
     OUT user_likes INT,
     OUT user_about LONGTEXT,
     OUT user_role ENUM('ADMIN', 'USER','SUPER_ADMIN'),
-    OUT user_is_banned BIT(1)
+    OUT user_is_banned BIT(1),
+    OUT user_img VARCHAR(256)
 )
 BEGIN
 	SELECT user.user_name,
@@ -1048,7 +1204,8 @@ BEGIN
             user.user_likes,
             user.user_about,
             user.user_role,
-            user.user_is_banned
+            user.user_is_banned,
+            user.user_img
 	FROM user
     WHERE user.user_id = user_id;
 END ;;
@@ -1221,7 +1378,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `searchTopics`(
     OUT user_id INT,
     OUT user_name VARCHAR(50),
     OUT theme_id INT,
-    OUT theme_name VARCHAR(50)
+    OUT theme_name VARCHAR(50),
+    OUT user_img VARCHAR(256)
 )
 BEGIN
 	SELECT  topic.topic_id,
@@ -1236,7 +1394,8 @@ BEGIN
                 FROM theme_has_language as themes 
                 JOIN language ON themes.lang_id = language.lang_id 
                 WHERE language.lang_short_name = locale AND themes.theme_id = topic.theme_id
-			) as theme_name
+			) as theme_name,
+            user.user_img
 	FROM topic
 	JOIN (SELECT topic.topic_id 
 			FROM topic 
@@ -1359,6 +1518,28 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `updatePasswordById` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `updatePasswordById`(
+	IN user_id INT,
+    IN user_password VARCHAR(64)
+)
+BEGIN
+	UPDATE user SET user.user_password=user_password WHERE user.user_id=user_id;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `updateThemeLocalizedName` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -1418,6 +1599,28 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `updateUserImg` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `updateUserImg`(
+	IN img VARCHAR(256),
+    IN id INT
+)
+BEGIN
+    UPDATE user SET user.user_img = img WHERE user.user_id = id;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -1428,4 +1631,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-01-24 17:16:34
+-- Dump completed on 2018-02-03 13:57:14

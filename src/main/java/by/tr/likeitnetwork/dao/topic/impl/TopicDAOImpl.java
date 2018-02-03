@@ -1,6 +1,7 @@
 package by.tr.likeitnetwork.dao.topic.impl;
 
 import by.tr.likeitnetwork.dao.DAOFactory;
+import by.tr.likeitnetwork.dao.constant.ConstantVariable;
 import by.tr.likeitnetwork.dao.constant.DAOQuery;
 import by.tr.likeitnetwork.dao.datasource.DataSource;
 import by.tr.likeitnetwork.dao.exception.DataSourceDAOException;
@@ -70,7 +71,7 @@ public class TopicDAOImpl implements TopicDAO{
             }
             return topicList;
         } catch (SQLException | DataSourceDAOException ex) {
-            throw new TopicDAOException(ex);
+            throw new TopicDAOException("Get all error.", ex);
         } finally {
             DataSource.closeConnection(connection);
         }
@@ -129,7 +130,7 @@ public class TopicDAOImpl implements TopicDAO{
             }
             return topicList;
         } catch (SQLException | DataSourceDAOException ex) {
-            throw new TopicDAOException(ex);
+            throw new TopicDAOException("Search error", ex);
         } finally {
             DataSource.closeConnection(connection);
         }
@@ -145,9 +146,9 @@ public class TopicDAOImpl implements TopicDAO{
             addTopic.setString(2, topic.getContext());
             addTopic.setInt(3, topic.getUser().getId());
             addTopic.setInt(4, topic.getTheme().getId());
-            return addTopic.executeUpdate() == 1;///////////////////
+            return addTopic.executeUpdate() == ConstantVariable.SUCCESSFUL_UPDATE_ONE_ROW_VALUE;
         } catch (SQLException | DataSourceDAOException ex) {
-            throw new TopicDAOException(ex);
+            throw new TopicDAOException("Add topic error.", ex);
         } finally {
             DataSource.closeConnection(connection);
         }
@@ -160,9 +161,9 @@ public class TopicDAOImpl implements TopicDAO{
             connection = DataSource.getConnection();
             CallableStatement deleteTopic = connection.prepareCall(DAOQuery.SQL_CALL_DELETE_TOPIC);
             deleteTopic.setInt(1, id);
-            return deleteTopic.executeUpdate() == 1;///////////////////
+            return deleteTopic.executeUpdate() == ConstantVariable.SUCCESSFUL_UPDATE_ONE_ROW_VALUE;
         } catch (SQLException | DataSourceDAOException ex) {
-            throw new TopicDAOException(ex);
+            throw new TopicDAOException("Delete topic error.", ex);
         } finally {
             DataSource.closeConnection(connection);
         }
@@ -220,7 +221,7 @@ public class TopicDAOImpl implements TopicDAO{
             }
             return null;
         } catch (SQLException | DataSourceDAOException ex) {
-            throw new TopicDAOException(ex);
+            throw new TopicDAOException("Get topic by id error.", ex);
         } finally {
             DataSource.closeConnection(connection);
         }
@@ -278,7 +279,7 @@ public class TopicDAOImpl implements TopicDAO{
             }
             return topicList;
         } catch (SQLException | DataSourceDAOException ex) {
-            throw new TopicDAOException(ex);
+            throw new TopicDAOException("Get topic by theme id error.", ex);
         } finally {
             DataSource.closeConnection(connection);
         }
@@ -286,36 +287,23 @@ public class TopicDAOImpl implements TopicDAO{
 
     @Override
     public List<Topic> getTopicsByUserId(String localeLanguage, int userId) throws TopicDAOException {
-        return getTopicsByUserIdByQuery(localeLanguage, userId, DAOQuery.SQL_CALL_GET_TOPICS_BY_USER_ID);
+        try {
+            return getTopicsByUserIdByQuery(localeLanguage, userId, DAOQuery.SQL_CALL_GET_TOPICS_BY_USER_ID);
+        } catch (SQLException | DataSourceDAOException ex) {
+            throw new TopicDAOException("Get topics by user id error.", ex);
+        }
     }
 
     @Override
     public List<Topic> getTopicsWhichCommendedByUser(String localeLanguage, int userId) throws TopicDAOException {
-        return getTopicsByUserIdByQuery(localeLanguage, userId, DAOQuery.SQL_CALL_GET_TOPICS_WHICH_COMMENTED_BY_USER);
-    }
-
-    @Override
-    public int countTopicsOfUser(int userId) throws TopicDAOException {
-        Connection connection = null;
-        try{
-            connection = DataSource.getConnection();
-            CallableStatement callableStatement = connection.prepareCall(DAOQuery.SCL_CALL_COUNT_TOPICS_OF_USER);
-            callableStatement.setInt(1, userId);
-            callableStatement.registerOutParameter(2, Types.INTEGER);
-
-            ResultSet resultSet = callableStatement.executeQuery();
-            if (resultSet.next()){
-                return resultSet.getInt(1);
-            }
-            return 0;
+        try {
+            return getTopicsByUserIdByQuery(localeLanguage, userId, DAOQuery.SQL_CALL_GET_TOPICS_WHICH_COMMENTED_BY_USER);
         } catch (SQLException | DataSourceDAOException ex) {
-            throw new TopicDAOException(ex);
-        } finally {
-            DataSource.closeConnection(connection);
+            throw new TopicDAOException("Get topics which commended by user error.", ex);
         }
     }
 
-    private List<Topic> getTopicsByUserIdByQuery(String localeLanguage, int userId, String query) throws TopicDAOException{
+    private List<Topic> getTopicsByUserIdByQuery(String localeLanguage, int userId, String query) throws SQLException, DataSourceDAOException{
         Connection connection = null;
         try{
             connection = DataSource.getConnection();
@@ -360,8 +348,27 @@ public class TopicDAOImpl implements TopicDAO{
                 topicList.add(topic);
             }
             return topicList;
+        } finally {
+            DataSource.closeConnection(connection);
+        }
+    }
+
+    @Override
+    public int countTopicsOfUser(int userId) throws TopicDAOException {
+        Connection connection = null;
+        try{
+            connection = DataSource.getConnection();
+            CallableStatement callableStatement = connection.prepareCall(DAOQuery.SCL_CALL_COUNT_TOPICS_OF_USER);
+            callableStatement.setInt(1, userId);
+            callableStatement.registerOutParameter(2, Types.INTEGER);
+
+            ResultSet resultSet = callableStatement.executeQuery();
+            if (resultSet.next()){
+                return resultSet.getInt(1);
+            }
+            return 0;
         } catch (SQLException | DataSourceDAOException ex) {
-            throw new TopicDAOException(ex);
+            throw new TopicDAOException("Count topics of user error.", ex);
         } finally {
             DataSource.closeConnection(connection);
         }

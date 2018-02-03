@@ -21,10 +21,8 @@ public class ConnectionPool {
                 Connection connection = DriverManager.getConnection(SourceMetaData.URL, SourceMetaData.USERNAME, SourceMetaData.PASSWORD);
                 availableConnections.add(connection);
             }
-        } catch (ClassNotFoundException ex) {
-            throw new ConnectionPoolException(ex);
-        } catch (SQLException ex) {
-            throw new ConnectionPoolException(ex);
+        } catch (ClassNotFoundException | SQLException ex) {
+            throw new ConnectionPoolException("Initialization pool error.", ex);
         }
     }
 
@@ -34,7 +32,7 @@ public class ConnectionPool {
             connection = availableConnections.take();
             givenAwayConnections.add(connection);
         } catch (InterruptedException ex) {
-            throw new ConnectionPoolException(ex);
+            throw new ConnectionPoolException("Getting connection from pool error.", ex);
         }
         return connection;
     }
@@ -50,7 +48,7 @@ public class ConnectionPool {
             closeQueue(availableConnections);
             closeQueue(givenAwayConnections);
         }catch (SQLException ex){
-            throw new ConnectionPoolException(ex);
+            throw new ConnectionPoolException("Closing pool error.", ex);
         }
     }
 

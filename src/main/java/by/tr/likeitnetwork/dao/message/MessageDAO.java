@@ -8,7 +8,7 @@ import java.util.List;
 public interface MessageDAO {
     List<Message> getMessagesByTopicId (String localeLanguage, int topicId) throws MessageDAOException;
     List<Message> getMessagesByUserId (String localeLanguage, int userId) throws MessageDAOException;
-    void addMessage (Message message) throws MessageDAOException;
+    boolean addMessage (Message message) throws MessageDAOException;
     void deleteMessage (int messageId) throws MessageDAOException;
     //void updateMessage (int messageId) throws MessageDAOException;
     void likeMessage (int messageId, int userId) throws MessageDAOException;

@@ -7,19 +7,24 @@
 <fmt:setBundle basename="localization.profile" var="profile"/>
 <fmt:setBundle basename="localization.main" var="main"/>
 
-<fmt:message key="label.login" bundle="${auth}" var="login"/>
-<fmt:message key="label.password" bundle="${auth}" var="password"/>
-<fmt:message key="label.confirm" bundle="${auth}" var="confirm"/>
-<fmt:message key="button.signIn" bundle="${auth}" var="signIn"/>
-<fmt:message key="button.signUp" bundle="${auth}" var="signUp"/>
+<fmt:message key="login" bundle="${auth}" var="login"/>
+<fmt:message key="password" bundle="${auth}" var="password"/>
+<fmt:message key="confirm" bundle="${auth}" var="confirm"/>
+<fmt:message key="signIn" bundle="${auth}" var="signIn"/>
+<fmt:message key="signUp" bundle="${auth}" var="signUp"/>
+<fmt:message key="label.validation.login" bundle="${auth}" var="loginValidation"/>
+<fmt:message key="label.validation.password" bundle="${auth}" var="passwordValidation"/>
+<fmt:message key="label.validation.confirmation" bundle="${auth}" var="confirmationValidation"/>
+<fmt:message key="label.validation.name" bundle="${auth}" var="nameValidation"/>
+<fmt:message key="label.validation.email" bundle="${auth}" var="emailValidation"/>
 
-<fmt:message key="label.errorSignUpMessage" bundle="${auth}" var="errMessage"/>
+<fmt:message key="errorSignUpMessage" bundle="${auth}" var="errMessage"/>
 
-<fmt:message key="label.name" bundle="${profile}" var="nameUser"/>
-<fmt:message key="label.email" bundle="${profile}" var="email"/>
+<fmt:message key="name" bundle="${profile}" var="nameUser"/>
+<fmt:message key="email" bundle="${profile}" var="email"/>
 
 
-<fmt:message key="label.name" bundle="${main}" var="name"/>
+<fmt:message key="name" bundle="${main}" var="name"/>
 
 <html>
 <head>
@@ -68,27 +73,26 @@
             <input type="hidden" name="command" value="sign_up"/>
 
             <input type="text" id="login" name="login" value="" placeholder="${login}"
-                   pattern="[a-zA-Z][A-Za-z_0-9]{4,}"
+                   pattern="^[A-Za-z][A-Za-z0-9_]{4,49}$"
                    required>
-            <label for="login" class="hidden error_validation error_validation-login">Login must contain only latin
-                letters, digits and '_'. Starts with letter. More than 4.</label>
+            <label for="login" class="hidden error_validation error_validation-login">${loginValidation}</label>
 
             <input type="password" id="password" name="password" value="" placeholder="${password}"
                    pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\S+$).{6,}$" required>
-            <label class="hidden error_validation error_validation-password">Password must contain at least one lowcase
-                letter, upcase letter, digit. More than 5.</label>
+            <label class="hidden error_validation error_validation-password">${passwordValidation}</label>
 
             <input type="password" id="confirmation" name="confirmation" value="" oninput="validatePassword()"
                    placeholder="${confirm}" pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\S+$).{6,}$" required>
-            <label class="hidden error_validation error_validation-confirmation">Passwords must match</label>
+            <label class="hidden error_validation error_validation-confirmation">${confirmationValidation}</label>
 
-            <input id="name" type="text" name="name" value="" placeholder="${nameUser}" pattern="[А-Яа-яA-Za-z]+"
+            <input id="name" type="text" name="name" value="" placeholder="${nameUser}" pattern="^[A-Za-zА-Яа-яІіўЁё'-]{2,50}$"
                    required>
-            <label class="hidden error_validation error_validation-name">Name must contain only letters</label>
+            <label class="hidden error_validation error_validation-name">${nameValidation}</label>
 
 
-            <input id="email" type="email" name="email" value="" placeholder="${email}" required>
-            <label class="hidden error_validation error_validation-email">Wrong e-mail</label>
+            <input id="email" type="text" name="email" value="" placeholder="${email}"
+                   pattern="^[A-Za-z0-9_-]+(\.[A-Za-z0-9_-]+)?@[A-Za-z0-9]+\.[A-Za-z]{2,4}$" required>
+            <label class="hidden error_validation error_validation-email">${emailValidation}</label>
 
 
             <input type="submit" value="${signUp}">

@@ -2,17 +2,12 @@ package by.tr.likeitnetwork.dao.locale.impl;
 
 
 import by.tr.likeitnetwork.dao.constant.DAOQuery;
-import by.tr.likeitnetwork.dao.constant.DBFieldName;
 import by.tr.likeitnetwork.dao.datasource.DataSource;
 import by.tr.likeitnetwork.dao.exception.DataSourceDAOException;
 import by.tr.likeitnetwork.dao.exception.LocaleDAOException;
-import by.tr.likeitnetwork.dao.exception.ThemeDAOException;
 import by.tr.likeitnetwork.dao.locale.LocaleDAO;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class LocaleDAOImpl implements LocaleDAO{
     @Override
@@ -20,15 +15,17 @@ public class LocaleDAOImpl implements LocaleDAO{
         Connection connection = null;
         try {
             connection = DataSource.getConnection();
-            PreparedStatement getIdByName = connection.prepareStatement(DAOQuery.SQL_SELECT_LANGUAGE_ID_BY_NAME);
+            CallableStatement getIdByName = connection.prepareCall(DAOQuery.SQL_CALL_GET_LANGUAGE_ID_BY_NAME);
             getIdByName.setString(1, language);
+            getIdByName.registerOutParameter(2, Types.INTEGER);
+
             ResultSet resultSet = getIdByName.executeQuery();
             if (resultSet.next()) {
-                return resultSet.getInt(DBFieldName.LANGUAGE_ID);
+                return resultSet.getInt(1);
             }
             return null;
         } catch (SQLException | DataSourceDAOException ex) {
-            throw new LocaleDAOException(ex);
+            throw new LocaleDAOException("Get language error.", ex);
         } finally {
             DataSource.closeConnection(connection);
         }
