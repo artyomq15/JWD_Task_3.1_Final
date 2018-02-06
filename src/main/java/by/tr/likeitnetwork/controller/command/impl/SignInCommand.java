@@ -4,6 +4,7 @@ import by.tr.likeitnetwork.controller.command.Command;
 import by.tr.likeitnetwork.controller.util.CookieHandler;
 import by.tr.likeitnetwork.controller.constant.RedirectQuery;
 import by.tr.likeitnetwork.entity.AuthToken;
+import by.tr.likeitnetwork.entity.input.UserInput;
 import by.tr.likeitnetwork.service.ServiceFactory;
 import by.tr.likeitnetwork.service.exception.ServiceException;
 
@@ -22,11 +23,12 @@ public class SignInCommand implements Command {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String login = request.getParameter(LOGIN);
-        String password = request.getParameter(PASSWORD);
+        UserInput input = new UserInput();
+        input.setLogin(request.getParameter(LOGIN));
+        input.setPassword(request.getParameter(PASSWORD));
 
         try {
-            AuthToken tokens = ServiceFactory.getInstance().getAuthService().signIn(login, password);
+            AuthToken tokens = ServiceFactory.getInstance().getAuthService().signIn(input);
             if (tokens != null) {
                 CookieHandler.addToken(response, ACCESS_TOKEN, tokens.getAccessToken());
                 CookieHandler.addToken(response, REFRESH_TOKEN, tokens.getRefreshToken());

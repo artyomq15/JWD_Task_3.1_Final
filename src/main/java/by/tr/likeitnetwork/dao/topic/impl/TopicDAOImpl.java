@@ -11,6 +11,7 @@ import by.tr.likeitnetwork.dao.topic.TopicDAO;
 import by.tr.likeitnetwork.entity.Theme;
 import by.tr.likeitnetwork.entity.Topic;
 import by.tr.likeitnetwork.entity.User;
+import by.tr.likeitnetwork.entity.input.TopicInput;
 
 import java.sql.*;
 import java.text.DateFormat;
@@ -137,15 +138,15 @@ public class TopicDAOImpl implements TopicDAO{
     }
 
     @Override
-    public boolean addTopic(Topic topic) throws TopicDAOException {
+    public boolean addTopic(int id, TopicInput input) throws TopicDAOException {
         Connection connection = null;
         try{
             connection = DataSource.getConnection();
             CallableStatement addTopic = connection.prepareCall(DAOQuery.SQL_CALL_ADD_TOPIC);
-            addTopic.setString(1, topic.getHeader());
-            addTopic.setString(2, topic.getContext());
-            addTopic.setInt(3, topic.getUser().getId());
-            addTopic.setInt(4, topic.getTheme().getId());
+            addTopic.setString(1, input.getHeader());
+            addTopic.setString(2, input.getContext());
+            addTopic.setInt(3, id);
+            addTopic.setInt(4, input.getThemeId());
             return addTopic.executeUpdate() == ConstantVariable.SUCCESSFUL_UPDATE_ONE_ROW_VALUE;
         } catch (SQLException | DataSourceDAOException ex) {
             throw new TopicDAOException("Add topic error.", ex);

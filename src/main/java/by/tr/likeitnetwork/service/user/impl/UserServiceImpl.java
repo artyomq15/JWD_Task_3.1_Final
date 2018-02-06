@@ -5,14 +5,16 @@ import by.tr.likeitnetwork.dao.DAOFactory;
 import by.tr.likeitnetwork.dao.exception.UserDAOException;
 import by.tr.likeitnetwork.dao.user.UserDAO;
 import by.tr.likeitnetwork.entity.User;
+import by.tr.likeitnetwork.entity.input.UserInput;
 import by.tr.likeitnetwork.service.exception.UserServiceException;
 import by.tr.likeitnetwork.service.user.UserService;
 import by.tr.likeitnetwork.service.util.Pagination;
-import by.tr.likeitnetwork.service.validation.AuthValidator;
+import by.tr.likeitnetwork.service.validation.ValidatorFactory;
 
 import java.util.List;
 
 public class UserServiceImpl implements UserService {
+
     @Override
     public User findUserById(Integer id) throws UserServiceException {
         UserDAO userDAO = DAOFactory.getInstance().getUserDAO();
@@ -103,27 +105,27 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean changePassword(int id, String oldPassword, String newPassword, String newPasswordConfirmation) throws UserServiceException {
-        if (!AuthValidator.isValidPasswordsForChanging(oldPassword, newPassword, newPasswordConfirmation)) {
+    public boolean changePassword(int id, UserInput input) throws UserServiceException {
+        if (!ValidatorFactory.getInstance().getChangePasswordValidator().isValid(input)) {
             return false;
         }
         UserDAO userDAO = DAOFactory.getInstance().getUserDAO();
         try {
-            String passwordSalt = userDAO.checkOldPasswordMatchesPasswordInDataBase(id, oldPassword);
+            String passwordSalt = userDAO.checkOldPasswordMatchesPasswordInDataBase(id, input.getOldPassword());
             return passwordSalt != null
-                    && userDAO.updateNewPasswordInDataBase(id, newPassword, passwordSalt);
+                    && userDAO.updateNewPasswordInDataBase(id, input.getPassword(), passwordSalt);
         } catch (UserDAOException ex) {
             throw new UserServiceException(ex);
         }
     }
 
     @Override
-    public boolean changeProfileInfo(User user) throws UserServiceException {
-        if (!AuthValidator.isValidProfileInfo(user.getName(), user.getEmail())) {
+    public boolean changeProfileInfo(int id, UserInput input) throws UserServiceException {
+        if (!ValidatorFactory.getInstance().getChangeProfileInfoValidator().isValid(input)) {
             return false;
         }
         try {
-            return DAOFactory.getInstance().getUserDAO().changeProfileInfo(user);
+            return DAOFactory.getInstance().getUserDAO().changeProfileInfo(id, input);
         } catch (UserDAOException ex) {
             throw new UserServiceException("", ex);
         }
@@ -134,7 +136,7 @@ public class UserServiceImpl implements UserService {
         try {
             return DAOFactory.getInstance().getUserDAO().updateImg(id, pathImg);
         } catch (UserDAOException ex) {
-            throw new UserServiceException("S", ex);
+            throw new UserServiceException("", ex);
         }
     }
 }

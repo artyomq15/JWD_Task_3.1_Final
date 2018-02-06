@@ -14,6 +14,7 @@ import by.tr.likeitnetwork.controller.constant.RedirectQuery;
 import by.tr.likeitnetwork.controller.util.CookieHandler;
 import by.tr.likeitnetwork.controller.util.QueryConstructor;
 import by.tr.likeitnetwork.entity.User;
+import by.tr.likeitnetwork.entity.input.UserInput;
 import by.tr.likeitnetwork.service.ServiceFactory;
 import by.tr.likeitnetwork.service.exception.UserServiceException;
 import org.apache.logging.log4j.LogManager;
@@ -27,17 +28,12 @@ public class ChangeProfileInformationCommand implements Command{
         HttpSession session = request.getSession();
         Integer id = (Integer) session.getAttribute(AttributeKey.ID);
 
-        String name = request.getParameter(AttributeKey.NAME);
-        String email = request.getParameter(AttributeKey.EMAIL);
-        String about = request.getParameter(AttributeKey.ABOUT);
-
-        User user = new User();
-        user.setId(id);
-        user.setName(name);
-        user.setEmail(email);
-        user.setAbout(about);
+        UserInput input = new UserInput();
+        input.setName(request.getParameter(AttributeKey.NAME));
+        input.setEmail(request.getParameter(AttributeKey.EMAIL));
+        input.setAboutUser(request.getParameter(AttributeKey.ABOUT));
         try {
-            boolean success = ServiceFactory.getInstance().getUserService().changeProfileInfo(user);
+            boolean success = ServiceFactory.getInstance().getUserService().changeProfileInfo(id, input);
             String lastRequest = CookieHandler.getLastRequest(request.getCookies());
             if (success) {
                 lastRequest = QueryConstructor.addParameter(lastRequest, AttributeKey.PROFILE_INFO_CHANGED);

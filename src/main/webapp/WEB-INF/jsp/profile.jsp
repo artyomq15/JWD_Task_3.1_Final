@@ -37,7 +37,7 @@
     <link rel="stylesheet" href="../../css/index.css"/>
     <link rel="stylesheet" href="../../css/profile.css"/>
     <link rel="icon" href="../../img/logo.png">
-    <title>Title</title>
+    <title>Like It | ${requestScope.profile_user.name}</title>
 </head>
 <body>
 <header class="header_container">

@@ -9,6 +9,7 @@ import by.tr.likeitnetwork.dao.user.UserDAO;
 import by.tr.likeitnetwork.dao.constant.DAOQuery;
 import by.tr.likeitnetwork.entity.User;
 import by.tr.likeitnetwork.dao.util.Encryptor;
+import by.tr.likeitnetwork.entity.input.UserInput;
 
 import java.security.NoSuchAlgorithmException;
 import java.sql.*;
@@ -228,15 +229,15 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public boolean changeProfileInfo(User user) throws UserDAOException {
+    public boolean changeProfileInfo(int id, UserInput input) throws UserDAOException {
         Connection connection = null;
         try {
             connection = DataSource.getConnection();
             CallableStatement callableStatement = connection.prepareCall(DAOQuery.SQL_CALL_CHANGE_PROFILE_INFO);
-            callableStatement.setInt(1, user.getId());
-            callableStatement.setString(2, user.getName());
-            callableStatement.setString(3, user.getEmail());
-            callableStatement.setString(4, user.getAbout());
+            callableStatement.setInt(1, id);
+            callableStatement.setString(2, input.getName());
+            callableStatement.setString(3, input.getEmail());
+            callableStatement.setString(4, input.getAboutUser());
 
             return callableStatement.executeUpdate() == ConstantVariable.SUCCESSFUL_UPDATE_ONE_ROW_VALUE;
         } catch (SQLException | DataSourceDAOException ex) {

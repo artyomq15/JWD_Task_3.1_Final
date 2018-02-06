@@ -2,6 +2,7 @@ package by.tr.likeitnetwork.dao.user;
 
 import by.tr.likeitnetwork.dao.exception.UserDAOException;
 import by.tr.likeitnetwork.entity.User;
+import by.tr.likeitnetwork.entity.input.UserInput;
 
 import java.util.List;
 
@@ -22,7 +23,7 @@ public interface UserDAO {
 
     void setAdminToUser(int userId) throws UserDAOException;
 
-    boolean changeProfileInfo(User user) throws UserDAOException;
+    boolean changeProfileInfo(int id, UserInput input) throws UserDAOException;
 
     String checkOldPasswordMatchesPasswordInDataBase(int id, String oldPassword) throws UserDAOException;
 

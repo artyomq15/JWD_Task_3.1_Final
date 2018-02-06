@@ -8,6 +8,7 @@ import by.tr.likeitnetwork.controller.util.QueryConstructor;
 import by.tr.likeitnetwork.entity.Theme;
 import by.tr.likeitnetwork.entity.Topic;
 import by.tr.likeitnetwork.entity.User;
+import by.tr.likeitnetwork.entity.input.TopicInput;
 import by.tr.likeitnetwork.service.ServiceFactory;
 import by.tr.likeitnetwork.service.exception.TopicServiceException;
 
@@ -25,25 +26,15 @@ public class AddTopicCommand implements Command {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Integer id = (Integer) request.getSession().getAttribute(AttributeKey.ID);
-        if (id == null){
-            response.sendRedirect(RedirectQuery.SIGN_IN);
-            return;
-        }
 
-        Topic topic = new Topic();
-        User user = new User();
-        Theme theme = new Theme();
-
-        topic.setHeader(request.getParameter(AttributeKey.TOPIC_HEADER));
-        topic.setContext(request.getParameter(AttributeKey.TOPIC_CONTEXT));
-        theme.setId(Integer.parseInt(request.getParameter(AttributeKey.TOPIC_THEME_ID)));
-        topic.setTheme(theme);
-        user.setId(id);
-        topic.setUser(user);
+        TopicInput input = new TopicInput();
+        input.setHeader(request.getParameter(AttributeKey.TOPIC_HEADER));
+        input.setContext(request.getParameter(AttributeKey.TOPIC_CONTEXT));
+        input.setThemeId(Integer.parseInt(request.getParameter(AttributeKey.TOPIC_THEME_ID)));
 
         try{
             String lastRequest = CookieHandler.getLastRequest(request.getCookies());
-            if (ServiceFactory.getInstance().getTopicService().addTopic(topic)){
+            if (ServiceFactory.getInstance().getTopicService().addTopic(id, input)){
                 lastRequest = QueryConstructor.addParameter(lastRequest, AttributeKey.TOPIC_ADDED);
             } else{
                 lastRequest = QueryConstructor.addParameter(lastRequest, AttributeKey.TOPIC_NOT_ADDED);

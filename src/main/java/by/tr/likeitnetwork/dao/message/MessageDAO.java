@@ -10,7 +10,6 @@ public interface MessageDAO {
     List<Message> getMessagesByUserId (String localeLanguage, int userId) throws MessageDAOException;
     boolean addMessage (Message message) throws MessageDAOException;
     void deleteMessage (int messageId) throws MessageDAOException;
-    //void updateMessage (int messageId) throws MessageDAOException;
     void likeMessage (int messageId, int userId) throws MessageDAOException;
     void unlikeMessage (int messageId, int userId) throws MessageDAOException;
     int countMessagesOfUser (int userId) throws MessageDAOException;

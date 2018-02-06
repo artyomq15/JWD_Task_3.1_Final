@@ -3,9 +3,11 @@ package by.tr.likeitnetwork.service.topic.impl;
 import by.tr.likeitnetwork.dao.DAOFactory;
 import by.tr.likeitnetwork.dao.exception.TopicDAOException;
 import by.tr.likeitnetwork.entity.Topic;
+import by.tr.likeitnetwork.entity.input.TopicInput;
 import by.tr.likeitnetwork.service.exception.TopicServiceException;
 import by.tr.likeitnetwork.service.topic.TopicService;
 import by.tr.likeitnetwork.service.util.Pagination;
+import by.tr.likeitnetwork.service.validation.ValidatorFactory;
 
 import java.util.List;
 
@@ -31,10 +33,12 @@ public class TopicServiceImpl implements TopicService{
     }
 
     @Override
-    public boolean addTopic(Topic topic) throws TopicServiceException {
-        //validate
+    public boolean addTopic(int userId, TopicInput input) throws TopicServiceException {
+        if (!ValidatorFactory.getInstance().getTopicValidator().isValid(input)){
+            return false;
+        }
         try{
-            return DAOFactory.getInstance().getTopicDAO().addTopic(topic);
+            return DAOFactory.getInstance().getTopicDAO().addTopic(userId, input);
         } catch (TopicDAOException ex) {
             throw new TopicServiceException(ex);
         }

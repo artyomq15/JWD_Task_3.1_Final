@@ -26,6 +26,7 @@
     <link rel="stylesheet" href="../../css/index.css"/>
     <link rel="stylesheet" href="../../css/admin.css"/>
     <script type="text/javascript" src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <link rel="icon" href="../../img/logo.png">
     <title>Like It | Admin</title>
 </head>
 <body>

@@ -65,7 +65,6 @@ public final class AttributeKey {
     public static final String PROFILE_USER_ID = "profile_user_id";
     public static final String ACTION_GET_TOPICS_OF_USER = "get_topics";
     public static final String ACTION_GET_MESSAGES_OF_USER = "get_messages";
-    public static final String ACTION_GET_SETTINGS = "get_settings";
     public static final String PROFILE_USER_TOPICS_COUNT = "topics_count";
     public static final String PROFILE_USER_MESSAGES_COUNT = "messages_count";
 

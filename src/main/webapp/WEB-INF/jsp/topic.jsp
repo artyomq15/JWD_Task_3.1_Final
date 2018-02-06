@@ -18,12 +18,12 @@
 <fmt:message key="likes" bundle="${main}" var="likes"/>
 <html>
 <head>
-    <title></title>
     <meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <script type="text/javascript" src="https://code.jquery.com/jquery-1.10.2.js"></script>
     <link rel="icon" href="../../img/logo.png">
     <link rel="stylesheet" href="../../css/index.css"/>
+    <title>Like It | ${requestScope.topic.header}</title>
 </head>
 <body>
 <header class="header_container">

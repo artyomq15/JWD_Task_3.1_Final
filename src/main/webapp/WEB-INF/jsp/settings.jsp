@@ -19,6 +19,7 @@
 <fmt:message key="passwordNotChanged" bundle="${profile}" var="passwordNotChanged"/>
 <fmt:message key="profileInfoChanged" bundle="${profile}" var="profileInfoChanged"/>
 <fmt:message key="profileInfoNotChanged" bundle="${profile}" var="profileInfoNotChanged"/>
+<fmt:message key="settings" bundle="${profile}" var="settings"/>
 
 <fmt:message key="exit" bundle="${auth}" var="exit"/>
 <fmt:message key="password" bundle="${auth}" var="password"/>
@@ -35,7 +36,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="../../css/index.css"/>
     <link rel="stylesheet" href="../../css/profile.css"/>
-    <title>Title</title>
+    <title>Like It | ${settings}</title>
 </head>
 <body>
 <header class="header_container">

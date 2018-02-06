@@ -12,6 +12,7 @@ import by.tr.likeitnetwork.controller.constant.AttributeKey;
 import by.tr.likeitnetwork.controller.constant.RedirectQuery;
 import by.tr.likeitnetwork.controller.util.CookieHandler;
 import by.tr.likeitnetwork.controller.util.QueryConstructor;
+import by.tr.likeitnetwork.entity.input.UserInput;
 import by.tr.likeitnetwork.service.ServiceFactory;
 import by.tr.likeitnetwork.service.exception.UserServiceException;
 
@@ -25,14 +26,15 @@ public class ChangePasswordCommand implements Command {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String oldPassword = request.getParameter(AttributeKey.PASSWORD);
-        String newPassword = request.getParameter(AttributeKey.NEW_PASSWORD);
-        String newPasswordConfirmation = request.getParameter(AttributeKey.CONFIRMATION);
+        UserInput input = new UserInput();
+        input.setOldPassword(request.getParameter(AttributeKey.PASSWORD));
+        input.setPassword(request.getParameter(AttributeKey.NEW_PASSWORD));
+        input.setConfirmation(request.getParameter(AttributeKey.CONFIRMATION));
 
         Integer id = (Integer) request.getSession().getAttribute(AttributeKey.ID);
 
         try {
-            boolean success = ServiceFactory.getInstance().getUserService().changePassword(id, oldPassword, newPassword, newPasswordConfirmation);
+            boolean success = ServiceFactory.getInstance().getUserService().changePassword(id, input);
             String lastRequest = CookieHandler.getLastRequest(request.getCookies());
             if (success) {
                 lastRequest = QueryConstructor.addParameter(lastRequest, AttributeKey.PASSWORD_CHANGED);

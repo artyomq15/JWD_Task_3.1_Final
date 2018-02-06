@@ -12,6 +12,7 @@ import java.util.Map;
 import by.tr.likeitnetwork.controller.constant.AttributeKey;
 import by.tr.likeitnetwork.controller.constant.RedirectQuery;
 import by.tr.likeitnetwork.controller.util.CookieHandler;
+import by.tr.likeitnetwork.entity.input.ThemeInput;
 import by.tr.likeitnetwork.service.ServiceFactory;
 import by.tr.likeitnetwork.service.exception.ThemeServiceException;
 import by.tr.likeitnetwork.service.theme.ThemeService;
@@ -29,18 +30,18 @@ public class ChangeThemesCommand implements Command {
         String belarussianName = request.getParameter(AttributeKey.BELARUSSIAN_LANGUAGE);
         String englishName = request.getParameter(AttributeKey.ENGLISH_LANGUAGE);
 
-        Map<String, String> localizedNames = new HashMap<>();
-        localizedNames.put(AttributeKey.RUSSIAN_LANGUAGE, russianName);
-        localizedNames.put(AttributeKey.BELARUSSIAN_LANGUAGE, belarussianName);
-        localizedNames.put(AttributeKey.ENGLISH_LANGUAGE, englishName);
+        ThemeInput input = new ThemeInput();
+        input.putLocalizedName(AttributeKey.RUSSIAN_LANGUAGE, russianName);
+        input.putLocalizedName(AttributeKey.BELARUSSIAN_LANGUAGE, belarussianName);
+        input.putLocalizedName(AttributeKey.ENGLISH_LANGUAGE, englishName);
 
         String action = request.getParameter(AttributeKey.ACTION);
         try {
             if (AttributeKey.ACTION_ADD_THEME.equals(action)) {
-                themeService.addTheme(localizedNames);
+                themeService.addTheme(input);
             } else if (AttributeKey.ACTION_CHANGE_THEME.equals(action)) {
                 Integer id = Integer.parseInt(request.getParameter(AttributeKey.THEME_ID));
-                themeService.updateTheme(id, localizedNames);
+                themeService.updateTheme(id, input);
             }
             response.sendRedirect(CookieHandler.getLastRequest(request.getCookies()));
         } catch (ThemeServiceException ex) {

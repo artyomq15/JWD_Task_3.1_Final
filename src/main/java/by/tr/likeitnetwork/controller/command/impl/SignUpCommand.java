@@ -4,6 +4,7 @@ import by.tr.likeitnetwork.controller.command.Command;
 import by.tr.likeitnetwork.controller.constant.AttributeKey;
 import by.tr.likeitnetwork.controller.constant.RedirectQuery;
 import by.tr.likeitnetwork.entity.RegistrationInfo;
+import by.tr.likeitnetwork.entity.input.UserInput;
 import by.tr.likeitnetwork.service.ServiceFactory;
 import by.tr.likeitnetwork.service.exception.ServiceException;
 
@@ -23,16 +24,17 @@ public class SignUpCommand implements Command {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        RegistrationInfo registrationInfo = new RegistrationInfo();
-        registrationInfo.setLogin(request.getParameter(AttributeKey.LOGIN));
-        registrationInfo.setPassword(request.getParameter(AttributeKey.PASSWORD));
-        registrationInfo.setConfirmation(request.getParameter(AttributeKey.CONFIRMATION));
-        registrationInfo.setName(request.getParameter(AttributeKey.NAME));
-        registrationInfo.setEmail(request.getParameter(AttributeKey.EMAIL));
+        UserInput input = new UserInput();
+        input.setLogin(request.getParameter(AttributeKey.LOGIN));
+        input.setPassword(request.getParameter(AttributeKey.PASSWORD));
+        input.setConfirmation(request.getParameter(AttributeKey.CONFIRMATION));
+        input.setName(request.getParameter(AttributeKey.NAME));
+        input.setEmail(request.getParameter(AttributeKey.EMAIL));
+
 
         boolean successful;
         try {
-            successful = ServiceFactory.getInstance().getAuthService().signUp(registrationInfo);
+            successful = ServiceFactory.getInstance().getAuthService().signUp(input);
 
             if (successful) {
                 response.sendRedirect(RedirectQuery.SIGN_IN);

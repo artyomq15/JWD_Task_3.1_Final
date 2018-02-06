@@ -10,6 +10,7 @@ import by.tr.likeitnetwork.dao.constant.DAOQuery;
 import by.tr.likeitnetwork.dao.util.Encryptor;
 import by.tr.likeitnetwork.entity.AuthToken;
 import by.tr.likeitnetwork.entity.RegistrationInfo;
+import by.tr.likeitnetwork.entity.input.UserInput;
 
 import java.security.NoSuchAlgorithmException;
 import java.sql.*;
@@ -17,18 +18,18 @@ import java.sql.*;
 public class AuthDAOImpl implements AuthDAO {
 
     @Override
-    public boolean addUser(RegistrationInfo info) throws AuthDAOException {
+    public boolean addUser(UserInput input) throws AuthDAOException {
         Connection connection = null;
         try {
             connection = DataSource.getConnection();
             CallableStatement addUser = connection.prepareCall(DAOQuery.SQL_CALL_ADD_USER);
-            addUser.setString(1, info.getName());
-            addUser.setString(2, info.getEmail());
-            addUser.setString(3, info.getLogin());
+            addUser.setString(1, input.getName());
+            addUser.setString(2, input.getEmail());
+            addUser.setString(3, input.getLogin());
 
             String salt = Encryptor.generateSalt();
 
-            addUser.setString(4, Encryptor.getPasswordHashCode(info.getPassword(), salt));
+            addUser.setString(4, Encryptor.getPasswordHashCode(input.getPassword(), salt));
             addUser.setString(5, salt);
 
 

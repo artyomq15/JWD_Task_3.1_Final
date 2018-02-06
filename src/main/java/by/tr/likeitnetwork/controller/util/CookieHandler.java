@@ -11,8 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 public final class CookieHandler {
     private static final int YEAR_IN_SECONDS = 60 * 60 * 24 * 365;
 
-    public static final int COOKIE_LIFETIME = YEAR_IN_SECONDS;
-    public static final int DELETE_COOKIE_LIFETIME = 0;
+    private static final int COOKIE_LIFETIME = YEAR_IN_SECONDS;
+    private static final int DELETE_COOKIE_LIFETIME = 0;
 
     public static String getLastRequest(Cookie[] cookies){
         String lastRequest = RedirectQuery.MAIN;
@@ -27,14 +27,14 @@ public final class CookieHandler {
 
     public static String getToken(Cookie[] cookies, String tokenName) throws TokenNotFoundException{
         if (cookies==null){
-            throw new TokenNotFoundException("Token not found");
+            throw new TokenNotFoundException("Empty cookies");
         }
         for (Cookie cookie: cookies){
             if (cookie.getName().equals(tokenName)){
                 return cookie.getValue();
             }
         }
-        throw new TokenNotFoundException("Token not found");
+        throw new TokenNotFoundException("There is no such token: " + tokenName);
     }
 
     public static void addToken(HttpServletResponse response, String name, String body) {
