@@ -1,8 +1,10 @@
 package by.tr.likeitnetwork.controller.command.impl;
 
 import by.tr.likeitnetwork.controller.command.Command;
+import by.tr.likeitnetwork.controller.constant.AttributeKey;
 import by.tr.likeitnetwork.controller.util.CookieHandler;
 import by.tr.likeitnetwork.controller.constant.RedirectQuery;
+import by.tr.likeitnetwork.controller.util.QueryConstructor;
 import by.tr.likeitnetwork.entity.AuthToken;
 import by.tr.likeitnetwork.entity.input.UserInput;
 import by.tr.likeitnetwork.service.ServiceFactory;
@@ -35,7 +37,8 @@ public class SignInCommand implements Command {
 
                 response.sendRedirect(RedirectQuery.MAIN);
             } else {
-                response.sendRedirect(RedirectQuery.SIGN_IN_WITH_MESSAGE);
+                String query = QueryConstructor.addParameter(RedirectQuery.SIGN_IN, AttributeKey.NOT_SIGNED_IN);
+                response.sendRedirect(query);
             }
         } catch (ServiceException ex) {
             logger.error(ex);

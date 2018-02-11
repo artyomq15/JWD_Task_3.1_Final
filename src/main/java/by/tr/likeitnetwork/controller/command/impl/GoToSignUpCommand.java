@@ -12,9 +12,7 @@ import java.io.IOException;
 public class GoToSignUpCommand implements Command{
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String message = request.getParameter(AttributeKey.MESSAGE);
-
-        request.setAttribute(AttributeKey.MESSAGE, message);
+        request.setAttribute(AttributeKey.NOT_SIGNED_UP, request.getParameter(AttributeKey.NOT_SIGNED_UP));
         request.getRequestDispatcher(JspPath.SIGN_UP).forward(request, response);
     }
 }

@@ -12,9 +12,8 @@ import java.io.IOException;
 public class GoToSignInCommand implements Command{
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String message = request.getParameter(AttributeKey.MESSAGE);
-
-        request.setAttribute(AttributeKey.MESSAGE, message);
+        request.setAttribute(AttributeKey.NOT_SIGNED_IN, request.getParameter(AttributeKey.NOT_SIGNED_IN));
+        request.setAttribute(AttributeKey.SIGNED_UP, request.getParameter(AttributeKey.SIGNED_UP));
         request.getRequestDispatcher(JspPath.SIGN_IN).forward(request, response);
     }
 }

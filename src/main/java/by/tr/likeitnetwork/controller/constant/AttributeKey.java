@@ -4,7 +4,6 @@ package by.tr.likeitnetwork.controller.constant;
 public final class AttributeKey {
     public static final String COMMAND = "command";
     public static final String ACTION = "action";
-    public static final String MESSAGE = "message";
 
     public static final String LOCALE = "locale";
     public static final String LAST_REQUEST = "last_request";
@@ -90,6 +89,9 @@ public final class AttributeKey {
     public static final String PASSWORD_NOT_CHANGED = "password_not_changed";
     public static final String PROFILE_INFO_CHANGED = "profile_info_changed";
     public static final String PROFILE_INFO_NOT_CHANGED = "profile_info_not_changed";
+    public static final String NOT_SIGNED_IN = "not_signed_in";
+    public static final String SIGNED_UP = "signed_up";
+    public static final String NOT_SIGNED_UP = "not_signed_up";
 
 
 

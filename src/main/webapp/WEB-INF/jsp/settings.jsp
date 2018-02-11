@@ -30,6 +30,10 @@
 <fmt:message key="changeProfileInfo" bundle="${auth}" var="changeProfileInfo"/>
 <fmt:message key="signIn" bundle="${auth}" var="signIn"/>
 <fmt:message key="signUp" bundle="${auth}" var="signUp"/>
+<fmt:message key="label.validation.password" bundle="${auth}" var="passwordValidation"/>
+<fmt:message key="label.validation.confirmation" bundle="${auth}" var="confirmationValidation"/>
+<fmt:message key="label.validation.name" bundle="${auth}" var="nameValidation"/>
+<fmt:message key="label.validation.email" bundle="${auth}" var="emailValidation"/>
 <html>
 <head>
     <meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>
@@ -92,20 +96,16 @@
 
             <input id="name" type="text" name="name" value="${requestScope.user.name}" placeholder="${name}" pattern="^[A-Za-zА-Яа-яІіўЁё'-]{2,50}$"
                    required>
-            <label class="hidden error_validation error_validation-name">Name must contain only letters</label>
+            <label class="hidden error_validation error_validation-name">${nameValidation}</label>
 
 
             <input id="email" type="text" name="email" placeholder="${email}" value="${requestScope.user.email}"
                    pattern="^[A-Za-z0-9_-]+(\.[A-Za-z0-9_-]+)?@[A-Za-z0-9]+\.[A-Za-z]{2,4}$" required>
 
-            <label class="hidden error_validation error_validation-email">Wrong e-mail</label>
+            <label class="hidden error_validation error_validation-email">${emailValidation}</label>
 
             <textarea name="about" placeholder="${about}" rows="5">${requestScope.user.about}</textarea>
 
-            <c:if test="${requestScope.message != null}">
-                <br/>
-                <label class="">${errMessage}</label>
-            </c:if>
             <input type="submit" value="OK">
         </form>
     </div>
@@ -123,16 +123,13 @@
 
             <input id="password" type="password" name="new_password" value="" placeholder="${newPassword}"
                    pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\S+$).{6,}$" required>
-            <label class="hidden error_validation error_validation-password">Password must contain at least one lowcase
-                letter, upcase letter, digit. More than 5.</label>
+            <label class="hidden error_validation error_validation-password">${passwordValidation}</label>
 
             <input id="confirmation" type="password" name="confirmation" value="" oninput="validatePassword()"
                    placeholder="${confirm}"
                    pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\S+$).{6,}$" required>
-            <c:if test="${requestScope.message != null}">
-                <label class="">${errMessage}</label>
-            </c:if>
-            <br>
+            <label class="hidden error_validation error_validation-confirmation">${confirmationValidation}</label>
+
             <input type="submit" value="OK">
 
         </form>

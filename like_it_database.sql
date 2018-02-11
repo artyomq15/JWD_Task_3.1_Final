@@ -42,7 +42,7 @@ CREATE TABLE `auth` (
 
 LOCK TABLES `auth` WRITE;
 /*!40000 ALTER TABLE `auth` DISABLE KEYS */;
-INSERT INTO `auth` VALUES (1,'1:f677ee1d6cd6fa06efdaebc34a9fb3c0d15bd545989166c4dc4bf912882093b4:SUPER_ADMIN','2018-02-06 07:51:09','03e032022f7e63274c398d8b7131229458d3ce3e4e9aab5c57e91b3fce48fbdc','2019-02-06 05:51:09'),(2,'2:23b1fcb0dfdfd851582b05b6d65157333a1ba03d2c6133363b00dc8a29613136:USER','2018-01-22 17:17:01','073650444a14e83bf5d65e70b4d28c1aee88c415bed560e0adf9645fe14227d9','2019-01-22 15:17:01'),(3,'3:8cda06ff014f8fe6ee59f0db12cc280557dda0551265dceed12e1f42633ade57:ADMIN','2018-02-01 18:53:47','9cc6bccb3eb1dd2831e8cf9873c74e1d315c2e0618957f69534164960578409a','2019-02-01 16:53:47'),(4,'4:77339e90324733ff9919db84f406c8986cb62fba74346d68c9b4cbbd1ff17dac:USER','2018-01-22 17:09:59','c726a0182050a9ce45a5ec5b88b535bf616853324798c181e4d144fd7ecb54b4','2019-01-22 15:09:59'),(5,NULL,NULL,NULL,NULL),(6,'6:133d411af1dbfb08c83d3282a51556cb9d6b60e43070d64e05e807209daecb62:USER','2018-01-27 12:15:56','779ba372719ff55e38c98898ade1f5bab4050e0b6ed1eef9ba704c94b8ea42ca','2019-01-27 10:15:56'),(7,NULL,NULL,NULL,NULL),(8,NULL,NULL,NULL,NULL),(9,NULL,NULL,NULL,NULL),(10,NULL,NULL,NULL,NULL),(11,NULL,NULL,NULL,NULL),(12,'12:da3eb4dfda12d1e4b41cf4651c1dc15c00746cf24b1b77788040fa9b8bce2f5e:USER','2018-02-01 21:45:50','0e58fa39e6e30db185e982250674b3078b2ca969da98e1d1a787c020d912479e','2019-02-01 19:45:50'),(13,NULL,NULL,NULL,NULL);
+INSERT INTO `auth` VALUES (1,'1:0ebbbb61481306e7873b4167a42269fb639cb4fbf6e51715f511009e1bf85d0d:SUPER_ADMIN','2018-02-11 20:10:15','1359aab39be77efdb7ceb49e1bc34ab93b1d0cc961df3e8bae4102a9394b2f99','2019-02-11 18:10:15'),(2,'2:23b1fcb0dfdfd851582b05b6d65157333a1ba03d2c6133363b00dc8a29613136:USER','2018-01-22 17:17:01','073650444a14e83bf5d65e70b4d28c1aee88c415bed560e0adf9645fe14227d9','2019-01-22 15:17:01'),(3,'3:f81810f4b2e2178225fb241372a557e40354135bd526276fc790acd877bccebb:ADMIN','2018-02-11 10:13:23','98e52f6da7a4e6326579d8cd9b46a9a7a57089873c5af11df587877b72acb4a8','2019-02-11 08:13:23'),(4,'4:77339e90324733ff9919db84f406c8986cb62fba74346d68c9b4cbbd1ff17dac:USER','2018-01-22 17:09:59','c726a0182050a9ce45a5ec5b88b535bf616853324798c181e4d144fd7ecb54b4','2019-01-22 15:09:59'),(5,'5:4879f45dc6907933bffb6a4b7aa9b2aad494abcae5a45094bb1903de4d35b76a:USER','2018-02-11 10:27:47','f7725dae953f34b3806903a2d54fff98cd778e7e79ad9100895a745a7a904b27','2019-02-11 08:27:47'),(6,'6:133d411af1dbfb08c83d3282a51556cb9d6b60e43070d64e05e807209daecb62:USER','2018-01-27 12:15:56','779ba372719ff55e38c98898ade1f5bab4050e0b6ed1eef9ba704c94b8ea42ca','2019-01-27 10:15:56'),(7,NULL,NULL,NULL,NULL),(8,NULL,NULL,NULL,NULL),(9,NULL,NULL,NULL,NULL),(10,NULL,NULL,NULL,NULL),(11,NULL,NULL,NULL,NULL),(12,'12:da3eb4dfda12d1e4b41cf4651c1dc15c00746cf24b1b77788040fa9b8bce2f5e:USER','2018-02-01 21:45:50','0e58fa39e6e30db185e982250674b3078b2ca969da98e1d1a787c020d912479e','2019-02-01 19:45:50'),(13,NULL,NULL,NULL,NULL),(14,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `auth` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -96,7 +96,7 @@ CREATE TABLE `likes` (
 
 LOCK TABLES `likes` WRITE;
 /*!40000 ALTER TABLE `likes` DISABLE KEYS */;
-INSERT INTO `likes` VALUES (2,1),(1,14),(2,14),(3,14),(3,83);
+INSERT INTO `likes` VALUES (2,1),(1,14),(2,14),(3,14),(3,83),(1,84);
 /*!40000 ALTER TABLE `likes` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -162,7 +162,7 @@ CREATE TABLE `message` (
   KEY `fk_message_topic1_idx` (`topic_id`),
   CONSTRAINT `fk_message_topic1` FOREIGN KEY (`topic_id`) REFERENCES `topic` (`topic_id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `fk_message_user1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=84 DEFAULT CHARSET=utf8 COMMENT='message (comment) of user in topic';
+) ENGINE=InnoDB AUTO_INCREMENT=86 DEFAULT CHARSET=utf8 COMMENT='message (comment) of user in topic';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -171,7 +171,7 @@ CREATE TABLE `message` (
 
 LOCK TABLES `message` WRITE;
 /*!40000 ALTER TABLE `message` DISABLE KEYS */;
-INSERT INTO `message` VALUES (1,'Kek','2018-01-09 14:45:05',1,1,1),(14,'А мне не спадабалася','2018-01-10 15:56:42',3,2,4),(19,'Good luck ahaphahahah','2018-01-11 14:23:43',0,1,1),(83,'Я люблю с сырным. Думаю это классический для курочки :)','2018-01-21 19:46:46',1,2,24);
+INSERT INTO `message` VALUES (1,'Kek','2018-01-09 14:45:05',1,1,1),(14,'А мне не спадабалася','2018-01-10 15:56:42',3,2,4),(19,'Good luck ahaphahahah','2018-01-11 14:23:43',0,1,1),(83,'Я люблю с сырным. Думаю это классический для курочки :)','2018-01-21 19:46:46',1,2,24),(84,'Etiam ullamcorper semper nunc et imperdiet.','2018-02-11 08:44:46',1,1,36),(85,'Nunc pretium tincidunt','2018-02-11 08:44:57',0,1,36);
 /*!40000 ALTER TABLE `message` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -284,7 +284,7 @@ CREATE TABLE `user` (
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `user_login_UNIQUE` (`user_login`),
   KEY `user_name_INDEX` (`user_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COMMENT='User of network';
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COMMENT='User of network';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -293,7 +293,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'Tema','artyom.sths5@gmail.com','temaq15','552148560dfa24bb6cebc075777b2271c47f1d96664267b83fa200e1b4eafdee','0948add46a395077c953ae02701c6fad257ee4c95cb75b04729fe823f040c8c8',16,'Der ds sd','\0','SUPER_ADMIN','8uDimjTtebc.jpg'),(2,'KalaJa','Kala@mail.com','kalakala','756987331fa5fdd93dba487b03729b9d68b72080ac5d25434729fbac87d75a24','8b672f17b07325bed231e018c7754a5b4e4efb8c9d84afd121ddf86e5623eb24',8,'Just Kala','\0','USER','like_it_profile.jpg'),(3,'QweRty','qwer@gmail.com','qweqweqwe','d938d60885b54094f665b22617482d00145536a0a5de570b4d9b31e6169c91d8','ccdbe9878feb312a7dcbbf5a1a17a6d9e4b84e359f554b0a4fc7ffbf36171d32',0,'Im Qwe Rty. I like baseball & chicken :)','\0','ADMIN','Screenshot_20180105-235936.png'),(4,'Hazel','hazelololo@gmail.com','hazelololo','f38768050b851e7f966bdadcfcef313f61dd70d5377a0a6bc466321501cb6526','eeb7d89ef8dbb245f01a03afaf45dfa4612629085574dc05bb014b2a86fb40fe',0,NULL,'\0','USER','like_it_profile.jpg'),(5,'ZxcZxc','artyom.stan0905@gmail.com','zxczxczxc','9c738e7efdf9503717b0e64fc62935fdf061762b143df1f756d32dc99f7e32dc','10e6950874d5f3c4d6f5f4ec9e5a4ceb1fe6777af461df3dc3bbbb46cc154cef',0,NULL,'\0','USER','like_it_profile.jpg'),(6,'AsdAsd','artyom.stan0905@gmail.com','asdasdasd','99018a3dd897260458c3cbd3651c28cde487cad4c36fd60fcda8ec581a8c0bd6','75541ed44348430d6bfa17ce6e32dbfd73c6a6779a3ea5d9ea01e7024d0e5582',0,NULL,'\0','USER','like_it_profile.jpg'),(7,'RtyRty','artyom.stan0905@gmail.com','rtyrty','b53a3a52e94238fcdea5a75603fea28a005f1362dc5a19d98c33e696bd567ed9','c784bff5a066cc9e96d736d62fdcbfd0333d8c234fa86ee2ce192a4e3ede7832',0,NULL,'\0','USER','like_it_profile.jpg'),(8,'FghFgh','artyom.stan0905@gmail.com','fghfgh','26a0b36fc4ade0b871d1f11490c424cc54511692a60f3c00780f4ce9d41fb6fa','2d5689403a31293f6bf7455441431981d5e7abe370190ff3feb19ca68c6082cf',0,NULL,'\0','USER','like_it_profile.jpg'),(9,'UioUio','artyom.stan0905@gmail.com','uiouio','d00b96b84deae9465781aa284bb0e2024f912d81dfa06c396da903f56b439ca1','04e983c3321989292f57672913fe3eb5532db9d5ce36fd4b0187109815284944',0,NULL,'\0','USER','like_it_profile.jpg'),(10,'JklJKl','artyom.stan0905@gmail.com','jkljkl','8156730f65ac74ee2b679ae0688265a78051410ef6b46b48a8fc6176aa3bf815','4985a7b29cb530a8ae1b6d7a6f28e925b560c4d7861c6d3797a62ed762eddc39',0,NULL,'\0','USER','like_it_profile.jpg'),(11,'EwqEwq','artyom.stan0905@gmail.com','ewqewq','36936607463f8e1021d753b66ee498641099b5afba5d2e04b236f206e447880c','3dc51838816628fd3644c5d112ce4ed3ffee6c691a2984d8cd10d007f5b413a2',0,NULL,'\0','USER','like_it_profile.jpg'),(12,'IpIn','ipin@gmail.com','ipimq','fb4c0e32d5a77bf9683c73be67be5dab363e4eb20a06756f368daf70a8534740','3d0819c2b2cbd1a0167421ede117550e64433c7de4517696f7eb4be8c2e4a308',0,'Ёп Ян','\0','USER','like_it_profile.jpg'),(13,'Artem','artyom.stan0905@gmail.com','Kelli','b3bdd88a7df1319fc9f2d62b5d5681e95a399168aadc031f229d6d584482e11e','d2fc2c4403c7edc42b853cd25d0bcf18d92d0e2118143fc86d5129ba3dec2f9a',0,NULL,'\0','USER','like_it_profile.jpg');
+INSERT INTO `user` VALUES (1,'Tema','artyom.sths5@gmail.com','temaq15','552148560dfa24bb6cebc075777b2271c47f1d96664267b83fa200e1b4eafdee','0948add46a395077c953ae02701c6fad257ee4c95cb75b04729fe823f040c8c8',17,'Der ds sd','\0','SUPER_ADMIN','logo.png'),(2,'KalaJa','Kala@mail.com','kalakala','756987331fa5fdd93dba487b03729b9d68b72080ac5d25434729fbac87d75a24','8b672f17b07325bed231e018c7754a5b4e4efb8c9d84afd121ddf86e5623eb24',8,'Just Kala','\0','USER','like_it_profile.jpg'),(3,'QweRty','qwer@gmail.com','qweqweqwe','d938d60885b54094f665b22617482d00145536a0a5de570b4d9b31e6169c91d8','ccdbe9878feb312a7dcbbf5a1a17a6d9e4b84e359f554b0a4fc7ffbf36171d32',0,'Im Qwe Rty. I like baseball & chicken :)','\0','ADMIN','logo.png'),(4,'Hazel','hazelololo@gmail.com','hazelololo','f38768050b851e7f966bdadcfcef313f61dd70d5377a0a6bc466321501cb6526','eeb7d89ef8dbb245f01a03afaf45dfa4612629085574dc05bb014b2a86fb40fe',0,NULL,'\0','USER','like_it_profile.jpg'),(5,'ZxcZxc','artyom.stan0905@gmail.com','zxczxczxc','9c738e7efdf9503717b0e64fc62935fdf061762b143df1f756d32dc99f7e32dc','10e6950874d5f3c4d6f5f4ec9e5a4ceb1fe6777af461df3dc3bbbb46cc154cef',0,NULL,'','USER','like_it_profile.jpg'),(6,'AsdAsd','artyom.stan0905@gmail.com','asdasdasd','99018a3dd897260458c3cbd3651c28cde487cad4c36fd60fcda8ec581a8c0bd6','75541ed44348430d6bfa17ce6e32dbfd73c6a6779a3ea5d9ea01e7024d0e5582',0,NULL,'','USER','like_it_profile.jpg'),(7,'RtyRty','artyom.stan0905@gmail.com','rtyrty','b53a3a52e94238fcdea5a75603fea28a005f1362dc5a19d98c33e696bd567ed9','c784bff5a066cc9e96d736d62fdcbfd0333d8c234fa86ee2ce192a4e3ede7832',0,NULL,'','USER','like_it_profile.jpg'),(8,'FghFgh','artyom.stan0905@gmail.com','fghfgh','26a0b36fc4ade0b871d1f11490c424cc54511692a60f3c00780f4ce9d41fb6fa','2d5689403a31293f6bf7455441431981d5e7abe370190ff3feb19ca68c6082cf',0,NULL,'\0','USER','like_it_profile.jpg'),(9,'UioUio','artyom.stan0905@gmail.com','uiouio','d00b96b84deae9465781aa284bb0e2024f912d81dfa06c396da903f56b439ca1','04e983c3321989292f57672913fe3eb5532db9d5ce36fd4b0187109815284944',0,NULL,'','USER','like_it_profile.jpg'),(10,'JklJKl','artyom.stan0905@gmail.com','jkljkl','8156730f65ac74ee2b679ae0688265a78051410ef6b46b48a8fc6176aa3bf815','4985a7b29cb530a8ae1b6d7a6f28e925b560c4d7861c6d3797a62ed762eddc39',0,NULL,'\0','USER','like_it_profile.jpg'),(11,'EwqEwq','artyom.stan0905@gmail.com','ewqewq','36936607463f8e1021d753b66ee498641099b5afba5d2e04b236f206e447880c','3dc51838816628fd3644c5d112ce4ed3ffee6c691a2984d8cd10d007f5b413a2',0,NULL,'\0','USER','like_it_profile.jpg'),(12,'IpIn','ipin@gmail.com','ipimq','fb4c0e32d5a77bf9683c73be67be5dab363e4eb20a06756f368daf70a8534740','3d0819c2b2cbd1a0167421ede117550e64433c7de4517696f7eb4be8c2e4a308',0,'Ёп Ян','\0','USER','like_it_profile.jpg'),(13,'Artem','artyom.stan0905@gmail.com','Kelli','b3bdd88a7df1319fc9f2d62b5d5681e95a399168aadc031f229d6d584482e11e','d2fc2c4403c7edc42b853cd25d0bcf18d92d0e2118143fc86d5129ba3dec2f9a',0,NULL,'\0','USER','like_it_profile.jpg'),(14,'Qwewq','artyom.stan0905@gmail.com','Qazwsxedc','a8bc4c4eb7ecc615377d706d8778f08f03306c6499a86469306ac14617ebc31e','013647095032d69f52312ba45320b103e4f0e96e9e71f8de249ce7e3d816534e',0,NULL,'\0','USER','like_it_profile.jpg');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -1631,4 +1631,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-02-06  9:59:50
+-- Dump completed on 2018-02-11 21:14:26

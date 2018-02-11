@@ -16,6 +16,9 @@
 <fmt:message key="signIn" bundle="${auth}" var="signIn"/>
 <fmt:message key="signUp" bundle="${auth}" var="signUp"/>
 <fmt:message key="errorSignInMessage" bundle="${auth}" var="errMessage"/>
+<fmt:message key="notSignedIn" bundle="${auth}" var="notSignedIn"/>
+<fmt:message key="signedUp" bundle="${auth}" var="signedUp"/>
+
 
 <html>
 <head>
@@ -84,6 +87,18 @@
 
 <c:import url="footer.jsp"/>
 
+<c:if test="${requestScope.not_signed_in != null}">
+    <div id="popup_message" class="card not_added">
+            ${notSignedIn}
+    </div>
+</c:if>
+<c:if test="${requestScope.signed_up != null}">
+    <div id="popup_message" class="card added">
+            ${signedUp}
+    </div>
+</c:if>
+
 <script type="text/javascript" src="../../js/index.js"></script>
+<script type="text/javascript" src="../../js/popup.js"></script>
 </body>
 </html>

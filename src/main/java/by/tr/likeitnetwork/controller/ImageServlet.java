@@ -46,9 +46,6 @@ public class ImageServlet extends HttpServlet {
                 fileItem.write(new File(PATH + File.separator + name));
             }
 
-
-            //File old= new File(PATH + File.separator + file);
-            //old.delete();
             response.sendRedirect(CookieHandler.getLastRequest(request.getCookies()));
         } catch (UserServiceException ex) {
             logger.error(ex);

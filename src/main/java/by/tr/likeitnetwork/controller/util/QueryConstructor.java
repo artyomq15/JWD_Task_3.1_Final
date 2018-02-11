@@ -23,6 +23,9 @@ public final class QueryConstructor {
         uiFlags.add(AttributeKey.PROFILE_INFO_NOT_CHANGED);
         uiFlags.add(AttributeKey.TOPIC_DELETED);
         uiFlags.add(AttributeKey.TOPIC_NOT_DELETED);
+        uiFlags.add(AttributeKey.NOT_SIGNED_IN);
+        uiFlags.add(AttributeKey.SIGNED_UP);
+        uiFlags.add(AttributeKey.NOT_SIGNED_UP);
     }
 
     public static String clearQueryFromUIFlags(String query){

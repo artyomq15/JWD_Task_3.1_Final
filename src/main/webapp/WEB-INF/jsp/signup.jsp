@@ -17,7 +17,7 @@
 <fmt:message key="label.validation.confirmation" bundle="${auth}" var="confirmationValidation"/>
 <fmt:message key="label.validation.name" bundle="${auth}" var="nameValidation"/>
 <fmt:message key="label.validation.email" bundle="${auth}" var="emailValidation"/>
-
+<fmt:message key="notSignedUp" bundle="${auth}" var="notSignedUp"/>
 <fmt:message key="errorSignUpMessage" bundle="${auth}" var="errMessage"/>
 
 <fmt:message key="name" bundle="${profile}" var="nameUser"/>
@@ -108,6 +108,13 @@
 
 <c:import url="footer.jsp"/>
 
+<c:if test="${requestScope.not_signed_up != null}">
+    <div id="popup_message" class="card not_added">
+            ${notSignedUp}
+    </div>
+</c:if>
+
 <script type="text/javascript" src="../../js/index.js"></script>
+<script type="text/javascript" src="../../js/popup.js"></script>
 </body>
 </html>

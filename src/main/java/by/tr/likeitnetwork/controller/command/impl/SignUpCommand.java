@@ -3,7 +3,7 @@ package by.tr.likeitnetwork.controller.command.impl;
 import by.tr.likeitnetwork.controller.command.Command;
 import by.tr.likeitnetwork.controller.constant.AttributeKey;
 import by.tr.likeitnetwork.controller.constant.RedirectQuery;
-import by.tr.likeitnetwork.entity.RegistrationInfo;
+import by.tr.likeitnetwork.controller.util.QueryConstructor;
 import by.tr.likeitnetwork.entity.input.UserInput;
 import by.tr.likeitnetwork.service.ServiceFactory;
 import by.tr.likeitnetwork.service.exception.ServiceException;
@@ -37,9 +37,9 @@ public class SignUpCommand implements Command {
             successful = ServiceFactory.getInstance().getAuthService().signUp(input);
 
             if (successful) {
-                response.sendRedirect(RedirectQuery.SIGN_IN);
+                response.sendRedirect(QueryConstructor.addParameter(RedirectQuery.SIGN_IN, AttributeKey.SIGNED_UP));
             } else {
-                response.sendRedirect(RedirectQuery.SIGN_UP_WITH_MESSAGE);
+                response.sendRedirect(QueryConstructor.addParameter(RedirectQuery.SIGN_UP, AttributeKey.NOT_SIGNED_UP));
             }
         } catch (ServiceException ex) {
             logger.error(ex);

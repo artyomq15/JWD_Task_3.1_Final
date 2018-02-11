@@ -250,6 +250,7 @@ main {
     display: inline-block;
     padding: 0 2%;
     color: #7d7e80;
+    width: 70%;
 }
 
 .topics_block-item-date-author a {
@@ -257,11 +258,15 @@ main {
 }
 
 .topics_block-item-theme {
+    float: left;
     padding: 0 2%;
+    width: 96%;
     font-size: smaller;
 }
 
 .topics_block-item-context {
+    float: left;
+    width: 96%;
     padding: 0 2%;
     font-size: x-large;
 }
