@@ -310,6 +310,10 @@ main {
     color: #000000;
     background-color: #ffa17f;
 }
+.add_message_content-button:disabled {
+    color: #ffffff;
+    background-color: #6e4637;
+}
 /*BLOCK*/
 .messages_block {
     display: block;
@@ -503,6 +507,15 @@ main {
     padding: 10px;
     z-index: 999;
     margin:0;
+}
+#ban_popup {
+    display: block;
+    width:100%;
+    opacity: 1;
+    text-align: center;
+    padding: 10px 0;
+    z-index: 999;
+    margin: -10px 0 20px;
 }
 .added {
     background-color: rgb(170, 255, 162);

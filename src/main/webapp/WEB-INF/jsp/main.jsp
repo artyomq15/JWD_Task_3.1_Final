@@ -98,7 +98,7 @@
             </div>
 
 
-            <c:if test="${sessionScope.role >= 2}">
+            <c:if test="${sessionScope.role >= 2 && !requestScope.user.banned}">
                 <div class="add_topic_block">
                     <div class="add_topic_opening_line" id="add_topic">
                         + ${addTopic}
@@ -107,7 +107,8 @@
                     <div class="add_topic_content hidden" id="add_topic_block_content">
                         <form action="/NetworkController" method="post">
                             <input type="hidden" name="command" value="add_topic"/>
-                            <input type="text" name="topic_header" value="" placeholder="${addTopicHeader}" required/>
+                            <input type="text" name="topic_header" value="" placeholder="${addTopicHeader}"
+                                   pattern="^.{1,250}$" required/>
                             <textarea name="topic_context" rows="5" placeholder="${addTopicContext}"
                                       required></textarea>
                             <label>

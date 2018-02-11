@@ -39,6 +39,9 @@ public class AuthServiceImpl implements AuthService {
         AuthDAO authDAO = DAOFactory.getInstance().getAuthDAO();
         try{
             AuthToken tokens = authDAO.getAuthTokensWhileSignIn(input.getLogin(), input.getPassword());
+            if (tokens == null){
+                return null;
+            }
             Integer id = TokenParser.parseId(tokens.getAccessToken());
 
             if (!authDAO.refreshAuthTokens(id, tokens)){

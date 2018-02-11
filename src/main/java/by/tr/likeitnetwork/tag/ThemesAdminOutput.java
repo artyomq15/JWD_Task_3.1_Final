@@ -44,7 +44,7 @@ public class ThemesAdminOutput extends TagSupport {
                 }
                 if (prev == id){
                     out.write("<div class=\"themes_info-language\">" + list.get(2) + "</div>\n" +
-                            "                            <input type=\"text\" name=\"" + list.get(2) + "\" value=\"" + list.get(3) + "\"/>");
+                            "                            <input type=\"text\" name=\"" + list.get(2) + "\" value=\"" + list.get(3) + "\" pattern=\"^[A-Za-zА-Яа-яІіўЁё'-]{2,50}$\"/>");
                 }
                 if (prev < id){
                     out.write("<input type=\"submit\" class=\"save_button\" value=\"SAVE\"/>\n" +
@@ -58,7 +58,7 @@ public class ThemesAdminOutput extends TagSupport {
                             "                            <input type=\"hidden\" name=\"action\" value=\"change\">\n" +
                             "                            <input type=\"hidden\" name=\"theme_id\" value=\"" + id + "\">\n" +
                             "                            <div class=\"themes_info-language\">" + list.get(2) + "</div>\n" +
-                            "                            <input type=\"text\" name=\"" + list.get(2) + "\" value=\"" + list.get(3) + "\"/>");
+                            "                            <input type=\"text\" name=\"" + list.get(2) + "\" value=\"" + list.get(3) + "\" pattern=\"^[A-Za-zА-Яа-яІіўЁё'-]{2,50}$\"/>");
                     prev = id;
                 }
             }

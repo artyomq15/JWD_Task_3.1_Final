@@ -162,10 +162,10 @@
                         <input type="hidden" name="topic_id" value="${requestScope.topic.id}"/>
                         <textarea name="message_context" rows="5" placeholder="${addCommentPlaceholder}"
                                   required></textarea>
-                        <c:if test="${sessionScope.role < 2}">
+                        <c:if test="${sessionScope.role < 2 || requestScope.user.banned}">
                             <input class="add_message_content-button" type="button" disabled value="OK"/>
                         </c:if>
-                        <c:if test="${sessionScope.role >= 2}">
+                        <c:if test="${sessionScope.role >= 2 && !requestScope.user.banned}">
                             <input class="add_message_content-button" type="submit" value="OK"/>
                         </c:if>
                     </form>

@@ -225,7 +225,7 @@
                         </c:if>
                         <c:if test="${prev == shown.get(0)}">
                             <div class="themes_info-language">${shown.get(2)}</div>
-                            <input type="text" name="${shown.get(2)}" value=""/>
+                            <input type="text" name="${shown.get(2)}" value="" pattern="^[A-Za-zА-Яа-яІіўЁё'-]{2,50}$"/>
                         </c:if>
 
                         </c:forEach>

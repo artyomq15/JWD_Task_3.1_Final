@@ -19,6 +19,7 @@
 <fmt:message key="about" bundle="${profile}" var="about"/>
 <fmt:message key="topic" bundle="${profile}" var="topic"/>
 <fmt:message key="message" bundle="${profile}" var="message"/>
+<fmt:message key="banText" bundle="${profile}" var="banText"/>
 
 <fmt:message key="exit" bundle="${auth}" var="exit"/>
 <fmt:message key="password" bundle="${auth}" var="password"/>
@@ -79,6 +80,11 @@
 
 
 <main>
+    <c:if test="${requestScope.user.id == requestScope.profile_user.id && requestScope.user.banned}">
+        <div id="ban_popup" class="card not_added">
+                ${banText}
+        </div>
+    </c:if>
     <div class="profile_img">
         <img class="centred" src="/images/?file=${requestScope.profile_user.img}">
     </div>
